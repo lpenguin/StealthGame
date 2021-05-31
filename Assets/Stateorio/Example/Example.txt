@@ -1,0 +1,47 @@
+This is a simple stealth-based game which uses Stateorio in enemy AI. It is for demonstration only. 
+You don't need any of the files in Stateorio/Example subfolder in order to use Stateorio.
+
+Controls:
+Arrows/WASD: Move
+Left mouse button: Kill enemies
+Move mouse to turn around
+
+There are three enemies patrolling the level. If they see you they will chase you 
+and try to kill you. You can shoot them down with left mouse button.
+
+The enemy AI is modeled as an FSM. It has five states:
+ - EnemyPatrolling
+ - EnemyChasing
+ - EnemyAttacking
+ - EnemyAlerted
+ - EnemyDying
+
+There are three conditions for controlling state transitions:
+ - SeesPlayer
+ - PlayerInRange
+ - Killed
+
+All of these components are commented to explain what they do. I suggest going through the code to get a general idea.
+
+Following are all of the state transitions.
+
+GlobalState:
+ -> EnemyDying IF Killed
+
+EnemyPatrolling:
+ -> EnemyChasing IF SeesPlayer
+
+EnemyChasing:
+ -> EnemyAlerted IF NOT SeesPlayer
+ -> EnemyAttacking IF PlayerInRange
+
+EnemyAttacking:
+ -> EnemyAlerted IF NOT SeesPlayer
+ -> EnemyChasing If NOT PlayerInRange
+
+EnemyAlerted:
+ -> EnemyChasing IF SeesPlayer
+ -> EnemyPatrolling (programmatically)
+
+EnemyDying:
+ * no transitions *

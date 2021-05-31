@@ -41,7 +41,7 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &6116042650366464494
+--- !u!114 &1669800748980592910
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -50,10 +50,113 @@ MonoBehaviour:
   m_GameObject: {fileID: 8784174689932141229}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5a777ee75006500d8d3171ae851663e, type: 3}
+  m_Script: {fileID: 11500000, guid: 095ff05c4f96b713988d108c691c1c0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pathway: {fileID: 0}
+  target: {fileID: 0}
+  lastSeenPosition: {x: 0, y: 0, z: 0}
+--- !u!114 &1788959738729083245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8784174689932141229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df01ad6e4033f0ce5b30aeff894ecbc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &6869293697077170573
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 554987875991250206}
+  - component: {fileID: 5354163547766463555}
+  - component: {fileID: 449956683613985691}
+  - component: {fileID: 5805409761756884531}
+  m_Layer: 0
+  m_Name: Vision
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &554987875991250206
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6869293697077170573}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.18, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8263112438381131799}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5354163547766463555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6869293697077170573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8477056c97905e778a7c795e2be30cac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sensor: {fileID: 5805409761756884531}
+  fov: 64
+  distance: 10
+  obstacles:
+    serializedVersion: 2
+    m_Bits: 1
+--- !u!135 &449956683613985691
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6869293697077170573}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 10
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5805409761756884531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6869293697077170573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4b6d82ecdbdc8c7499f0303c139666a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sensor: {fileID: 449956683613985691}
+  layer:
+    serializedVersion: 2
+    m_Bits: 64
+  useTriggers: 2
+  onEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  onStay:
+    m_PersistentCalls:
+      m_Calls: []
+  onExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &4178667240606689093
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -114,5 +217,10 @@ PrefabInstance:
 --- !u!1 &8784174689932141229 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4619061405936354792, guid: aa64d1afb92b87974851e49eff345a49, type: 3}
+  m_PrefabInstance: {fileID: 4178667240606689093}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8263112438381131799 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5427368944237141842, guid: aa64d1afb92b87974851e49eff345a49, type: 3}
   m_PrefabInstance: {fileID: 4178667240606689093}
   m_PrefabAsset: {fileID: 0}
