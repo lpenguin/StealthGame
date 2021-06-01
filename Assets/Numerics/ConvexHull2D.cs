@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class Segment {
     private readonly Vector2 _start;
     private readonly Vector2 _end;
@@ -17,34 +19,62 @@ public class Segment {
     }
 
     public float Side(Vector2 point){
-        return (point.x - _start.x) / _diff.x - (point.y - _start.y) / _diff.y;
+        // return (point.x - _start.x) / _diff.x - (point.y - _start.y) / _diff.y;
+        var pdiff = point - _start;
+        return Mathf.Sign(_diff.x * pdiff.y - _diff.y * pdiff.x);
     }
 }
 
+[Serializable]
 public class ConvexHull2D
 {
-
-
+    [SerializeField]
     private Vector2[] _points;
+    
     private Segment[] _segments;
 
-    public ConvexHull2D(Vector2[] points){
+    public ConvexHull2D(Vector2[] points)
+    {
+        SetPoints(points);
+    }
+
+    public void SetPoints(Vector2[] points)
+    {
         _points = points;
         CalcSegments();
     }
-    
 
     public IReadOnlyList<Vector2> Points => _points;
-    public IReadOnlyList<Segment> Segments => _segments;
+    public IReadOnlyList<Segment> Segments
+    {
+        get
+        {
+            if (_segments == null || _segments.Length == 0)
+            {
+                CalcSegments();
+            }
+            return _segments;
+        }
+    }
 
     public bool Contains(Vector2 point){
-
-        float side = Mathf.Sign(_segments[0].Side(point));
+        if (_segments == null)
+        {
+            CalcSegments();
+        }
+        float side = _segments[0].Side(point);
+        // Debug.Log($"side[0]: {side}");
+        bool contains = true;
         for(int i = 1; i < _segments.Length; i++){
-            if(Mathf.Sign(_segments[i].Side(point)) != side){
+            
+            float side1 = _segments[i].Side(point);
+            // Debug.Log($"side[{i}]: {side1}");
+            if(side1 != side)
+            {
                 return false;
             }
         }
+
         return true;
     }
 
