@@ -14,6 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalState: []
   States: []
+--- !u!114 &2806051083280751404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4619061405936354792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58f2865f2e76694089ee7fd18e843b3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vision: {fileID: 0}
 --- !u!1001 &5538119336981477561
 PrefabInstance:
   m_ObjectHideFlags: 0

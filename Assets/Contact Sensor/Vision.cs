@@ -2,7 +2,6 @@ using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
 
-[ExecuteInEditMode]
 public class Vision: MonoBehaviour {
     private class DelayedVisible
     {
@@ -28,6 +27,9 @@ public class Vision: MonoBehaviour {
     [SerializeField]
     private LayerMask obstacles;
 
+    [SerializeField] 
+    private Transform trackHead;
+    
     public IReadOnlyList<Transform> Targets => _contacts;
 
     private Transform _transform;
@@ -71,7 +73,13 @@ public class Vision: MonoBehaviour {
         _contacts = _delayedSee.Values.Select(dv => dv.transform).ToArray();
         // .ToDictionary(c => c.GetInstanceID(), c => c);
 
-
+        if (trackHead != null)
+        {
+            var angles = trackHead.localRotation.eulerAngles;
+            var selfAngles = transform.localRotation.eulerAngles;
+            selfAngles.y = angles.y;
+            transform.localRotation = Quaternion.Euler(selfAngles);
+        }
     }
 
     private static Vector3 DropY(Vector3 vector){
