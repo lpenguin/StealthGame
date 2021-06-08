@@ -1,0 +1,50 @@
+name: Sample
+root:
+    - SelectorI:
+        - Guard: # Chase/Attack player
+            - CheckBool:
+                value1: $"Player Detected"
+                value2: true
+            - Success:
+                - Sequence:
+                    - CheckBool: {value1: $"Aggressive", value2: false}
+                    - SetBool: {parameter: $"Aggressive", value: true}
+                    - Bark: {text: Player Detected}
+            - Fail: 
+                - GoTo: {destination: $"Last Player Position", speed: $"Player Speed"}
+
+        - Guard: # Search player after chase
+              - Sequence:
+                    - CheckBool: {value1: $"Player Detected", value2: false}
+                    - CheckBool: {value1: $"Aggressive", value2: true}
+              - Bark: {text: "Lost Player"}
+              - GoTo: {destination: $"Last Player Position", speed: $"Player Speed"}
+              - Bark: {text: "Searching player"}
+              - LookAround:
+              - Wait: {duration: 2}
+              - SetBool: {parameter: $"Aggressive", value: false}
+              - Fail:
+
+        - Sequence: # Idle
+            - Bark: {text: "Going back"}
+            - GoTo: {destination: $"Initial Position", speed: $"Player Speed"}
+            - Wait: {duration: 9999999}
+            
+        - Guard: # Investigating
+            - CheckBool: {value1: $"Suspicious Object Detected", value2: true}
+            - Bark: {text: "Suspicious?"}
+            - GoTo: {destination: $"Suspicious Object Position", speed: $"Player Speed"}
+            - Bark: {text: "Inspecting"}
+            - LookAround: {}  
+            - Fail:
+      
+
+
+
+            
+
+        
+
+    
+
+      
