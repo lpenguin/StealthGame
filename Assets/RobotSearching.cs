@@ -5,7 +5,7 @@ using UnityEngine;
 public class RobotSearching : FsmState
 {
     [SerializeField]
-    private BehaviorExecutor _behaviour;
+    // private BehaviorExecutor _behaviour;
 
     private RobotBlackboard _blackboard;
     private FsmCore _fsm;
@@ -14,7 +14,7 @@ public class RobotSearching : FsmState
     {
         _fsm = GetComponent<FsmCore>();
         _blackboard = GetComponent<RobotBlackboard>();
-        _behaviour.enabled = true;
+        // _behaviour.enabled = true;
     }
 
     void Update(){
@@ -29,6 +29,6 @@ public class RobotSearching : FsmState
 
     public override void OnStateLeave()
     {
-        _behaviour.enabled = false;
+        // _behaviour.enabled = false;
     }
 }

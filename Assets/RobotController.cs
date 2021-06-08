@@ -1,8 +1,10 @@
+using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
 
-public class RobotAnimationController : MonoBehaviour
+public class RobotController : MonoBehaviour
 {
     [SerializeField] 
     private Transform lookAtSource;
@@ -12,10 +14,38 @@ public class RobotAnimationController : MonoBehaviour
     
     [SerializeField]
     private float switchLookAtSpeed = 5;
+
+
+    [Header("Bark")]
+    [SerializeField]
+    [InspectorName("Text")]
+    private TextMeshProUGUI barkText;
+
+    [SerializeField] 
+    [InspectorName("Duration")]
+    private float barkDuration;
+    
     private Animator _animator;
     private NavMeshAgent _navMeshAgent;
     private bool _isLookingAt = false;
-    
+    private Coroutine _barkCoro;
+    public void Bark(string text)
+    {
+        barkText.text = text;
+
+        IEnumerator TimeOutCoro()
+        {
+            yield return new WaitForSeconds(barkDuration);
+            barkText.text = "";
+        }
+
+        if (_barkCoro != null)
+        {
+            StopCoroutine(_barkCoro);
+        }
+
+        _barkCoro = StartCoroutine(TimeOutCoro());
+    }
     public void LookAt(Vector3 point)
     {
         lookAtSource.position = point;

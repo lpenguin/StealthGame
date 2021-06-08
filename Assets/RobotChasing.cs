@@ -25,12 +25,12 @@ public class RobotChasing : FsmState
         var dest = _blackboard.lastSeenPosition;
         dest.y = transform.position.y;
 
-        GetComponent<RobotAnimationController>().LookAt(dest);
+        GetComponent<RobotController>().LookAt(dest);
         _navMeshAgent.SetDestination(dest);
     }
 
     public override void OnStateLeave () {
 		_navMeshAgent.ResetPath ();
-        GetComponent<RobotAnimationController>().StopLookAt();
+        GetComponent<RobotController>().StopLookAt();
 	}
 }
