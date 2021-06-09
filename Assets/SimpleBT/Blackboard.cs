@@ -93,7 +93,17 @@ namespace SimpleBT
             _parameters.Remove(name);
         }
 
-        public IEnumerable<BBParameter> Parameters => _parameters.Values;
+        public IEnumerable<BBParameter> Parameters
+        {
+            get
+            {
+                if (_parameters == null)
+                {
+                    _parameters = new Dictionary<string, BBParameter>();
+                }
+                return _parameters.Values;
+            }
+        }
 
         public Blackboard Copy()
         {
@@ -102,8 +112,16 @@ namespace SimpleBT
 
         public void OnBeforeSerialize()
         {
-            // Debug.Log("BB OnBeforeSerialize");
+            if (_parametersList == null)
+            {
+                _parametersList = new List<BBParameter>();
+            }
             _parametersList.Clear();
+            if (_parameters == null)
+            {
+                return;
+            }
+            
             foreach (var parameter in _parameters.Values)
             {
                 SerializeParam(parameter);
@@ -129,12 +147,15 @@ namespace SimpleBT
                     DeserializeParam(parameter);
                 }
             }
-            // Debug.Log("BB OnAfterDeserialize");
         }
 
         private void DeserializeParam(BBParameter parameter)
         {
-            parameter.Type = Types[parameter.TypeStr];
+            if (!Types.TryGetValue(parameter.TypeStr, out parameter.Type))
+            {
+                throw new Exception($"Cannot find type: {parameter.TypeStr}");
+            }
+            
             if (parameter.Type == typeof(Transform))
             {
                 parameter.Value = parameter.transformField;

@@ -8,16 +8,19 @@ namespace SimpleBT.Nodes
         private FloatParameter duration = 0;
 
         private float _elapsed;
-
+        private float _lastTime ;
         protected override void OnStart()
         {
-            _elapsed = duration.Value;
+            _elapsed = 0;
+            _lastTime = Time.time;
         }
 
         protected override Status OnUpdate()
         {
-            _elapsed -= Time.deltaTime;
-            if (_elapsed < 0)
+            _elapsed += (Time.time - _lastTime);
+            _lastTime = Time.time;
+            
+            if (_elapsed >= duration.Value)
             {
                 return Status.Success;
             }

@@ -18,12 +18,15 @@ namespace SimpleBT.Nodes
             }
 
             var condition = Children[0];
+            condition.Reset();
             condition.Execute(currentContext);
+            
             switch (condition.Status)
             {
                 case Status.Running:
                     return Status.Running;
                 case Status.Failed:
+                    taskIndex = 1;
                     return Status.Failed;
                 case Status.Success:
                     return base.OnUpdate();

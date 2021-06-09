@@ -79,6 +79,7 @@ namespace SimpleBT
         private Type GetBtType(string name)
         {
             var assembly = GetType().Assembly;
+            // var names = assembly.DefinedTypes.Select(x => x.Name).OrderBy(x => x).ToArray();
             foreach (var btType in assembly.DefinedTypes)
             {
                 if (btType.Name == name)
@@ -113,11 +114,45 @@ namespace SimpleBT
                 param.Set(Convert(param.Type, kv.Value));
             }
         }
+        
+        private static void UpdateParameters(YamlScalarNode node, Type btType, List<IParameter> parameters)
+        {
+            var valueStr = node.Value;
+            if (string.IsNullOrEmpty(valueStr))
+            {
+                return;
+            }
+         
+            if (parameters.Count == 0)
+            {
+                throw new Exception($"Cannot pickup default parameter: {btType.Name}");
+            }
+            
+            var param = parameters[0];
+            if (valueStr.StartsWith("$"))
+            {
+                string bbName = valueStr.Substring(1);
+                bbName = bbName.Trim('\"');
+                param.BbName = bbName;
+                return;
+            }
+
+            param.Set(Convert(param.Type, valueStr));
+        }
 
         private static object Convert(Type type, YamlNode node)
         {
             // TODO
-            return System.Convert.ChangeType(((YamlScalarNode) node).Value, type);
+            try
+            {
+                return System.Convert.ChangeType(((YamlScalarNode) node).Value, type);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning(ex.ToString());
+                throw;
+            }
+            
         }
         
         public Node ParseNode(YamlMappingNode node)
@@ -169,8 +204,9 @@ namespace SimpleBT
                 return btNode;
             }
 
-            if (value is YamlScalarNode)
+            if (value is YamlScalarNode valueScalar)
             {
+                UpdateParameters(valueScalar, btType, btNode.Parameters);
                 return btNode;
             }
             

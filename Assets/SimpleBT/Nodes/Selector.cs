@@ -26,6 +26,10 @@ namespace SimpleBT.Nodes
                     case Status.Success:
                         return Status.Success;
                     case Status.Failed:
+                        if (taskIndex + 1 < Children.Count)
+                        {
+                            Children[taskIndex + 1].Reset();
+                        }
                         continue;
                     default:
                         throw new ArgumentOutOfRangeException();

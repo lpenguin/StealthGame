@@ -2,23 +2,33 @@ using System;
 
 namespace SimpleBT.Nodes
 {
-    public class SelectorI: Selector
+    public class SelectorI: Node
     {
+        private int taskIndex = 0;
+
+        protected override void OnStart()
+        {
+            taskIndex = 0;
+        }
+
         protected override Status OnUpdate()
         {
-            for (int i = 0; i < taskIndex; i++)
+            for (int i = 0; i < Children.Count; i++)
             {
                 // Debug.Log($"SelectorI: Checking Child[{i}]");
                 var child = Children[i];
-                child.Reset();
+                if (i != taskIndex && (child.Status == Status.Success || child.Status == Status.Running))
+                {
+                    child.Reset();
+                }
                 child.Execute(currentContext);
                 
                 switch (child.Status)
                 {
                     case Status.Failed:
+                        child.Reset();
                         continue;
                     case Status.Running:
-                        // Debug.Log($"SelectorI: Child[{i}] resumed, stopping active");
                         for (int j = i + 1; j <= taskIndex; j++)
                         {
                             Children[j].Reset();
@@ -28,14 +38,19 @@ namespace SimpleBT.Nodes
 
                         return Status.Running;
                     case Status.Success:
-                        taskIndex = i + 1;
-                        return base.OnUpdate();
+                        for (int j = i + 1; j <= taskIndex; j++)
+                        {
+                            Children[j].Reset();
+                        }
+
+                        return Status.Success;
+                        continue;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
             }
 
-            return base.OnUpdate();
+            return Status.Success;
         }
     }
 }

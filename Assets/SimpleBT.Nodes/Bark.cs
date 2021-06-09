@@ -2,7 +2,7 @@ using UnityEngine.Assertions;
 
 namespace SimpleBT.Nodes
 {
-    public class BarkAction : Node
+    public class Bark : Node
     {
         private Parameter<string> text;
         

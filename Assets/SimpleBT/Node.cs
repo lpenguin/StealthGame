@@ -77,8 +77,13 @@ namespace SimpleBT
         
         public void Reset()
         {
+            Debug.Log($"{Name}.Reset()");
+
+            if (Status == Status.Empty)
+            {
+                return;
+            }
             OnAbort();
-            // Debug.Log($"{Name}.Reset()");
             Status = Status.Empty;
             foreach (var child in Children)
             {
@@ -89,7 +94,8 @@ namespace SimpleBT
         {
             Type iParameterType = typeof(IParameter);
             var type = GetType();
-            var fieldInfos = type.GetFields(BindingFlags.NonPublic | BindingFlags.Instance);
+
+            var fieldInfos = type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
             foreach (var fieldInfo in fieldInfos)
             {
                 if (fieldInfo.FieldType.GetInterfaces().Any(t => t == iParameterType))

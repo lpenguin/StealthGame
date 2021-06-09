@@ -25,7 +25,7 @@ namespace BehaviourTreeUtils.Editor
         public override void OnInspectorGUI()
         {
             var executor = target as BehaviourTreeExecutor;
-            serializedObject.Update();
+            // serializedObject.Update();
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.PropertyField(scriptFile);
             if (GUILayout.Button("Reload"))
@@ -34,7 +34,7 @@ namespace BehaviourTreeUtils.Editor
             }
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.PropertyField(executeOnUpdate);
-            serializedObject.ApplyModifiedProperties();
+            
             
             executor.LoadIfNeeded();
             if (executor.tree != null)
@@ -55,6 +55,7 @@ namespace BehaviourTreeUtils.Editor
             }
             
             ShowBlackboard(executor.blackboard);
+            serializedObject.ApplyModifiedProperties();
         }
 
         void ShowBlackboard(Blackboard bb)
@@ -149,13 +150,13 @@ namespace BehaviourTreeUtils.Editor
                     color = Application.isPlaying ? Color.gray : EditorStyles.label.normal.textColor;
                     break;
                 case Status.Running:
-                    color = Color.blue;
+                    color = new Color32(0x65, 0x95, 0xEB, 0xFF);
                     break;
                 case Status.Failed:
-                    color = Color.red;
+                    color = new Color32(0xED, 0x94, 0xC0, 0xFF);
                     break;
                 case Status.Success:
-                    color = Color.green;
+                    color = new Color32(0x39, 0xCC, 0x8F, 0xFF);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -187,7 +188,9 @@ namespace BehaviourTreeUtils.Editor
 
                 };
 
-                foldout = EditorGUILayout.Foldout(foldout, $"{node.Name} ({node.Children.Count})", style);
+
+                string label = foldout ? node.Name : $"{node.Name} ({node.Children.Count})";
+                foldout = EditorGUILayout.Foldout(foldout, label, style);
                 isFolded[node] = foldout;
 
                 if (!foldout)

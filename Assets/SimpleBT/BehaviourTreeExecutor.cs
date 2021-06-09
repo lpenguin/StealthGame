@@ -51,8 +51,11 @@ namespace SimpleBT
                 GameObject = gameObject,
                 Blackboard = blackboard
             };
-            
-            tree.root.Execute(context);
+
+            if (tree.root.Status != Status.Success && tree.root.Status != Status.Failed)
+            {
+                tree.root.Execute(context);
+            }
         }
     }
 }

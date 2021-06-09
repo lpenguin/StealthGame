@@ -41,4 +41,12 @@ namespace SimpleBT.Parameters
             return new GameObjectParameter{Value = value};
         }
     }
+    
+    public class TransformParameter : Parameter<Transform>
+    {
+        public static implicit operator TransformParameter(Transform value)
+        {
+            return new TransformParameter{Value = value};
+        }
+    }
 }

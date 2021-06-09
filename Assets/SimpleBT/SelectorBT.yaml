@@ -1,0 +1,24 @@
+name: SelectorBT
+root:
+  - Repeater:  
+      - SelectorI:
+          - Guard:
+              - CheckBool: $Prio0
+              - Wait: 0.5
+              - Log: Prio0
+              - Idle:
+          - Guard:
+              - CheckBool: $Prio1
+              - Log: Prio1
+              - Idle:    
+          - Guard:
+              - CheckBool: $Prio11
+              - Log: Prio11
+              - SetBool: {parameter: $Prio11, value: false} 
+          - Guard:
+              - CheckBool: $Prio2
+              - Log: Prio2
+              - Idle:   
+          - Sequence:
+              - Log: Fallback
+              - Idle:
