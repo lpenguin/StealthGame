@@ -18,6 +18,7 @@ namespace SimpleBT
     {
         public GameObject GameObject { get; set; }
         public Blackboard Blackboard { get; set; }
+        public BehaviourTree BehaviourTree { get; set; }
     }
     
     public abstract class Node
@@ -75,7 +76,7 @@ namespace SimpleBT
         {
         }
         
-        public void Reset()
+        public virtual void Reset()
         {
             // Debug.Log($"{Name}.Reset()");
 

@@ -49,7 +49,8 @@ namespace SimpleBT
             var context = new ExecutionContext()
             {
                 GameObject = gameObject,
-                Blackboard = blackboard
+                Blackboard = blackboard,
+                BehaviourTree = tree,
             };
 
             if (tree.root.Status != Status.Success && tree.root.Status != Status.Failed)

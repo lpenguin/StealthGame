@@ -71,9 +71,56 @@ namespace SimpleBT
             var yaml = new YamlStream();
             yaml.Load(reader);
             var document = (YamlMappingNode)yaml.Documents[0].RootNode;
-            var root =  (YamlMappingNode)(document[new YamlScalarNode("root")][0]);
+            var root =  (YamlMappingNode)(document["root"][0]);
+
+            var treeName = ParseTreeName(document);
+
+            var subTress = ParseTrees(document);
+
+            var rootNode = ParseNode(root);
+            return new BehaviourTree
+            {
+                name = treeName,
+                subTrees = subTress,
+                root = rootNode
+            };
+        }
+
+        private string ParseTreeName(YamlMappingNode document)
+        {
+            if(document.Children.TryGetValue("name", out var nameNode))
+            {
+                return ((YamlScalarNode) nameNode).Value;    
+            }
+
+            return null;
+        }
+
+        private Dictionary<string, Node> ParseTrees(YamlMappingNode document)
+        {
+            Dictionary<string, Node> res = new Dictionary<string, Node>();
+            if (!document.Children.TryGetValue("trees", out var treesNode))
+            {
+                return res;
+            }
             
-            return new BehaviourTree(ParseNode(root));
+            if (!(treesNode is YamlMappingNode treesNodeMap))
+            {
+                throw new Exception($"trees: Expected mapping");
+            }
+
+            foreach (var kv in treesNodeMap.Children)
+            {
+                var name = ((YamlScalarNode) kv.Key).Value;
+                if (!(kv.Value is YamlMappingNode valueMap))
+                {
+                    throw new Exception($"Sub tree {name}: Expected mapping here got: {kv.Value.NodeType}");
+                }
+
+                res[name] = ParseNode(valueMap);
+            }
+
+            return res;
         }
 
         private Type GetBtType(string name)

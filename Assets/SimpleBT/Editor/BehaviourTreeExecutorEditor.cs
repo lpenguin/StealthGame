@@ -13,6 +13,7 @@ namespace BehaviourTreeUtils.Editor
         private SerializedProperty scriptFile;
         private SerializedProperty executeOnUpdate;
         private Dictionary<Node, bool> isFolded = new Dictionary<Node, bool>();
+        private Dictionary<string, bool> isFoldedSubtrees = new Dictionary<string, bool>();
         private string addName;
         private int typeIndex = 0;
         
@@ -47,6 +48,16 @@ namespace BehaviourTreeUtils.Editor
                     }                
                 }
 
+                if (executor.tree.subTrees.Count > 0)
+                {
+                    EditorGUILayout.LabelField("Subtrees");
+                    ShowSubtrees(executor.tree);
+                }
+
+                if (executor.tree.name != null)
+                {
+                    EditorGUILayout.LabelField(executor.tree.name);
+                }
                 ShowNode(executor.tree.root);
             }
             else
@@ -56,6 +67,32 @@ namespace BehaviourTreeUtils.Editor
             
             ShowBlackboard(executor.blackboard);
             serializedObject.ApplyModifiedProperties();
+        }
+
+        private void ShowSubtrees(BehaviourTree tree)
+        {
+            foreach (var kv in tree.subTrees)
+            {
+                var name = kv.Key;
+                var node = kv.Value;
+                var color = GetStatusColor(node.Status);
+                
+                if (!isFoldedSubtrees.TryGetValue(name, out var foldout))
+                {
+                    foldout = true;
+                    isFoldedSubtrees[name] = true;
+                }
+                
+                var style = GetFoldoutStyle(color);
+                foldout = EditorGUILayout.Foldout(foldout, name, style);
+                isFoldedSubtrees[name] = foldout;
+                if (foldout)
+                {
+                    EditorGUI.indentLevel += 1;
+                    ShowNode(node);
+                    EditorGUI.indentLevel -= 1;
+                }
+            }
         }
 
         void ShowBlackboard(Blackboard bb)
@@ -152,26 +189,9 @@ namespace BehaviourTreeUtils.Editor
             // EditorGUILayout.EndFoldoutHeaderGroup();
             // EditorGUILayout.LabelField($"{node.Name} ({node.Children.Count})");
 
-            Color color;
-            switch (node.Status)
-            {
-                case Status.Empty:
-                    color = Application.isPlaying ? Color.gray : EditorStyles.label.normal.textColor;
-                    break;
-                case Status.Running:
-                    color = new Color32(0x65, 0x95, 0xEB, 0xFF);
-                    break;
-                case Status.Failed:
-                    color = new Color32(0xED, 0x94, 0xC0, 0xFF);
-                    break;
-                case Status.Success:
-                    color = new Color32(0x39, 0xCC, 0x8F, 0xFF);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-            
-            
+            var color = GetStatusColor(node.Status);
+
+
             List<string> parameters = new List<string>();
             foreach (var param in node.Parameters)
             {
@@ -184,19 +204,7 @@ namespace BehaviourTreeUtils.Editor
 
             if(node.Children.Count > 0)
             {
-                var style = new GUIStyle(EditorStyles.foldout)
-                {
-                    normal = {textColor = color},
-                    active = {textColor = color},
-                    focused = {textColor = color},
-                    hover = {textColor = color},
-                    onNormal = {textColor = color},
-                    onActive = {textColor = color},
-                    onFocused = {textColor = color},
-                    onHover = {textColor = color},
-
-                };
-
+                var style = GetFoldoutStyle(color);
 
                 string label = foldout ? node.Name : $"{node.Name} ({node.Children.Count})";
                 foldout = EditorGUILayout.Foldout(foldout, label, style);
@@ -224,6 +232,46 @@ namespace BehaviourTreeUtils.Editor
             }
 
 
+        }
+
+        private static GUIStyle GetFoldoutStyle(Color color)
+        {
+            var style = new GUIStyle(EditorStyles.foldout)
+            {
+                normal = {textColor = color},
+                active = {textColor = color},
+                focused = {textColor = color},
+                hover = {textColor = color},
+                onNormal = {textColor = color},
+                onActive = {textColor = color},
+                onFocused = {textColor = color},
+                onHover = {textColor = color},
+            };
+            return style;
+        }
+
+        private static Color GetStatusColor(Status nodeStatus)
+        {
+            Color color;
+            switch (nodeStatus)
+            {
+                case Status.Empty:
+                    color = Application.isPlaying ? Color.gray : EditorStyles.label.normal.textColor;
+                    break;
+                case Status.Running:
+                    color = new Color32(0x65, 0x95, 0xEB, 0xFF);
+                    break;
+                case Status.Failed:
+                    color = new Color32(0xED, 0x94, 0xC0, 0xFF);
+                    break;
+                case Status.Success:
+                    color = new Color32(0x39, 0xCC, 0x8F, 0xFF);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            return color;
         }
     }
 }

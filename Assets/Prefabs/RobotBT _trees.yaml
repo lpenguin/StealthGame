@@ -1,0 +1,72 @@
+name: Sample
+trees:
+  Chase:
+    Guard: # Chase/Attack player
+      - IsNotNull: $Player
+      - SetBool: { parameter: $"Suspicious Object Detected", value: false }
+      - Selector:
+          - Sequence:
+              - CheckBool: { value1: $"Aggressive", value2: false }
+              - SetBool: { parameter: $"Aggressive", value: true }
+              - Bark: Player Detected
+          - Bark: ""
+      - Parallel:
+          - GoToTransform: $Player
+          - Repeater:
+              - GetPosition:
+                  transform: $"Player"
+                  toStore: $"Last Player Position"
+      - Fail:
+  
+  SearchPlayer:
+    Guard: # Search player after chase
+      - Sequence:
+          - IsNull: $Player
+          - CheckBool: {value1: $"Aggressive", value2: true}
+      - Bark: "Lost Player"
+      - GoTo: $"Last Player Position"
+      - Bark: Searching player
+      - LookAround:
+      - Wait: 2
+      - SetBool: {parameter: $"Aggressive", value: false}
+      - Fail:
+         
+  Investigate:
+    Guard: # Investigating
+      - CheckBool: $"Suspicious Object Detected"
+      - Bark: "Suspicious?"
+      - GoTo: $"Suspicious Object Position"
+      - Bark: "Inspecting"
+      - LookAround:
+      - SetBool: {parameter: $"Suspicious Object Detected", value: false}
+      - Fail:
+
+  Idle:
+    Sequence: # Idle
+      - Bark: { text: "Going back" }
+      - GoTo: $"Initial Position"
+      - Rotate: { rotation: $"Initial Rotation" }
+      - Idle:
+          
+root:
+  - SelectorI:
+      - Tree: Chase
+      - Tree: SearchPlayer
+      - Tree: Investigate
+      - Tree: Idle
+
+                  
+
+
+
+      
+
+
+
+            
+
+        
+
+    
+
+      
