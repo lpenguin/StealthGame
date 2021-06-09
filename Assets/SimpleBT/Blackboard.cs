@@ -25,6 +25,7 @@ namespace SimpleBT
             {"float", typeof(float)},
             {"string", typeof(string)},
             {"Vector3", typeof(Vector3)},
+            {"Quaternion", typeof(Quaternion)},
             {"Transform", typeof(Transform)},
         };
 
@@ -185,6 +186,10 @@ namespace SimpleBT
                 return $"{v.x};{v.y};{v.z}";
             }
 
+            if (type == typeof(Quaternion))
+            {
+                return JsonUtility.ToJson(value);
+            }
             return value.ToString();
         }
 
@@ -198,6 +203,11 @@ namespace SimpleBT
                     float.Parse(tokens[1]),
                     float.Parse(tokens[2])
                 );
+            }
+
+            if (type == typeof(Quaternion))
+            {
+                return JsonUtility.FromJson<Quaternion>(valueStr);
             }
             return Convert.ChangeType(valueStr, type);
         }

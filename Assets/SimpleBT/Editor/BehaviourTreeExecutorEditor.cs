@@ -89,6 +89,15 @@ namespace BehaviourTreeUtils.Editor
                 }else if (param.Type == typeof(Transform))
                 {
                     param.Value = EditorGUILayout.ObjectField((UnityEngine.Object)param.Value, typeof(Transform), true);    
+                }else if (param.Type == typeof(Quaternion))
+                {
+                    var euler = ((Quaternion) param.Value).eulerAngles;
+                    
+                    var newEuler = EditorGUILayout.Vector3Field("", euler);
+                    if (newEuler != euler)
+                    {
+                        param.Value = Quaternion.Euler(euler);
+                    }
                 }
                 else
                 {

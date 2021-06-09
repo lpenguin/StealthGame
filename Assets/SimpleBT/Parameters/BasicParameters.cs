@@ -49,4 +49,12 @@ namespace SimpleBT.Parameters
             return new TransformParameter{Value = value};
         }
     }
+    
+    public class QuaternionParameter : Parameter<Quaternion>
+    {
+        public static implicit operator QuaternionParameter(Quaternion value)
+        {
+            return new QuaternionParameter{Value = value};
+        }
+    }
 }
