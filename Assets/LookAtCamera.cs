@@ -25,6 +25,6 @@ public class LookAtCamera : MonoBehaviour
         
         var xRot = _camera.rotation.eulerAngles.x;
         transform.rotation = Quaternion.AngleAxis(xRot, Vector3.right);
-        transform.rotation = Quaternion.LookRotation(-direction); 
+        // transform.rotation = Quaternion.LookRotation(-direction); 
     }
 }
