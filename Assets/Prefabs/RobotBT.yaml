@@ -3,6 +3,7 @@ root:
   - SelectorI:
       - Guard: # Chase/Attack player
           - IsNotNull: $Player
+          - SetBool: {parameter: $"Suspicious Object Detected", value: false}
           - Selector:
               - Sequence:
                   - CheckBool: {value1: $"Aggressive", value2: false}
@@ -29,18 +30,22 @@ root:
           - SetBool: {parameter: $"Aggressive", value: false}
           - Fail:
 
+      - Guard: # Investigating
+            - CheckBool: $"Suspicious Object Detected"
+            - Bark: "Suspicious?"
+            - GoTo: $"Suspicious Object Position"
+            - Bark: "Inspecting"
+            - LookAround:
+            - SetBool: {parameter: $"Suspicious Object Detected", value: false}
+            - Fail:
+                  
       - Sequence: # Idle
           - Bark: {text: "Going back"}
           - GoTo: $"Initial Position"
+          - Rotate: {rotation: $"Initial Rotation"}
           - Idle:
 
-      - Guard: # Investigating
-          - IsNotNull: $"Suspicious Object"
-          - Bark: "Suspicious?"
-          - GoToTransform: $"Suspicious Object"
-          - Bark: "Inspecting"
-          - LookAround:
-          - Fail:
+
       
 
 

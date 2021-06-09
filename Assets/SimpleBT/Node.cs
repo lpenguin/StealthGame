@@ -77,7 +77,7 @@ namespace SimpleBT
         
         public void Reset()
         {
-            Debug.Log($"{Name}.Reset()");
+            // Debug.Log($"{Name}.Reset()");
 
             if (Status == Status.Empty)
             {

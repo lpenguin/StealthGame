@@ -1,4 +1,5 @@
 using System.Collections;
+using SimpleBT;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
@@ -29,6 +30,11 @@ public class RobotController : MonoBehaviour
     private NavMeshAgent _navMeshAgent;
     private bool _isLookingAt = false;
     private Coroutine _barkCoro;
+    
+    private Blackboard blackboard;
+    private const string BB_InitialPosition = "Initial Position";
+    private const string BB_InitialRotation = "Initial Rotation";
+    
     public void Bark(string text)
     {
         barkText.text = text;
@@ -62,6 +68,9 @@ public class RobotController : MonoBehaviour
         _animator = GetComponent<Animator>();
         _navMeshAgent = GetComponent<NavMeshAgent>();
         lookAtRig.weight = 0;
+        blackboard = GetComponent<BehaviourTreeExecutor>().blackboard;
+        blackboard.SetValue(BB_InitialPosition, transform.position);
+        blackboard.SetValue(BB_InitialRotation, transform.rotation);
     }
 
     void Update()
