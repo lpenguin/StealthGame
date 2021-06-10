@@ -1,9 +1,11 @@
+using SimpleBT.Attributes;
 using SimpleBT.Parameters;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace SimpleBT.Nodes.Zone
 {
+    [Name("Zone.RandomObject")]
     public class RandomObjectInZone: ZoneNode
     {
         private TransformParameter obj;

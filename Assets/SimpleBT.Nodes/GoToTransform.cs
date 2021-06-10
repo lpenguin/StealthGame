@@ -1,8 +1,10 @@
+using SimpleBT.Attributes;
 using SimpleBT.Parameters;
 using UnityEngine;
 
 namespace SimpleBT.Nodes
 {
+    [Name("GoTo.Transform")]
     public class GoToTransform: Node
     {
         private TransformParameter target;
@@ -58,7 +60,7 @@ namespace SimpleBT.Nodes
             {
                 navAgent.isStopped = false;
             }
-            Debug.Log(navAgent.remainingDistance);
+            
             if (!navAgent.pathPending && navAgent.remainingDistance <= stopDistance.Value)
             {
                 navAgent.SetDestination(currentContext.GameObject.transform.position);

@@ -1,7 +1,9 @@
+using SimpleBT.Attributes;
 using UnityEngine;
 
 namespace SimpleBT.Nodes
 {
+    [Name("Transform.GetPosition")]
     public class GetPosition: Node
     {
         private Parameter<Transform> transform;

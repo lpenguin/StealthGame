@@ -6,7 +6,8 @@ namespace SimpleBT.Nodes
 public class GoTo: Node
     {
         public Vector3Parameter target;
-
+        private FloatParameter stopDistance = -1;
+        
         private UnityEngine.AI.NavMeshAgent navAgent;
 
         /// <summary>Initialization Method of MoveToGameObject.</summary>
@@ -26,6 +27,12 @@ public class GoTo: Node
                 Debug.LogWarning("The " + gameObject.name + " game object does not have a Nav Mesh Agent component to navigate. One with default values has been added", gameObject);
                 navAgent = gameObject.AddComponent<UnityEngine.AI.NavMeshAgent>();
             }
+            
+            if (stopDistance.Value < 0)
+            {
+                stopDistance.Value = navAgent.stoppingDistance;
+            }
+            
 			navAgent.SetDestination(target.Value);
             
             #if UNITY_5_6_OR_NEWER
@@ -45,7 +52,7 @@ public class GoTo: Node
                 navAgent.isStopped = false;
             }
             
-            if (!navAgent.pathPending && navAgent.remainingDistance <= navAgent.stoppingDistance)
+            if (!navAgent.pathPending && navAgent.remainingDistance <= stopDistance.Value)
                 return Status.Success;
 
             return Status.Running;

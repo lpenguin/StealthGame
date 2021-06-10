@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using SimpleBT.Attributes;
 using UnityEngine;
 using YamlDotNet.RepresentationModel;
 
@@ -10,7 +11,8 @@ namespace SimpleBT
     public class YamlParser
     {
         private Dictionary<Type, Func<YamlNode, object>> _converters = new Dictionary<Type, Func<YamlNode, object>>();
-
+        private Dictionary<string, Type> _types;
+        
         public YamlParser()
         {
             var scalarTypes = new Type[]
@@ -27,6 +29,28 @@ namespace SimpleBT
             }
 
             _converters[typeof(Vector3)] = ParseVector3;
+            _types = LoadNodeTypes();
+        }
+
+        private Dictionary<string,Type> LoadNodeTypes()
+        {
+            var res = new Dictionary<string, Type>();
+            var assembly = GetType().Assembly;
+            // var names = assembly.DefinedTypes.Select(x => x.Name).OrderBy(x => x).ToArray();
+            foreach (var btType in assembly.DefinedTypes)
+            {
+                if (btType.IsSubclassOf(typeof(Node)))
+                {
+                    res[btType.Name] = btType;
+                    var nameAttrObj = btType.GetCustomAttributes(typeof(NameAttribute), false).FirstOrDefault();
+                    if (nameAttrObj is NameAttribute nameAttr)
+                    {
+                        res[nameAttr.Name] = btType;
+                    }
+                }
+            }
+
+            return res;
         }
 
         private static object ParseVector3(YamlNode node)
@@ -111,7 +135,7 @@ namespace SimpleBT
                 var typeStr = ((YamlScalarNode) typeNode).Value;
                 if (!Blackboard.Types.TryGetValue(typeStr, out var bbType))
                 {
-                    throw new Exception($"blackboard parameter {name}: expected invalid type {typeStr}");
+                    throw new Exception($"blackboard parameter {name}: invalid type {typeStr}");
                 }
 
                 res.Type = bbType;
@@ -195,17 +219,12 @@ namespace SimpleBT
 
         private Type GetBtType(string name)
         {
-            var assembly = GetType().Assembly;
-            // var names = assembly.DefinedTypes.Select(x => x.Name).OrderBy(x => x).ToArray();
-            foreach (var btType in assembly.DefinedTypes)
+            if (!_types.TryGetValue(name, out var btType))
             {
-                if (btType.Name == name)
-                {
-                    return btType;
-                }
+                throw new Exception($"Cannot find type {name}");
             }
 
-            throw new Exception($"Cannot find type {name}");
+            return btType;
         }
 
         private static void UpdateParameters(YamlMappingNode node, Type btType, List<IParameter> parameters)

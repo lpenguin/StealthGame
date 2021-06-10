@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using SimpleBT.Attributes;
 using UnityEngine;
 
 namespace SimpleBT
@@ -29,8 +30,9 @@ namespace SimpleBT
 
         protected ExecutionContext currentContext = null;
         
-        public string Name => GetType().Name;
-        
+        public string Name => _name;
+
+        private string _name;
         public void Execute(ExecutionContext context)
         {
             var blackboard = context.Blackboard;
@@ -111,6 +113,16 @@ namespace SimpleBT
                     parameter.Name = fieldInfo.Name;
                     Parameters.Add(parameter);
                 }
+            }
+            
+            var nameAttrObj = type.GetCustomAttributes(typeof(NameAttribute), false).FirstOrDefault();
+            if (nameAttrObj is NameAttribute nameAttr)
+            {
+                _name = nameAttr.Name;
+            }
+            else
+            {
+                _name = type.Name;
             }
         }
         

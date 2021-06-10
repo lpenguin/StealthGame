@@ -1,7 +1,9 @@
+using SimpleBT.Attributes;
 using SimpleBT.Parameters;
 
 namespace SimpleBT.Nodes.Animator
 {
+    [Name("Animator.SetTrigger")]
     public class AnimatorSetTrigger: AnimatorNode
     {
         private StringParameter name;

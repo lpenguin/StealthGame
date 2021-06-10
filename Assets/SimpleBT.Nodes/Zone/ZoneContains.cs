@@ -1,7 +1,9 @@
+using SimpleBT.Attributes;
 using SimpleBT.Parameters;
 
 namespace SimpleBT.Nodes.Zone
 {
+    [Name("Zone.Contains")]
     public class ZoneContains: ZoneNode
     {
         private TransformParameter obj;

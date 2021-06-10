@@ -1,12 +1,19 @@
-using UnityEngine.Assertions;
+using SimpleBT.Attributes;
 
 namespace SimpleBT.Nodes.Robot
 {
-    public class Drop: RobotNode
+    [Name("Robot.Drop")]
+    public class Drop: Node
     {
+        private PickupController _pickupController;
+        protected override void OnStart()
+        {
+            _pickupController = currentContext.GameObject.GetComponent<PickupController>();
+        }
+
         protected override Status OnUpdate()
         {
-            robotController.Drop();
+            _pickupController.Drop();
             return Status.Success;
         }
 

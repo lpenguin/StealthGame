@@ -1,8 +1,10 @@
+using SimpleBT.Attributes;
 using SimpleBT.Parameters;
 using UnityEngine;
 
 namespace SimpleBT.Nodes.Zone
 {
+    [Name("Zone.RandomPosition")]
     public class RandomPositionInZone: ZoneNode
     {
         private Vector3Parameter position;

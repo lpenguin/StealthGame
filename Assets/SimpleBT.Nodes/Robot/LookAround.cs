@@ -1,7 +1,9 @@
+using SimpleBT.Attributes;
 using UnityEngine;
 
 namespace SimpleBT.Nodes.Robot
 {
+    [Name("Robot.LookAround")]
     public class LookAround : Node
     {
         private Parameter<float> degrees = new Parameter<float>(90);

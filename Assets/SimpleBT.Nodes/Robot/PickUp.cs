@@ -1,13 +1,19 @@
+using SimpleBT.Attributes;
 using SimpleBT.Parameters;
 using UnityEngine;
-using UnityEngine.Assertions;
 
 namespace SimpleBT.Nodes.Robot
 {
-    public class PickUp: RobotNode
+    [Name("Robot.PickUp")]
+    public class PickUp: Node
     {
         private TransformParameter target;
         
+        private PickupController _pickupController;
+        protected override void OnStart()
+        {
+            _pickupController = currentContext.GameObject.GetComponent<PickupController>();
+        }
 
         protected override Status OnUpdate()
         {
@@ -17,7 +23,7 @@ namespace SimpleBT.Nodes.Robot
                 return Status.Failed;
             }
             
-            robotController.Pickup(target.Value);
+            _pickupController.Pickup(target.Value);
             return Status.Success;
         }
     }

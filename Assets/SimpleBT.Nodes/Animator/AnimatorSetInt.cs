@@ -1,7 +1,9 @@
+using SimpleBT.Attributes;
 using SimpleBT.Parameters;
 
 namespace SimpleBT.Nodes.Animator
 {
+    [Name("Animator.SetInt")]
     public class AnimatorSetInt : AnimatorNode
     {
         private StringParameter name;

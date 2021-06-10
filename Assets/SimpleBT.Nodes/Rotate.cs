@@ -1,8 +1,10 @@
+using SimpleBT.Attributes;
 using SimpleBT.Parameters;
 using UnityEngine;
 
 namespace SimpleBT.Nodes
 {
+    [Name("Transform.Rotate")]
     public class Rotate: Node
     {
         private QuaternionParameter rotation = Quaternion.identity;

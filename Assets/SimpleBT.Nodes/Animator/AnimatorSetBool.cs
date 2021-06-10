@@ -1,8 +1,9 @@
-using System;
+using SimpleBT.Attributes;
 using SimpleBT.Parameters;
 
 namespace SimpleBT.Nodes.Animator
 {
+    [Name("Animator.SetBool")]
     public class AnimatorSetBool: AnimatorNode
     {
         private StringParameter name;
