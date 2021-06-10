@@ -1,3 +1,5 @@
+using System.Linq;
+using SimpleBT.Nodes.Robot;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -10,15 +12,19 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private float cameraFollowSpeed = 10f;
+    
     private CharacterController _controller;
-    private Animator _animator; 
-
-    private Camera _camera; 
-
+    private Animator _animator;
+    private Camera _camera;
+    private ContactSensor3D _sensor;
+    private PickupController _pickupController;
+    
     void Start()
     {
         _controller = GetComponent<CharacterController>();
+        _pickupController = GetComponent<PickupController>();
         _animator = GetComponent<Animator>();
+        _sensor = GetComponent<ContactSensor3D>();
         _camera = Camera.main;
     }
 
@@ -50,7 +56,24 @@ public class PlayerController : MonoBehaviour
         targetPos.y = cameraPos.y;
         
         _camera.transform.position = Vector3.Lerp(cameraPos, targetPos, Time.deltaTime * cameraFollowSpeed);
+
+        if (Input.GetKeyDown("e"))
+        {
+            if (_pickupController.PickedObject != null)
+            {
+                _pickupController.Drop();
+            }
+            else
+            {
+                var contact = _sensor.Contacts.FirstOrDefault();
+                if (contact != null)
+                {
+                    _pickupController.Pickup(contact.transform);
+                }
+            }
+        }
+
     }
 
-    
+
 }
