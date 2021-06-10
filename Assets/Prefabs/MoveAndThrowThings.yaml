@@ -1,0 +1,77 @@
+name: Throw Things
+blackboard:
+  "Item":
+    type: Transform
+  "Initial position":
+    type: Vector3
+  "Destination": 
+    type: Vector3
+  "Pickup Object":
+    type: Transform
+  "Garbage Zone":
+    type: Transform
+  "Wonder Zone":
+    type: Transform
+  "Zone A":
+    type: Transform
+  "Zone B":
+    type: Transform
+  "B Count":
+    type: int
+    value: 5
+
+    
+trees:
+  Wonder:
+    Guard:
+      - Repeater:
+        - Sequence:
+          - Zone.RandomPosition: { zone: $"Wonder Zone", position: $"Destination" }
+          - GoTo: $"Destination"
+          - Robot.LookAround:
+
+  MoveItems:
+    Guard:
+      - Sequence:
+          - Not:
+              - Zone.Count: {zone: $"Zone B", count: $"B Count"}
+          - Zone.RandomObject: { zone: $"Zone A", obj: $"Pickup Object" }
+          - IsNotNull: $"Pickup Object"            
+      - Repeater:
+        - Sequence:
+            - GoTo.Transform: { target: $"Pickup Object", stopDistance: 2 }
+            - Bark: "Picking up"
+            - Animator.SetTrigger: "Pickup"
+            - Wait: 0.7
+            - Robot.PickUp: $"Pickup Object"
+            - RandomPositionInZone: { zone: $"Zone B", position: $"Drop Position" }
+            - GoTo: $"Drop Position"
+            - Bark: "Dropping"
+            - Animator.SetTrigger: "Drop"
+            - Wait: 0.7
+            - Robot.Drop:
+
+  ThrowItem:
+    Guard:
+      - Sequence:
+          - IsNull: $"Pickup Object"
+          - IsNotNull: $"Item"
+          - Not:
+              - Zone.Contains: { zone: $"Garbage Zone", obj: $"Item" }
+      - GoTo.Transform: { target: $Item, stopDistance: 2 }
+      - Animator.SetTrigger: Pickup
+      - Wait: 0.7
+      - Robot.PickUp: $"Item"
+      - Zone.RandomPosition: { zone: $"Garbage Zone", position: $Destination }
+      - GoTo: $Destination
+      - AnimatorSetTrigger: Drop
+      - Wait: 0.7
+      - Robot.Drop:
+      - Wait: 0.03
+      - Fail:
+
+root:
+  - SelectorI:
+      - Tree: ThrowItem
+      - Tree: Wonder
+            
