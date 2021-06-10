@@ -126,6 +126,9 @@ namespace BehaviourTreeUtils.Editor
                 }else if (param.Type == typeof(Transform))
                 {
                     param.Value = EditorGUILayout.ObjectField((UnityEngine.Object)param.Value, typeof(Transform), true);    
+                }else if (param.Type == typeof(int))
+                {
+                    param.Value = EditorGUILayout.IntField((int)param.Value);    
                 }else if (param.Type == typeof(Quaternion))
                 {
                     var euler = ((Quaternion) param.Value).eulerAngles;

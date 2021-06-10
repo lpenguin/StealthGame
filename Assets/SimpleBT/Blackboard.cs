@@ -23,6 +23,7 @@ namespace SimpleBT
         {
             {"bool", typeof(bool)},
             {"float", typeof(float)},
+            {"int", typeof(int)},
             {"string", typeof(string)},
             {"Vector3", typeof(Vector3)},
             {"Quaternion", typeof(Quaternion)},
