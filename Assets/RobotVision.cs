@@ -1,4 +1,7 @@
+using System.Collections.Generic;
+using System.Linq;
 using SimpleBT;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class RobotVision : MonoBehaviour
@@ -15,6 +18,9 @@ public class RobotVision : MonoBehaviour
     private const string BB_SuspiciousObjectDetected = "Suspicious Object Detected";
     
     private const string BB_Player = "Player";
+    private const string BB_Item = "Item";
+
+    private Transform _detectedItem;
     private void Start()
     {
         blackboard = GetComponent<BehaviourTreeExecutor>().blackboard;
@@ -22,16 +28,35 @@ public class RobotVision : MonoBehaviour
     
     void Update()
     {
-        var targets = vision.Targets;
-        if(targets.Count == 0){
-            blackboard.SetValue(BB_Player, null);
-        }
+        IReadOnlyList<Transform> targets = vision.Targets.Where(t => t.CompareTag("Player")).ToArray();
+        if (blackboard.HasParameter(BB_Player))
+        {
+            if(targets.Count == 0){
+                blackboard.SetValue(BB_Player, null);
+            }
     
-        foreach(var target in targets){
-            blackboard.SetValue(BB_Player, target);
-            return;
+            foreach(var target in targets){
+                blackboard.SetValue(BB_Player, target);
+                return;
+            }
+        }
+        
+ 
+
+        var items = vision.Targets.Where(t => t.CompareTag("Item")).ToHashSet();
+
+        if (_detectedItem != null && !items.Contains(_detectedItem))
+        {
+            _detectedItem = null;
         }
 
+        if (_detectedItem == null && items.Count > 0)
+        {
+            _detectedItem = items.First();
+        }
+        
+        blackboard.SetValue(BB_Item, _detectedItem);
+        
         if (peripheralVision == null)
         {
             return;

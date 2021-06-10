@@ -1,0 +1,43 @@
+name: Throw Things
+blackboard:
+  "Item":
+    type: Transform
+  "Initial position":
+    type: Vector3
+  "Destination": 
+    type: Vector3
+  "Pickup Object":
+    type: Transform
+  "Garbage Zone":
+    type: Transform
+  "Wonder Zone":
+    type: Transform
+
+    
+trees:
+  Wonder:
+    Repeater:
+      - Sequence:
+        - RandomPositionInZone: { zone: $"Wonder Zone", position: $"Destination" }
+        - GoTo: $"Destination"
+        - LookAround:
+root:
+  - SelectorI:
+      - Guard:
+          - Sequence:
+            - IsNotNull: $"Item"
+            - Not:
+                - ZoneContains: {zone: $"Garbage Zone", obj: $"Item"}
+          - GoToTransform: {target: $Item, stopDistance: 2}
+          - AnimatorSetTrigger: Pickup
+          - Wait: 0.7
+          - PickUp: $"Item"
+          - RandomPositionInZone: {zone: $"Garbage Zone", position: $Destination}
+          - GoTo: $Destination
+          - AnimatorSetTrigger: Drop
+          - Wait: 0.7
+          - Drop:
+          - Wait: 0.03
+          - Fail:
+      - Tree: Wonder
+            

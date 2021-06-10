@@ -1,0 +1,31 @@
+name: Move Things
+root:
+#  - Sequence:
+#      - GoToTransform: $"Pickup Object"
+#      - Bark: "Picking up"
+#      - PickUp: $"Pickup Object"
+#      - GoTo: $"Initial Position"
+#      - Bark: "Dropping"
+#      - Drop:
+#      
+  - Sequence:
+    - Selector:
+      - Repeater:
+        - Sequence:
+          - RandomObjectInZone: {zone: $"Zone A", obj: $"Pickup Object"}
+          - IsNotNull: $"Pickup Object"
+          - GoToTransform: {target: $"Pickup Object", stopDistance: 2}
+          - Bark: "Picking up"
+          - AnimatorSetTrigger: "Pickup"
+          - Wait: 0.7
+          - PickUp: $"Pickup Object"
+          - RandomPositionInZone: {zone: $"Zone B", position: $"Drop Position"}
+          - GoTo: $"Drop Position"
+          - Bark: "Dropping"
+          - AnimatorSetTrigger: "Drop"
+          - Wait: 0.7
+          - Drop:
+
+      - Sequence:
+        - GoTo: $"Initial Position"
+        - Idle:        

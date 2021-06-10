@@ -16,7 +16,15 @@ public class RobotController : MonoBehaviour
     [SerializeField]
     private float switchLookAtSpeed = 5;
 
+    [SerializeField] 
+    private Transform pickedObject;
 
+    [SerializeField] 
+    private Transform pickupLocation;
+    
+    [SerializeField] 
+    private Transform dropLocation;
+    
     [Header("Bark")]
     [SerializeField]
     [InspectorName("Text")]
@@ -25,6 +33,9 @@ public class RobotController : MonoBehaviour
     [SerializeField] 
     [InspectorName("Duration")]
     private float barkDuration;
+
+
+    public Transform PickedObject => pickedObject;
     
     private Animator _animator;
     private NavMeshAgent _navMeshAgent;
@@ -34,7 +45,34 @@ public class RobotController : MonoBehaviour
     private Blackboard blackboard;
     private const string BB_InitialPosition = "Initial Position";
     private const string BB_InitialRotation = "Initial Rotation";
-    
+
+    public void Pickup(Transform target)
+    {
+        if (pickedObject != null)
+        {
+            Drop();
+        }
+
+        pickedObject = target;
+        if (pickedObject.TryGetComponent<Rigidbody>(out var rb))
+        {
+            rb.isKinematic = true;
+        }
+
+        pickedObject.position = pickupLocation.position;
+    }
+
+    public void Drop()
+    {
+        pickedObject.position = dropLocation.position;
+        
+        if (pickedObject.TryGetComponent<Rigidbody>(out var rb))
+        {
+            rb.isKinematic = false;
+        }
+
+        pickedObject = null;
+    }
     public void Bark(string text)
     {
         barkText.text = text;
@@ -77,5 +115,11 @@ public class RobotController : MonoBehaviour
     {
         _animator.SetFloat("Speed", _navMeshAgent.velocity.magnitude /  _navMeshAgent.speed);
         lookAtRig.weight = Mathf.Lerp(lookAtRig.weight, _isLookingAt ? 1 : 0, Time.deltaTime * switchLookAtSpeed);
+
+        if (pickedObject != null)
+        {
+            pickedObject.position = pickupLocation.position;
+            pickedObject.rotation *= Quaternion.AngleAxis(100 * Time.deltaTime, Vector3.up);
+        }
     }
 }

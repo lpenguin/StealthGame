@@ -126,6 +126,9 @@ ModelImporter:
   - first:
       74: 2450780417096620964
     second: Run (1)
+  - first:
+      74: 2828925377506141551
+    second: Pickup (1)
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -155,11 +158,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Run (1)
-      takeName: Run
+      name: Pickup (1)
+      takeName: Pickup
       internalID: 0
       firstFrame: 0
-      lastFrame: 25
+      lastFrame: 42
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

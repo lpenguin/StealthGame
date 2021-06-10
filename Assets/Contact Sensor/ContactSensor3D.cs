@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -69,11 +70,17 @@ public class ContactSensor3D: MonoBehaviour {
         var tr = collider.transform;
         var pos = tr.position;
         var rot = tr.rotation;
+        
         if (collider is BoxCollider boxCollider)
         {
+            Vector3 scale = tr.localScale;
+            Vector3 size = boxCollider.size / 2;
+            size.x *= scale.x;
+            size.y *= scale.y;
+            size.z *= scale.z;
             return Physics.OverlapBoxNonAlloc(
                 pos + boxCollider.center, 
-                boxCollider.size / 2, 
+                size, 
                 results, 
                 rot, 
                 mask, 

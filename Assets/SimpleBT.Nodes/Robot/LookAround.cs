@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace SimpleBT.Nodes
+namespace SimpleBT.Nodes.Robot
 {
     public class LookAround : Node
     {

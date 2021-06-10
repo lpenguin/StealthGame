@@ -50,7 +50,18 @@ namespace SimpleBT
         
         public void SetValue(string name, object value)
         {
-            _parameters[name].Value = value;
+            if (!_parameters.ContainsKey(name) && value != null)
+            {
+                _parameters[name] = new BBParameter()
+                {
+                    Name = name,
+                    Type = value.GetType(),
+                    Value = value
+                };
+                return;
+            } 
+            var p = _parameters[name];
+            p.Value = value;
         }
 
         public object GetValue(string name)
@@ -178,12 +189,11 @@ namespace SimpleBT
             parameter.ValueStr = SerializeValue(parameter.Type, parameter.Value);
         }
 
-        private string SerializeValue(Type type, object value)
+        private static string SerializeValue(Type type, object value)
         {
             if (type == typeof(Vector3))
             {
-                Vector3 v = (Vector3) value;
-                return $"{v.x};{v.y};{v.z}";
+                return JsonUtility.ToJson(value);
             }
 
             if (type == typeof(Quaternion))
@@ -193,16 +203,11 @@ namespace SimpleBT
             return value.ToString();
         }
 
-        private object DeserializeValue(Type type, string valueStr)
+        public static object DeserializeValue(Type type, string valueStr)
         {
             if (type == typeof(Vector3))
             {
-                var tokens = valueStr.Split(';');
-                return new Vector3(
-                    float.Parse(tokens[0]),
-                    float.Parse(tokens[1]),
-                    float.Parse(tokens[2])
-                );
+                return JsonUtility.FromJson<Vector3>(valueStr);
             }
 
             if (type == typeof(Quaternion))
@@ -210,6 +215,16 @@ namespace SimpleBT
                 return JsonUtility.FromJson<Quaternion>(valueStr);
             }
             return Convert.ChangeType(valueStr, type);
+        }
+
+        public bool HasParameter(string parameterName)
+        {
+            return _parameters.ContainsKey(parameterName);
+        }
+
+        public void AddParameter(BBParameter parameter)
+        {
+            _parameters[parameter.Name] = parameter;
         }
     }
 }

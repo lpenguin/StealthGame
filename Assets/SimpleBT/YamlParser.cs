@@ -77,13 +77,83 @@ namespace SimpleBT
 
             var subTress = ParseTrees(document);
 
+            var parameters = ParseBBParameters(document);
             var rootNode = ParseNode(root);
             return new BehaviourTree
             {
                 name = treeName,
                 subTrees = subTress,
-                root = rootNode
+                root = rootNode,
+                blackboardParameters = parameters,
             };
+        }
+
+        private List<BBParameter> ParseBBParameters(YamlMappingNode document)
+        {
+            BBParameter ParseBBParameter(KeyValuePair<YamlNode, YamlNode> pair)
+            {
+                BBParameter res = new BBParameter();
+                
+                var name = ((YamlScalarNode) pair.Key).Value;
+
+                res.Name = name;
+                var descrNode = pair.Value;
+                if (!(descrNode is YamlMappingNode descrNodeMap))
+                {
+                    throw new Exception($"blackboard parameter {name}: expected Mapping here, got {descrNode.NodeType}");
+                }
+
+                if (!descrNodeMap.Children.TryGetValue("type", out var typeNode))
+                {
+                    throw new Exception($"blackboard parameter {name}: expected type");
+                }
+
+                var typeStr = ((YamlScalarNode) typeNode).Value;
+                if (!Blackboard.Types.TryGetValue(typeStr, out var bbType))
+                {
+                    throw new Exception($"blackboard parameter {name}: expected invalid type {typeStr}");
+                }
+
+                res.Type = bbType;
+                
+                
+                if (descrNodeMap.Children.TryGetValue("value", out var valueNode))
+                {
+                    res.Value = Blackboard.DeserializeValue(bbType, ((YamlScalarNode) valueNode).Value);
+                }
+                else
+                {
+                    if (bbType.IsClass)
+                    {
+                        res.Value = null;
+                    }
+                    else
+                    {
+                        res.Value = Activator.CreateInstance(bbType);
+                    }
+                }
+
+                return res;
+                
+            }
+            
+            var res = new List<BBParameter>();
+            if (!document.Children.TryGetValue("blackboard", out var bbNode))
+            {
+                return res;
+            }
+
+            if (!(bbNode is YamlMappingNode bbNodeMap))
+            {
+                throw new Exception($"blackboard: expected Mapping here, got {bbNode.NodeType}");
+            }
+
+            foreach (var kv in bbNodeMap.Children)
+            {
+                res.Add(ParseBBParameter(kv));
+            }
+
+            return res;
         }
 
         private string ParseTreeName(YamlMappingNode document)

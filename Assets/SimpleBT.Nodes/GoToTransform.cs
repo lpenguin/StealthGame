@@ -6,10 +6,11 @@ namespace SimpleBT.Nodes
     public class GoToTransform: Node
     {
         private TransformParameter target;
-
+        private FloatParameter stopDistance = -1;
         private UnityEngine.AI.NavMeshAgent navAgent;
 
         private Transform targetTransform;
+        
 
         /// <summary>Initialization Method of MoveToGameObject.</summary>
         /// <remarks>Check if GameObject object exists and NavMeshAgent, if there is no NavMeshAgent, the default one is added.</remarks>
@@ -28,6 +29,11 @@ namespace SimpleBT.Nodes
             {
                 Debug.LogWarning("The " + gameObject.name + " game object does not have a Nav Mesh Agent component to navigate. One with default values has been added", gameObject);
                 navAgent = gameObject.AddComponent<UnityEngine.AI.NavMeshAgent>();
+            }
+
+            if (stopDistance.Value < 0)
+            {
+                stopDistance.Value = navAgent.stoppingDistance;
             }
 
             var dest = targetTransform.position;
@@ -52,8 +58,13 @@ namespace SimpleBT.Nodes
             {
                 navAgent.isStopped = false;
             }
-            if (!navAgent.pathPending && navAgent.remainingDistance <= navAgent.stoppingDistance)
+            Debug.Log(navAgent.remainingDistance);
+            if (!navAgent.pathPending && navAgent.remainingDistance <= stopDistance.Value)
+            {
+                navAgent.SetDestination(currentContext.GameObject.transform.position);
                 return Status.Success;
+            }
+                
             var dest = targetTransform.position;
             dest.y = currentContext.GameObject.transform.position.y;
             

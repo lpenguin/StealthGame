@@ -18,6 +18,14 @@ namespace SimpleBT.Parameters
         }
     }
     
+    public class IntParameter : Parameter<int>
+    {
+        public static implicit operator IntParameter(int value)
+        {
+            return new IntParameter{Value = value};
+        }
+    }
+    
     public class Vector3Parameter : Parameter<Vector3>
     {
         public static implicit operator Vector3Parameter(Vector3 value)

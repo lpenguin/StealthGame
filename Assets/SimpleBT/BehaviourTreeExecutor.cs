@@ -29,6 +29,13 @@ namespace SimpleBT
             var reader = new StringReader(scriptFile.text);
             var parser = new YamlParser();
             tree = parser.ParseTree(reader);
+            foreach (var parameter in tree.blackboardParameters)
+            {
+                if (!blackboard.HasParameter(parameter.Name))
+                {
+                    blackboard.AddParameter(parameter);
+                }
+            }
         }
 
         public void Awake()
