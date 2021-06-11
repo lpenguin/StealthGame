@@ -43,7 +43,15 @@ public class RobotVision : MonoBehaviour
         
  
 
-        var items = vision.Targets.Where(t => t.CompareTag("Item")).ToHashSet();
+        var items = vision.Targets.Where(t =>
+        {
+            if (!t.TryGetComponent<Item>(out var item))
+            {
+                return false;
+            }
+
+            return item.owner == gameObject || item.owner == null;
+        }).ToHashSet();
 
         if (_detectedItem != null && !items.Contains(_detectedItem))
         {

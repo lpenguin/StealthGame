@@ -20,6 +20,12 @@ public class PickupController: MonoBehaviour
         {
             rb.isKinematic = true;
         }
+
+        if (_pickedObject.TryGetComponent<Item>(out var item))
+        {
+            item.owner = gameObject;
+        }
+        
         _pickedObject.transform.rotation = Quaternion.identity;
         
         _pickedObject.position = pickupPoint.position;
@@ -33,7 +39,10 @@ public class PickupController: MonoBehaviour
         {
             rb.isKinematic = false;
         }
-
+        if (_pickedObject.TryGetComponent<Item>(out var item))
+        {
+            item.owner = null;
+        }
         _pickedObject = null;
     }
 
