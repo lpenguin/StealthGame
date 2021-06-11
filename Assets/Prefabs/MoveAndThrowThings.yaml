@@ -18,12 +18,17 @@ blackboard:
     type: Transform
   "B Count":
     type: int
-    value: 5
+    value: 6
+  "Current A Count":
+    type: int
+  "Current B Count":
+    type: int
 
     
 trees:
   Wonder:
     Guard:
+      - CheckBool: {value1: true}
       - Repeater:
         - Sequence:
           - Zone.RandomPosition: { zone: $"Wonder Zone", position: $"Destination" }
@@ -31,30 +36,37 @@ trees:
           - Robot.LookAround:
 
   MoveItems:
-    Guard:
+    Repeater:
+    - Guard:
+      - Selector:
+          - Sequence:
+              - Zone.Count: { zone: $"Zone A", count: $"Current A Count" }
+              - Int.NotEqual: { value1: $"Current A Count", value2: 0 }
+          - Sequence:
+            - Zone.Count: {zone: $"Zone B", count: $"Current B Count"}
+            - Int.LessThan: {value1: $"Current B Count", value2: $"B Count"}         
       - Sequence:
-          - Not:
-              - Zone.Count: {zone: $"Zone B", count: $"B Count"}
           - Zone.RandomObject: { zone: $"Zone A", obj: $"Pickup Object" }
-          - IsNotNull: $"Pickup Object"            
-      - Repeater:
-        - Sequence:
-            - GoTo.Transform: { target: $"Pickup Object", stopDistance: 2 }
-            - Bark: "Picking up"
-            - Animator.SetTrigger: "Pickup"
-            - Wait: 0.7
-            - Robot.PickUp: $"Pickup Object"
-            - RandomPositionInZone: { zone: $"Zone B", position: $"Drop Position" }
-            - GoTo: $"Drop Position"
-            - Bark: "Dropping"
-            - Animator.SetTrigger: "Drop"
-            - Wait: 0.7
-            - Robot.Drop:
+          - IsNotNull: $"Pickup Object"
+          - GoTo.Transform: { target: $"Pickup Object", stopDistance: 2 }
+          - Bark: "Picking up"
+          - Animator.SetTrigger: "Pickup"
+          - Wait: 0.7
+          - Robot.PickUp: $"Pickup Object"
+          - RandomPositionInZone: { zone: $"Zone B", position: $"Destination" }
+          - GoTo: $"Destination"
+          - Bark: "Dropping"
+          - Animator.SetTrigger: "Drop"
+          - Wait: 0.7
+          - Robot.Drop:
 
   ThrowItem:
     Guard:
       - Sequence:
-          - IsNull: $"Pickup Object"
+          - Not:
+              - Sequence:
+                - Robot.HasObject: $"Pickup Object"
+                - IsNotNull: $"Pickup Object"
           - IsNotNull: $"Item"
           - Not:
               - Zone.Contains: { zone: $"Garbage Zone", obj: $"Item" }
@@ -73,5 +85,6 @@ trees:
 root:
   - SelectorI:
       - Tree: ThrowItem
+      - Tree: MoveItems
       - Tree: Wonder
             

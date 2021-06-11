@@ -34,5 +34,11 @@ namespace SimpleBT.Nodes
             subTreeNode.Reset();
             base.Reset();
         }
+
+        public override void Interrupt()
+        {
+            base.Interrupt();
+            subTreeNode.Interrupt();
+        }
     }
 }

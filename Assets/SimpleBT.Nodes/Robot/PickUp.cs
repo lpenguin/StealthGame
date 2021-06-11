@@ -5,15 +5,9 @@ using UnityEngine;
 namespace SimpleBT.Nodes.Robot
 {
     [Name("Robot.PickUp")]
-    public class PickUp: Node
+    public class PickUp: PickControllerNode
     {
         private TransformParameter target;
-        
-        private PickupController _pickupController;
-        protected override void OnStart()
-        {
-            _pickupController = currentContext.GameObject.GetComponent<PickupController>();
-        }
 
         protected override Status OnUpdate()
         {

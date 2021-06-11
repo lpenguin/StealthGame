@@ -12,7 +12,8 @@ namespace SimpleBT
         Empty,
         Running,
         Failed,
-        Success
+        Success,
+        Interrupted
     }
 
     public class ExecutionContext
@@ -125,8 +126,12 @@ namespace SimpleBT
                 _name = type.Name;
             }
         }
-        
-        
+
+
+        public virtual void Interrupt()
+        {
+            Status = Status.Interrupted;
+        }
     }
     
 

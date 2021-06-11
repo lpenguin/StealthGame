@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using SimpleBT.Nodes;
 using UnityEngine;
 
 namespace SimpleBT
@@ -67,7 +68,12 @@ namespace SimpleBT
 
         public object GetValue(string name)
         {
-            return _parameters[name].Value;
+            if (!_parameters.TryGetValue(name, out var parameter))
+            {
+                throw new Exception($"Blackboard parameter doesn't exist: {name}");
+            }
+            
+            return parameter.Value;
         }
 
         public T GetValue<T>(string name)

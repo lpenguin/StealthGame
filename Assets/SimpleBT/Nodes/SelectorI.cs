@@ -6,9 +6,11 @@ namespace SimpleBT.Nodes
     {
         private int taskIndex = 0;
 
+        // private bool[] markForReset;
         protected override void OnStart()
         {
             taskIndex = 0;
+            // markForReset = new bool[Children.Count];
         }
 
         protected override Status OnUpdate()
@@ -17,34 +19,36 @@ namespace SimpleBT.Nodes
             {
                 // Debug.Log($"SelectorI: Checking Child[{i}]");
                 var child = Children[i];
-                if (i != taskIndex && (child.Status == Status.Success || child.Status == Status.Running))
+                if (child.Status == Status.Interrupted || i != taskIndex && (child.Status == Status.Success || child.Status == Status.Running))
                 {
                     child.Reset();
+                    // markForReset[i] = false;
                 }
                 child.Execute(currentContext);
                 
                 switch (child.Status)
                 {
                     case Status.Failed:
-                        child.Reset();
                         continue;
                     case Status.Running:
-                        for (int j = i + 1; j <= taskIndex; j++)
+                        if (taskIndex != i)
                         {
-                            Children[j].Reset();
+                            // Children[taskIndex].Reset(true);
+                            // markForReset[taskIndex] = true;
+                            Children[taskIndex].Interrupt();
+                            taskIndex = i;
                         }
-
-                        taskIndex = i;
 
                         return Status.Running;
                     case Status.Success:
-                        for (int j = i + 1; j <= taskIndex; j++)
+                        if (taskIndex != i)
                         {
-                            Children[j].Reset();
+                            Children[taskIndex].Interrupt();
+                            // markForReset[taskIndex] = true;
+                            // Children[taskIndex].Reset(true);    
                         }
 
                         return Status.Success;
-                        continue;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
