@@ -83,7 +83,7 @@ trees:
       - Fail:
 
 root:
-  - SelectorI:
+  SelectorI:
       - Tree: ThrowItem
       - Tree: MoveItems
       - Tree: Wonder

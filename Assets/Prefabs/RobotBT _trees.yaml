@@ -49,7 +49,7 @@ trees:
       - Idle:
           
 root:
-  - SelectorI:
+  SelectorI:
       - Tree: Chase
       - Tree: SearchPlayer
       - Tree: Investigate

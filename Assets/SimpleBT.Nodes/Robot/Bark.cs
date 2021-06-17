@@ -1,4 +1,5 @@
 using SimpleBT.Attributes;
+using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace SimpleBT.Nodes.Robot
@@ -11,7 +12,7 @@ namespace SimpleBT.Nodes.Robot
         protected override Status OnUpdate()
         {
             robotController.Bark(text.Value);
-
+            Debug.Log(text.Value);
             return Status.Success;
         }
     }

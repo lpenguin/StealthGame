@@ -51,6 +51,11 @@ public class GoTo: Node
             {
                 navAgent.isStopped = false;
             }
+
+            if (navAgent.destination != target.Value)
+            {
+                navAgent.SetDestination(target.Value);
+            }
             
             if (!navAgent.pathPending && navAgent.remainingDistance <= stopDistance.Value)
                 return Status.Success;

@@ -41,7 +41,7 @@ trees:
       - Fail:
 
 root:
-  - SelectorI:
+  SelectorI:
       - Tree: ThrowItem
       - Tree: Wonder
             

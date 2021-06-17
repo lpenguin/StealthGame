@@ -29,6 +29,8 @@ namespace SimpleBT
         public IList<Node> Children { get; } = new List<Node>();
         public List<IParameter> Parameters { get; } = new List<IParameter>();
 
+        public string Comment { get; set; }
+        
         protected ExecutionContext currentContext = null;
         
         public string Name => _name;

@@ -1,9 +1,13 @@
+using SimpleBT.Attributes;
+using SimpleBT.Parameters;
+
 namespace SimpleBT.Nodes
 {
-    public class Equals: Node
+    [Name("Str.Equals")]
+    public class EqualsStr: Node
     {
-        public Parameter<object> value1;
-        public Parameter<object> value2;
+        public StringParameter value1;
+        public StringParameter value2;
         
         protected override Status OnUpdate()
         {

@@ -22,13 +22,11 @@ public class ConvexHull2DRenderer: MonoBehaviour
         _convexHullCollider = GetComponent<ConvexHullCollider2D>();
         
         var mesh = _meshFilter.sharedMesh;
-        Debug.Log($"Mesh: {mesh} {mesh == null}");
         if (mesh == null)
         {
             CreateMesh();
         }
         
-        Debug.Log($"Material: {_meshRenderer.sharedMaterial}");
         if (_meshRenderer.sharedMaterial == null)
         {
             CreateMaterial();

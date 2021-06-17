@@ -3,13 +3,11 @@ using SimpleBT.Parameters;
 
 namespace SimpleBT.Nodes
 {
-    [Name("Bool.Set")]
-    public class SetBool: Node
+    [Name("Str.Set")]
+    public class SetValue: Node
     {
-        private BoolParameter variable;
-        
-        private BoolParameter value;
-
+        private StringParameter variable;
+        private StringParameter value;
         protected override Status OnUpdate()
         {
             variable.Value = value.Value;

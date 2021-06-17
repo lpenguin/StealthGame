@@ -95,6 +95,21 @@ MonoBehaviour:
   speed: 10
   turnSpeed: 10
   cameraFollowSpeed: 10
+  runNoiseRadius: 5
+--- !u!114 &813747085929189184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 849409536351263842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f69fa306b6840a481b4dec7d7783307, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickupPoint: {fileID: 3463086865272317249}
+  dropPoint: {fileID: 2512013301082904535}
 --- !u!114 &3518051166852848636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,7 +136,7 @@ MonoBehaviour:
   onExit:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &813747085929189184
+--- !u!114 &8016087170991476944
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -130,11 +145,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 849409536351263842}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f69fa306b6840a481b4dec7d7783307, type: 3}
+  m_Script: {fileID: 11500000, guid: d9d08c58e74e4d4594ded0c6235794ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupPoint: {fileID: 3463086865272317249}
-  dropPoint: {fileID: 2512013301082904535}
+  emitMask:
+    serializedVersion: 2
+    m_Bits: 512
+  vfx: {fileID: -7451538887673809331, guid: fee097db61cf0a15eac89fa2026f5d14, type: 3}
 --- !u!1 &8719915190845953165
 GameObject:
   m_ObjectHideFlags: 0
@@ -223,6 +240,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: c48c4783e7a564488a83fb1e9aba4fad, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c48c4783e7a564488a83fb1e9aba4fad, type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c48c4783e7a564488a83fb1e9aba4fad, type: 3}

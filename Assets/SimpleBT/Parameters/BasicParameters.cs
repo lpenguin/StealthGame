@@ -1,3 +1,4 @@
+using SimpleBT.Types;
 using UnityEngine;
 
 namespace SimpleBT.Parameters
@@ -23,6 +24,14 @@ namespace SimpleBT.Parameters
         public static implicit operator IntParameter(int value)
         {
             return new IntParameter{Value = value};
+        }
+    }
+    
+    public class NullableIntParameter : Parameter<NullableInt>
+    {
+        public static implicit operator NullableIntParameter(NullableInt value)
+        {
+            return new NullableIntParameter{Value = value};
         }
     }
     

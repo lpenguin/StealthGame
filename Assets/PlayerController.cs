@@ -1,4 +1,5 @@
 using System.Linq;
+using Hearing;
 using SimpleBT.Nodes.Robot;
 using UnityEngine;
 
@@ -8,23 +9,32 @@ public class PlayerController : MonoBehaviour
     private float speed = 10f;
 
     [SerializeField]
+    private float crouchSpeedFactor = 0.5f;
+    
+    [SerializeField]
     private float turnSpeed = 10f;
 
     [SerializeField]
     private float cameraFollowSpeed = 10f;
+
+    [SerializeField]
+    private float runNoiseRadius = 5f;
+
+    private bool isCrouched = false;
     
     private CharacterController _controller;
     private Animator _animator;
     private Camera _camera;
     private ContactSensor3D _sensor;
     private PickupController _pickupController;
-    
+    private SoundEmitter _soundEmitter;
     void Start()
     {
         _controller = GetComponent<CharacterController>();
         _pickupController = GetComponent<PickupController>();
         _animator = GetComponent<Animator>();
         _sensor = GetComponent<ContactSensor3D>();
+        _soundEmitter = GetComponent<SoundEmitter>();
         _camera = Camera.main;
     }
 
@@ -33,11 +43,18 @@ public class PlayerController : MonoBehaviour
     {
         var dx = Input.GetAxis("Horizontal");
         var dy =  Input.GetAxis("Vertical");
+        isCrouched = Input.GetButton("Crouch");
 
         var direction = new Vector3(dx, 0, dy);
         if(direction.magnitude > 1){
             direction = direction.normalized;
         }
+
+        if (isCrouched)
+        {
+            direction *= crouchSpeedFactor;
+        }
+        
         if(direction.magnitude != 0){
             var targetRotation = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.Lerp(
@@ -73,6 +90,16 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+    }
+
+    void FootStep()
+    {
+        if (isCrouched)
+        {
+            return;
+        }
+        
+        _soundEmitter.Emit(runNoiseRadius);
     }
 
 
