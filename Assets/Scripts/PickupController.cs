@@ -9,40 +9,35 @@ public class PickupController: MonoBehaviour
     [SerializeField] 
     private Transform dropPoint;
     
-    private Transform _pickedObject;
+    private Item _pickedObject;
 
-    public Transform PickedObject => _pickedObject;
+    public Item PickedObject => _pickedObject;
     
-    public void Pickup(Transform obj)
+    public void Pickup(Item item)
     {
-        _pickedObject = obj;
+        _pickedObject = item;
         if (_pickedObject.TryGetComponent<Rigidbody>(out var rb))
         {
             rb.isKinematic = true;
         }
 
-        if (_pickedObject.TryGetComponent<Item>(out var item))
-        {
-            item.owner = gameObject;
-        }
-        
-        _pickedObject.transform.rotation = Quaternion.identity;
-        
-        _pickedObject.position = pickupPoint.position;
+        item.owner = gameObject;
+
+        var itemTransform = _pickedObject.transform;
+        itemTransform.rotation = Quaternion.identity;
+        itemTransform.position = pickupPoint.position;
     }
     
     public void Drop()
     {
-        _pickedObject.position = dropPoint.position;
+        _pickedObject.transform.position = dropPoint.position;
         
         if (_pickedObject.TryGetComponent<Rigidbody>(out var rb))
         {
             rb.isKinematic = false;
         }
-        if (_pickedObject.TryGetComponent<Item>(out var item))
-        {
-            item.owner = null;
-        }
+
+        _pickedObject.owner = null;
         _pickedObject = null;
     }
 
@@ -50,8 +45,9 @@ public class PickupController: MonoBehaviour
     {
         if (_pickedObject != null)
         {
-            _pickedObject.position = pickupPoint.position;
-            _pickedObject.rotation *= Quaternion.AngleAxis(100 * Time.deltaTime, Vector3.up);
+            var itemTransform = _pickedObject.transform;
+            itemTransform.position = pickupPoint.position;
+            itemTransform.rotation *= Quaternion.AngleAxis(100 * Time.deltaTime, Vector3.up);
         }
     }
 }

@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Security.Authentication.ExtendedProtection;
 using Hearing;
 using SimpleBT;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class RobotSensors : MonoBehaviour
@@ -56,7 +52,7 @@ public class RobotSensors : MonoBehaviour
                 return;
             }
         
-            target = soundListener.Emitters.Select(t => t.transform).FirstOrDefault(t => t.CompareTag("Player"));
+            target = soundListener.Emitters.Select(t => t.transform).FirstOrDefault();
             if (target != null)
             {
                 blackboard.SetValue(BB_HeardTarget, true);

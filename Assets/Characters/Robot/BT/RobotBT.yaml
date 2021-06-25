@@ -60,6 +60,7 @@ root:
               - Selector:
                 - Str.Equals: { $State, "Alerted" }
                 - Str.Equals: { $State, "Aggressive" }
+            - Break: false
             - Bark: "I heard something"
             - Str.Set: { $State, "Alerted" }
             - Fail:

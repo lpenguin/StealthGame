@@ -16,9 +16,15 @@ namespace SimpleBT.Nodes.Robot
                 Debug.LogWarning($"PickUp: target is null");
                 return Status.Failed;
             }
+
+            if (target.Value.TryGetComponent<Item>(out var item))
+            {
+                _pickupController.Pickup(item);
+                return Status.Success;
+            }
             
-            _pickupController.Pickup(target.Value);
-            return Status.Success;
+            Debug.LogWarning($"PickUp: target is not item");
+            return Status.Failed;
         }
     }
 }

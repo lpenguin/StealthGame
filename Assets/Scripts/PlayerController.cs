@@ -1,5 +1,6 @@
 using System.Linq;
 using Hearing;
+using Interactable;
 using SimpleBT.Nodes.Robot;
 using UnityEngine;
 
@@ -25,7 +26,7 @@ public class PlayerController : MonoBehaviour
     private CharacterController _controller;
     private Animator _animator;
     private Camera _camera;
-    private ContactSensor3D _sensor;
+    private ContactSensor3D _interactSensor;
     private PickupController _pickupController;
     private SoundEmitter _soundEmitter;
     void Start()
@@ -33,7 +34,7 @@ public class PlayerController : MonoBehaviour
         _controller = GetComponent<CharacterController>();
         _pickupController = GetComponent<PickupController>();
         _animator = GetComponent<Animator>();
-        _sensor = GetComponent<ContactSensor3D>();
+        _interactSensor = GetComponent<ContactSensor3D>();
         _soundEmitter = GetComponent<SoundEmitter>();
         _camera = Camera.main;
     }
@@ -82,10 +83,21 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                var contact = _sensor.Contacts.FirstOrDefault();
+                var contact = _interactSensor.Contacts.FirstOrDefault();
+
+
                 if (contact != null)
                 {
-                    _pickupController.Pickup(contact.transform);
+                    if (contact.TryGetComponent<IInteractable>(out var interactable))
+                    {
+                        interactable.Interact();
+                    }
+                    else if(contact.TryGetComponent<Item>(out var item))
+                    {
+                        _pickupController.Pickup(item);    
+                    }
+                    
+                    
                 }
             }
         }
