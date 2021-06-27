@@ -1,12 +1,21 @@
 using System;
+using System.Collections.Generic;
 
 namespace SimpleBT.Nodes
 {
     public class Parallel: Node
     {
+        private List<Node> _childrenToRun = new List<Node>();
+
+        protected override void OnStart()
+        {
+            _childrenToRun.Clear();
+            _childrenToRun.AddRange(Children);
+        }
+
         protected override Status OnUpdate()
         {
-            foreach (var child in Children)
+            foreach (var child in _childrenToRun.ToArray())
             {
                 child.Execute(currentContext);
                 switch (child.Status)
@@ -14,14 +23,21 @@ namespace SimpleBT.Nodes
                     case Status.Running:
                         break;
                     case Status.Failed:
+                        return Status.Failed;
                     case Status.Success:
-                        return child.Status;
+                        _childrenToRun.Remove(child);
+                        break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
             }
 
-            return Status.Running;
+            if (_childrenToRun.Count > 0)
+            {
+                return Status.Running;
+            }
+
+            return Status.Success;
         }
     }
 }
