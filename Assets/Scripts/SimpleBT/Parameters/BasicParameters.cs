@@ -74,4 +74,12 @@ namespace SimpleBT.Parameters
             return new QuaternionParameter{Value = value};
         }
     }
+
+    public class NodeParameter : Parameter<Node>
+    {
+        public static implicit operator NodeParameter(Node value)
+        {
+            return new NodeParameter{Value = value};
+        }
+    }
 }

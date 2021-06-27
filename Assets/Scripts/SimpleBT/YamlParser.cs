@@ -89,6 +89,14 @@ namespace SimpleBT
                 GetComponent("z")
             );
         }
+
+        private static object ParseNode(YamlNode node){
+            if(!(node is YamlMappingNode mappingNode)){
+                throw new Exception("Node must be a YamlMappingNode");
+            }
+
+            return ParseNode(mappingNode);
+        }
         
         public BehaviourTree ParseTree(TextReader reader)
         {
@@ -230,7 +238,7 @@ namespace SimpleBT
             return btType;
         }
 
-        private static void UpdateParameters(YamlMappingNode node, Type btType, List<IParameter> parameters)
+        private void UpdateParameters(YamlMappingNode node, Type btType, List<IParameter> parameters)
         {
             var paramsDict = parameters.ToDictionary(p => p.Name, p => p);
             int positionalIndex = 0;
@@ -239,28 +247,38 @@ namespace SimpleBT
             foreach (var kv in node.Children)
             {
                 string paramName = (kv.Key as YamlScalarNode).Value;
-                
-                if (!(kv.Value is YamlScalarNode scalarValue))
-                {
-                    throw new Exception($"Parameter values must be scalars, not {kv.Value.NodeType}");
+                IParameter param = null;
+
+                YamlNode paramValueNode = kv.Value;
+
+                if(paramValueNode is YamlScalarNode scalarValue){
+                    string paramValue = scalarValue.Value;
+
+                    // BB parameter
+                    if (paramValue.StartsWith("$"))
+                    {
+                        string bbName = paramValue.Substring(1);
+                        bbName = bbName.Trim('\"');
+                        param.BbName = bbName;
+                        continue;
+                    }
+
+                    // Indexed parameter
+                    if (scalarValue.Start.Equals(scalarValue.End))
+                    {
+                        if (metNamed)
+                        {
+                            throw new Exception("Cannot handle positional parameter after named one");
+                        }
+                        
+                        param = parameters[positionalIndex];
+                        positionalIndex += 1;
+                        paramValueNode = kv.Key;
+                    }
                 }
 
-                string paramValue = scalarValue.Value;
-                IParameter param;
-                
-                if (scalarValue.Start.Equals(scalarValue.End))
-                {
-                    if (metNamed)
-                    {
-                        throw new Exception("Cannot handle positional parameter after named one");
-                    }
-                    
-                    param = parameters[positionalIndex];
-                    positionalIndex += 1;
-                    paramValue = paramName;
-                }
-                else
-                {
+                // named parameter
+                if(param == null){
                     if (!paramsDict.TryGetValue(paramName, out param))
                     {
                         throw new Exception($"Cannot find parameter {paramName} in type {btType}");
@@ -269,22 +287,11 @@ namespace SimpleBT
                     metNamed = true;
                 }
 
-                if (paramValue.StartsWith("$"))
-                {
-                    string bbName = paramValue.Substring(1);
-                    bbName = bbName.Trim('\"');
-                    param.BbName = bbName;
-                    continue;
-                }
-
-                param.Set(Convert(param.Type, paramValue));
-
-
-
+                Convert(param, paramValueNode);
             }
         }
         
-        private static void UpdateParameters(YamlScalarNode node, Type btType, List<IParameter> parameters)
+        private void UpdateParameters(YamlScalarNode node, Type btType, List<IParameter> parameters)
         {
             var valueStr = node.Value;
             if (string.IsNullOrEmpty(valueStr))
@@ -306,15 +313,18 @@ namespace SimpleBT
                 return;
             }
 
-            param.Set(Convert(param.Type, valueStr));
+            param.Set(Convert(param, node));
         }
 
-        private static object Convert(Type type, string value)
+        private object Convert(IParameter parameter, YamlNode value)
         {
-            // TODO
+            if(!_converters.TryGetValue(parameter.Type, out var converter)){
+                throw new Exception($"Cannot find a suitable converter for a type {parameter.Type}");
+            }
+
             try
             {
-                return System.Convert.ChangeType(value, type);
+                return converter(value);
             }
             catch (Exception ex)
             {
