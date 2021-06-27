@@ -31,7 +31,7 @@ namespace SimpleBT.Nodes
 
         public override void Reset()
         {
-            subTreeNode.Reset();
+            subTreeNode?.Reset();
             base.Reset();
         }
 
