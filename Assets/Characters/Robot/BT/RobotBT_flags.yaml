@@ -40,6 +40,12 @@ blackboard:
 
 root:
   Parallel:
+  - Repeater:
+    - Success:
+      - Sequence:
+        - EventReceived: {"Check Position", $"Check Position Source", $"Check Position Sense", $"Check Position"}
+        - Log: "received event"
+
   - Selector.Active:
     - Parallel:
       - "Sees Player"
@@ -87,25 +93,14 @@ root:
 
     - Parallel:
       - "Inspecting"
-      # - SelectorI:
-      #   - Guard:
-      #     - "Event handling"
-      #     - CheckBool: { $Check Position Is Set, true }
-      #     - Sequence:
-      #       - Break: false
-      #       - Interrupt: InspectingAction
-      #       - Fail:
       - UntilFail:
-        - Selector:
-          - IsNotNull: $"Check Position Source"
-          - Sequence:
-            - EventReceived: {"Check Position", $"Check Position Source"}
-            
-            - Success:
-              - Sequence:
-                - NotEquals: { $"Current Check Position Source", $"Check Position Source" }
-                - Transform.Set: { $"Current Check Position Source", $"Check Position Source" }
-                - Interrupt: InspectingAction
+        - Sequence:
+          - IsNotNull: $"Check Position Source"         
+          - Success:
+            - Sequence:
+              - NotEquals: { $"Current Check Position Source", $"Check Position Source" }
+              - Transform.Set: { $"Current Check Position Source", $"Check Position Source" }
+              - Interrupt: InspectingAction
 
       - Sequence#InspectingAction:          
         - Bool.Set: { $"Saw Player", false }
@@ -123,7 +118,8 @@ root:
         - Robot.Bark: Inspecting
         - Robot.LookAround:
         # - Bool.Set: { $Check Position Is Set, false }       
-        - Transform.Set: { $"Current Check Position Source", $_empty }     
+        - Transform.Set: { $"Current Check Position Source", $_empty }
+        - Transform.Set: { $"Check Position Source", $_empty }
         - Fail:
 
 
