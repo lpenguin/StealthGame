@@ -17,6 +17,7 @@ namespace SimpleBT.Nodes
                 case Status.Failed:
                     return Status.Failed;
                 case Status.Success:
+                    child.Reset();
                     return Status.Running;
                 default:
                     throw new ArgumentOutOfRangeException();
