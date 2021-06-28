@@ -32,11 +32,35 @@ trees:
   Idle:
     Sequence:
       - "Idle"
+      - Wait: 0.1
       - Bark: { text: "Going back" }
       - GoTo: $"Initial Position"
       - Rotate: { rotation: $"Initial Rotation" }
       - Idle:
+  
+  SearchPlayer:
+    Sequence:
+      - Bark: "Lost Player"
+      - GoTo: $"Target Position"
+      - Bark: Searching player
+      - LookAround:
+      - Wait: 2
+      - Str.Set: { $State, "Idle" }
+      - Fail:
+        
+  Investigate:
+    Sequence:
+      - GoTo: $Target Position
+      - Bark: "Inspecting"
+      - LookAround:
+      - Str.Set: { $State, "Idle" }
+      - Fail:
     
+  ChaseAttack:
+    Sequence:
+      - GoTo: $Target Position
+      - Fail:
+        
 root:
   Parallel:
     - SelectorI:
@@ -44,9 +68,10 @@ root:
         - "Transition: Alerted (Saw Peripheral)"
         - CheckBool: $"Saw Peripheral Target"
         - Sequence:
+          - Bool.Set: { $"Saw Peripheral Target", false}
           - Not:
             - Selector:                  
-              - Str.Equals: { $State, "Alerted" }
+#              - Str.Equals: { $State, "Alerted" }
               - Str.Equals: { $State, "Aggressive" }                
           - Bark: "I saw something!"
           - Str.Set: { $State, "Alerted" }
@@ -56,9 +81,10 @@ root:
           - "Transition: Alerted (Heard)"
           - CheckBool: $"Heard Target"
           - Sequence:
+            - Bool.Set: { $"Heard Target", false}
             - Not:
               - Selector:
-                - Str.Equals: { $State, "Alerted" }
+#                - Str.Equals: { $State, "Alerted" }
                 - Str.Equals: { $State, "Aggressive" }
             - Break: false
             - Bark: "I heard something"
@@ -88,48 +114,33 @@ root:
           - Fail:
             
       - Guard:
-        - "Search player after chase"
         - Str.Equals: { $State, "Searching" }
-        - Sequence:
-          - Bark: "Lost Player"
-          - GoTo: $"Target Position"
-          - Bark: Searching player
-          - LookAround:
-          - Wait: 2
-          - Str.Set: { $State, "Idle" }
-          - Fail:
+        - Tree: SearchPlayer
   
       - Guard:
-        - "Chase/Attack player"
         - Str.Equals: { $State, "Aggressive"} 
-        - Sequence:
-          - GoTo: $Target Position
-          - Fail:
+        - Tree: ChaseAttack
               
       - Guard:
-        - "Investigating"
         - Str.Equals: { $State, "Alerted" } 
-        - Sequence:
-          - GoTo: $Target Position
-          - Bark: "Inspecting"
-          - LookAround:
-          - Str.Set: { $State, "Idle" }
-          - Fail:
-                    
-      - Tree: Idle
+        - Parallel:
+#          - UntilFail:
+#            - Not: # Fail (and interrupt Investigate tree) if we saw or heard something
+#              - Selector:
+#                - CheckBool: $"Saw Peripheral Target"
+#                - CheckBool: $"Heard Target"
+          - Tree: Investigate
+          
+      - Guard:
+        - Str.Equals: { $State, "Idle" }
+        - Tree: Idle
 
-
-      
-
-
-
-            
 
         
-    - Repeater:
-      - Sequence:
-        - Bool.Set: { $"Saw Peripheral Target", false }
-        - Bool.Set: { $"Heard Target", false }  
+#    - Repeater:
+#      - Sequence:        
+#        - Bool.Set: { $"Heard Target", false }
+#        - Bool.Set: { $"Saw Peripheral Target", false }  
     
 
       

@@ -20,6 +20,7 @@ public class RobotSensors : MonoBehaviour
     private const string BB_CheckPosition = "Check Position";
     private const string BB_CheckPositionIsSet = "Check Position Is Set";
     private const string BB_CheckPositionSense = "Check Position Sense";
+    private const string BB_CheckPositionSource= "Check Position Source";
 
 
     private Transform _detectedItem;
@@ -58,6 +59,7 @@ public class RobotSensors : MonoBehaviour
                 blackboard.SetValue(BB_CheckPositionIsSet, true);
                 blackboard.SetValue(BB_CheckPositionSense, "Hear");
                 blackboard.SetValue(BB_CheckPosition, target.position);
+                blackboard.SetValue(BB_CheckPositionSource, target);
             }
         }
         finally
@@ -71,12 +73,12 @@ public class RobotSensors : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (blackboard == null || !blackboard.HasParameter(BB_CheckPositionIsSet))
+        if (blackboard == null || !blackboard.HasParameter(BB_CheckPosition))
         {
             return;
         }
         
-        var position = blackboard.GetValue<Vector3>(BB_CheckPositionIsSet);
+        var position = blackboard.GetValue<Vector3>(BB_CheckPosition);
         Gizmos.color = Color.red;
         Gizmos.DrawSphere(position, 0.5f);
     }

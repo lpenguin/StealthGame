@@ -1,0 +1,81 @@
+names: Robot (States)
+blackboard:
+  Initial Position:
+    type: Vector3
+
+  Initial Rotation:
+    type: Quaternion
+
+  Target Position:
+    type: Vector3
+
+  Can See Target:
+    type: bool
+
+  Saw Peripheral Target:
+    type: bool # Event?
+
+  Heard Target:
+    type: bool # Event?
+
+  State:
+    type: string
+    # TODO: type: enum
+    value: Idle
+#    values: 
+#      - Idle
+#      - Alerted
+#      - Aggressive
+#      - Searching
+trees:
+  Idle:
+    Sequence:
+    - Idle:
+    - Bark: { text: "Going back" }
+    - GoTo: $"Initial Position"
+    - Rotate: { rotation: $"Initial Rotation" }
+    - Idle:
+        
+root:
+  StateMachine:
+  - Transition:
+      name: "Transition: Alerted (Saw Peripheral)"
+        CheckBool: $"Saw Peripheral Target" # Condition  
+      states: 
+      - "Alerted"
+      - "Idle"    - 
+    action:
+      Sequence:
+      - Bark: "I saw something!" # Transition actions
+      - State.Set: "Alerted" # Go to state
+      
+  - Transition:
+      condition:
+        CheckBool: $"Can See Target"
+      states:
+        - "Alerted"
+        - "Idle"
+      action:
+        State.Set: "Aggressive"
+  
+  - Transition:
+      states:
+      - Idle
+      - Alerted
+      - Searching
+
+      condition:
+      - Not:
+        - CheckBool: $"Can See Target"    
+      action:
+        State.Set: "Idle"
+      
+  - State: 
+      name: "Idle"
+      action: 
+        Tree: Idle
+
+  - State: 
+      name: "Alerted"
+      action: 
+        Tree: Alerted

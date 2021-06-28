@@ -1,0 +1,148 @@
+name: RobotBT (Flags)
+blackboard:
+  Initial Position:
+    type: Vector3
+    
+  Initial Rotation:
+    type: Quaternion
+    
+  Player:
+    type: Transform
+
+  Saw Player:
+    type: bool
+
+  Vision Sensor:
+    type: Transform
+
+  Check Position:
+    type: Vector3
+
+  # Check Position Is Set:
+  #   type: bool
+
+  Check Position Sense:
+    type: string
+
+  Check Position Source:
+    type: Transform
+
+  Current Check Position Source:
+    type: Transform
+
+
+  PatrolZone: 
+    type: Transform
+
+  _empty:
+    type: Transform
+
+
+root:
+  Parallel:
+  - Selector.Active:
+    - Parallel:
+      - "Sees Player"
+      - UntilFail:
+        - Sensor.HasTarget: { sensor: $Vision Sensor, target: $Player}
+
+      - Parallel:
+        - Sequence: 
+          - "Update Last known player position"
+          - Repeater:
+            - Transform.GetPosition: { $Player, $"Check Position" }
+
+        - Sequence:
+          - Transform.Set: { $"Current Check Position Source", $_empty }  
+          # - CheckBool: { $Check Position Is Set, false }   
+          - Bool.Set: { $"Saw Player", true }
+          - Robot.Bark: Intruder!
+          - Wait: 1.5
+          - GoTo: $Check Position
+
+
+    - Parallel:
+      - "Lost Player"
+      - UntilFail:
+        - Sequence: # Condition
+          - Not:
+            - Sensor.HasTarget: { sensor: $Vision Sensor, target: $Player}
+          - CheckBool: $"Saw Player"
+
+      - Parallel: # Action
+        - Sequence:
+          - Wait: 7
+          - Bool.Set: { $"Saw Player", false }
+          - Fail:
+        - Sequence:
+          - GoTo: $"Check Position"
+          - Robot.Bark: Where are you?
+          - Wait: 1
+          - Repeater:
+            - Sequence:
+              - Zone.RandomPosition: { position: $"Check Position", zone: $PatrolZone }
+              - GoTo: $"Check Position"
+              - Robot.LookAround:
+
+
+    - Parallel:
+      - "Inspecting"
+      # - SelectorI:
+      #   - Guard:
+      #     - "Event handling"
+      #     - CheckBool: { $Check Position Is Set, true }
+      #     - Sequence:
+      #       - Break: false
+      #       - Interrupt: InspectingAction
+      #       - Fail:
+      - UntilFail:
+        - Sequence:
+          - IsNotNull: $"Check Position Source"
+          - Success:
+            - Sequence:
+              - NotEquals: { $"Current Check Position Source", $"Check Position Source" }
+              - Transform.Set: { $"Current Check Position Source", $"Check Position Source" }
+              - Interrupt: InspectingAction
+
+      - Sequence: 
+        - Sequence#InspectingAction:          
+          - Bool.Set: { $"Saw Player", false }
+          - Selector:
+            - Sequence:
+              - Str.Equals: { $"Check Position Sense", "Hear" }
+              - Robot.Bark: I heard something
+            - Sequence:
+              - Str.Equals: { $"Check Position Sense", "See" }
+              - Robot.Bark: I saw something
+          - Wait: 2
+          - Bark: Going to suspicious location
+          - GoTo: $Check Position
+          # - Transform.Set: { $"Current Check Position Source", $_empty }  
+          - Robot.Bark: Inspecting
+          - Robot.LookAround:
+          # - Bool.Set: { $Check Position Is Set, false }       
+          - Transform.Set: { $"Current Check Position Source", $_empty }     
+          - Fail:
+
+
+
+    - Sequence:
+      - Bark: "Idle"
+      - GoTo: $"Initial Position"
+      - Rotate: { rotation: $"Initial Rotation" }
+      - Idle:
+
+  # - Repeater:
+  #   - Sequence:
+  #     - "Clear events"
+  #     - Bool.Set: { $Check Position Is Set, false }
+          
+     
+
+
+
+
+
+
+
+
