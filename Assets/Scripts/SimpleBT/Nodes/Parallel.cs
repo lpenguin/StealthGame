@@ -21,7 +21,7 @@ namespace SimpleBT.Nodes
                 switch (child.Status)
                 {
                     case Status.Running:
-                        break;
+                        continue;
                     case Status.Failed:
                         return Status.Failed;
                     case Status.Success:

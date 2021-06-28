@@ -198,6 +198,10 @@ namespace SimpleBT
 
         private static string SerializeValue(Type type, object value)
         {
+            if(value == null){
+                return null;
+            }
+            
             if (type == typeof(Vector3))
             {
                 return JsonUtility.ToJson(value);

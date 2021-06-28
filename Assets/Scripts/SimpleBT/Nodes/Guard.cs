@@ -12,7 +12,12 @@ namespace SimpleBT.Nodes
             }
 
             var condition = Children[0];
-            condition.Reset();
+
+            // TODO: we need to set explicitly if we want to reset the condition
+            if(condition.Status == Status.Failed || condition.Status == Status.Success){
+                condition.Reset();
+            }
+
             condition.Execute(currentContext);
 
             var action = Children[1];
