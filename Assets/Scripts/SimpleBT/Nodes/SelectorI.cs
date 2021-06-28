@@ -1,7 +1,10 @@
 using System;
+using SimpleBT.Attributes;
+
 
 namespace SimpleBT.Nodes
 {
+    [Name("Selector.Active")]
     public class SelectorI: Node
     {
         private int taskIndex = 0;
