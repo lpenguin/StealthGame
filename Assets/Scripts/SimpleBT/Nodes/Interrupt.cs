@@ -10,7 +10,7 @@ namespace SimpleBT.Nodes
         protected override Status OnUpdate()
         {
 
-            if(currentContext.NodeById.TryGetValue(nodeId.Value, out var node)){
+            if(currentContext.BehaviourTree.nodeById.TryGetValue(nodeId.Value, out var node)){
                 node.Reset();
                 return Status.Success;
             }

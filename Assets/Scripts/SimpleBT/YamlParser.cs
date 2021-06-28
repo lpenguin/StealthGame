@@ -12,7 +12,8 @@ namespace SimpleBT
     {
         private Dictionary<Type, Func<YamlNode, object>> _converters = new Dictionary<Type, Func<YamlNode, object>>();
         private Dictionary<string, Type> _types;
-        
+        public Dictionary<string, Node> _nodeById;
+
         public YamlParser()
         {
             var scalarTypes = new Type[]
@@ -91,7 +92,8 @@ namespace SimpleBT
         
         public BehaviourTree ParseTree(TextReader reader)
         {
-            
+            _nodeById =  new Dictionary<string, Node>();
+
             var yaml = new YamlStream();
             yaml.Load(reader);
             var document = (YamlMappingNode)yaml.Documents[0].RootNode;
@@ -109,6 +111,7 @@ namespace SimpleBT
                 subTrees = subTress,
                 root = rootNode,
                 blackboardParameters = parameters,
+                nodeById = _nodeById,
             };
         }
 
@@ -356,6 +359,12 @@ namespace SimpleBT
             }
             Node btNode = Activator.CreateInstance(btType) as Node;
             btNode.Id = id;
+            if(!string.IsNullOrEmpty(id))
+            {
+                btNode.Id = id;
+                _nodeById[id] = btNode;
+            }
+
             ;
             if (btNode == null)
             {
