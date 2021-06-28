@@ -22,7 +22,7 @@ namespace SimpleBT.Nodes
             {
                 // Debug.Log($"SelectorI: Checking Child[{i}]");
                 var child = Children[i];
-                if (child.Status == Status.Interrupted || i != taskIndex && (child.Status == Status.Success || child.Status == Status.Running))
+                if (child.Status == Status.Interrupted || i != taskIndex && (child.Status == Status.Failed ||child.Status == Status.Success || child.Status == Status.Running))
                 {
                     child.Reset();
                     // markForReset[i] = false;
