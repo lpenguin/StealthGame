@@ -96,33 +96,35 @@ root:
       #       - Interrupt: InspectingAction
       #       - Fail:
       - UntilFail:
-        - Sequence:
+        - Selector:
           - IsNotNull: $"Check Position Source"
-          - Success:
-            - Sequence:
-              - NotEquals: { $"Current Check Position Source", $"Check Position Source" }
-              - Transform.Set: { $"Current Check Position Source", $"Check Position Source" }
-              - Interrupt: InspectingAction
+          - Sequence:
+            - EventReceived: {"Check Position", $"Check Position Source"}
+            
+            - Success:
+              - Sequence:
+                - NotEquals: { $"Current Check Position Source", $"Check Position Source" }
+                - Transform.Set: { $"Current Check Position Source", $"Check Position Source" }
+                - Interrupt: InspectingAction
 
-      - Sequence: 
-        - Sequence#InspectingAction:          
-          - Bool.Set: { $"Saw Player", false }
-          - Selector:
-            - Sequence:
-              - Str.Equals: { $"Check Position Sense", "Hear" }
-              - Robot.Bark: I heard something
-            - Sequence:
-              - Str.Equals: { $"Check Position Sense", "See" }
-              - Robot.Bark: I saw something
-          - Wait: 2
-          - Bark: Going to suspicious location
-          - GoTo: $Check Position
-          # - Transform.Set: { $"Current Check Position Source", $_empty }  
-          - Robot.Bark: Inspecting
-          - Robot.LookAround:
-          # - Bool.Set: { $Check Position Is Set, false }       
-          - Transform.Set: { $"Current Check Position Source", $_empty }     
-          - Fail:
+      - Sequence#InspectingAction:          
+        - Bool.Set: { $"Saw Player", false }
+        - Selector:
+          - Sequence:
+            - Str.Equals: { $"Check Position Sense", "Hear" }
+            - Robot.Bark: I heard something
+          - Sequence:
+            - Str.Equals: { $"Check Position Sense", "See" }
+            - Robot.Bark: I saw something
+        - Wait: 2
+        - Bark: Going to suspicious location
+        - GoTo: $Check Position
+        # - Transform.Set: { $"Current Check Position Source", $_empty }  
+        - Robot.Bark: Inspecting
+        - Robot.LookAround:
+        # - Bool.Set: { $Check Position Is Set, false }       
+        - Transform.Set: { $"Current Check Position Source", $_empty }     
+        - Fail:
 
 
 

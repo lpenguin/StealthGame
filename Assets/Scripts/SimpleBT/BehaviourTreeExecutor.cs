@@ -11,7 +11,10 @@ namespace SimpleBT
         [SerializeField]
         public Blackboard blackboard = new Blackboard();
         private ExecutionContext _context = new ExecutionContext();
+        private EventBus _eventBus = new EventBus();
 
+        public EventBus EventBus => _eventBus;
+        
         public void LoadIfNeeded()
         {
             if (scriptFile == null)
@@ -44,6 +47,7 @@ namespace SimpleBT
                 GameObject = gameObject,
                 Blackboard = blackboard,
                 BehaviourTree = tree,
+                EventBus = _eventBus,
             };
         }
 
