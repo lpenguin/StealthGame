@@ -34,6 +34,8 @@ public class Vision: MonoBehaviour {
 
     private Transform _transform;
 
+    public IReadOnlyList<Transform> Contacts => _contacts;
+
     private Transform[] _contacts = new Transform[0];
     private Dictionary<int, DelayedVisible> _delayedSee = new Dictionary<int, DelayedVisible>();
     private void Start(){

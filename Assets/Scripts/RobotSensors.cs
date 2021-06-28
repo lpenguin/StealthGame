@@ -17,10 +17,10 @@ public class RobotSensors : MonoBehaviour
     private Blackboard blackboard;
     
 
-    private const string BB_TargetPosition = "Target Position";
-    private const string BB_CanSeeTarget = "Can See Target";
-    private const string BB_SawPeripheralTarget = "Saw Peripheral Target";
-    private const string BB_HeardTarget = "Heard Target";
+    private const string BB_CheckPosition = "Check Position";
+    private const string BB_CheckPositionIsSet = "Check Position Is Set";
+    private const string BB_CheckPositionSense = "Check Position Sense";
+
 
     private Transform _detectedItem;
     private void Start()
@@ -33,30 +33,31 @@ public class RobotSensors : MonoBehaviour
         try
         {
             Transform target;
-            target = vision.Targets.FirstOrDefault(t => t.CompareTag("Player"));
+            // target = vision.Targets.FirstOrDefault(t => t.CompareTag("Player"));
         
-            if (target != null)
-            {
-                blackboard.SetValue(BB_CanSeeTarget, true);
-                blackboard.SetValue(BB_TargetPosition, target.position);
-                return;
-            }
+            // if (target != null)
+            // {
+            //     blackboard.SetValue(BB_CanSeeTarget, true);
+            //     blackboard.SetValue(BB_TargetPosition, target.position);
+            //     return;
+            // }
         
-            blackboard.SetValue(BB_CanSeeTarget, false);
+            // blackboard.SetValue(BB_CanSeeTarget, false);
         
-            target = peripheralVision.Targets.FirstOrDefault(t => t.CompareTag("Player"));
-            if (target != null)
-            {
-                blackboard.SetValue(BB_SawPeripheralTarget, true);
-                blackboard.SetValue(BB_TargetPosition, target.position);
-                return;
-            }
+            // target = peripheralVision.Targets.FirstOrDefault(t => t.CompareTag("Player"));
+            // if (target != null)
+            // {
+            //     blackboard.SetValue(BB_SawPeripheralTarget, true);
+            //     blackboard.SetValue(BB_TargetPosition, target.position);
+            //     return;
+            // }
         
             target = soundListener.Emitters.Select(t => t.transform).FirstOrDefault();
             if (target != null)
             {
-                blackboard.SetValue(BB_HeardTarget, true);
-                blackboard.SetValue(BB_TargetPosition, target.position);
+                blackboard.SetValue(BB_CheckPositionIsSet, true);
+                blackboard.SetValue(BB_CheckPositionSense, "Hear");
+                blackboard.SetValue(BB_CheckPosition, target.position);
             }
         }
         finally
@@ -70,12 +71,12 @@ public class RobotSensors : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (blackboard == null || !blackboard.HasParameter(BB_TargetPosition))
+        if (blackboard == null || !blackboard.HasParameter(BB_CheckPositionIsSet))
         {
             return;
         }
         
-        var position = blackboard.GetValue<Vector3>(BB_TargetPosition);
+        var position = blackboard.GetValue<Vector3>(BB_CheckPositionIsSet);
         Gizmos.color = Color.red;
         Gizmos.DrawSphere(position, 0.5f);
     }
