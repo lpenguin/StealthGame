@@ -336,7 +336,14 @@ namespace SimpleBT
                 throw new Exception("Invalid key type");
             }
             
+            string id = null;
             var nameS = ((YamlScalarNode) name).Value;
+            if(nameS.Contains("#")){
+                var nameSTokens = nameS.Split('#');
+                nameS = nameSTokens[0];
+                id = nameSTokens[1];
+
+            }
             var btType = GetBtType(nameS);
             if (btType == null)
             {
@@ -348,6 +355,7 @@ namespace SimpleBT
                 throw new Exception($"The type {nameS} is not a subclass BehaviourNode");
             }
             Node btNode = Activator.CreateInstance(btType) as Node;
+            btNode.Id = id;
             ;
             if (btNode == null)
             {

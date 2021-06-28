@@ -21,13 +21,15 @@ namespace SimpleBT
         public GameObject GameObject { get; set; }
         public Blackboard Blackboard { get; set; }
         public BehaviourTree BehaviourTree { get; set; }
+        public Dictionary<string, Node> NodeById {get; set;} = new Dictionary<string, Node>();
     }
     
     public abstract class Node
     {
-        public Status Status { get; private set; } = Status.Empty;
+        public Status Status { get; protected set; } = Status.Empty;
         public IList<Node> Children { get; } = new List<Node>();
         public List<IParameter> Parameters { get; } = new List<IParameter>();
+        public string Id {get; set;} = null;
 
         public string Comment { get; set; }
         
@@ -48,6 +50,9 @@ namespace SimpleBT
                 }
             }
 
+            if(!string.IsNullOrEmpty(Id)){
+                context.NodeById[Id] = this;
+            }
             currentContext = context;
 
             if (Status == Status.Empty)

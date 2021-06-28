@@ -10,6 +10,8 @@ namespace SimpleBT
         public bool executeOnUpdate = true;
         [SerializeField]
         public Blackboard blackboard = new Blackboard();
+        private ExecutionContext _context = new ExecutionContext();
+
         public void LoadIfNeeded()
         {
             if (scriptFile == null)
@@ -36,6 +38,13 @@ namespace SimpleBT
                     blackboard.AddParameter(parameter);
                 }
             }
+
+            _context = new ExecutionContext()
+            {
+                GameObject = gameObject,
+                Blackboard = blackboard,
+                BehaviourTree = tree,
+            };
         }
 
         public void Awake()
@@ -53,16 +62,10 @@ namespace SimpleBT
 
         public void Step()
         {
-            var context = new ExecutionContext()
-            {
-                GameObject = gameObject,
-                Blackboard = blackboard,
-                BehaviourTree = tree,
-            };
 
             if (tree.root.Status != Status.Success && tree.root.Status != Status.Failed)
             {
-                tree.root.Execute(context);
+                tree.root.Execute(_context);
             }
         }
     }

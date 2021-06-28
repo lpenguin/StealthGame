@@ -209,20 +209,24 @@ namespace BehaviourTreeUtils.Editor
             {
                 var style = GetFoldoutStyle(color);
 
-                string label = foldout ? node.Name : $"{node.Name} ({node.Children.Count})";
+                string nodeName = string.IsNullOrEmpty(node.Comment) ? node.Name : $"{node.Comment} ({node.Name})";
+
+                nodeName = string.IsNullOrEmpty(node.Id) ? nodeName : $"{nodeName} #{node.Id}";
+
+                string label = foldout ? nodeName : $"{nodeName} +{node.Children.Count}";
 
 
-                EditorGUILayout.BeginHorizontal();
+                // EditorGUILayout.BeginHorizontal();
                 foldout = EditorGUILayout.Foldout(foldout, label, style);
-                if (!string.IsNullOrEmpty(node.Comment))
-                {
-                    // label += " // " + node.Comment;
-                    var labelStyle = new GUIStyle(EditorStyles.label);
-                    labelStyle.normal.textColor = new Color32(0x85, 0xC4, 0x6C, 0xFF);
-                    EditorGUILayout.LabelField(" // " + node.Comment, labelStyle);
-                    GUILayout.FlexibleSpace();
-                }
-                EditorGUILayout.EndHorizontal();
+                // if (!string.IsNullOrEmpty(node.Comment))
+                // {
+                //     // label += " // " + node.Comment;
+                //     var labelStyle = new GUIStyle(EditorStyles.label);
+                //     labelStyle.normal.textColor = new Color32(0x85, 0xC4, 0x6C, 0xFF);
+                //     EditorGUILayout.LabelField(" // " + node.Comment, labelStyle);
+                //     GUILayout.FlexibleSpace();
+                // }
+                // EditorGUILayout.EndHorizontal();
                 
                 isFolded[node] = foldout;
 
