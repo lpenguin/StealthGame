@@ -1,0 +1,162 @@
+names: Robot (States)
+blackboard:
+  Initial Position:
+    type: Vector3
+    
+  Initial Rotation:
+    type: Quaternion
+    
+  Player:
+    type: Transform
+
+  Saw Player:
+    type: bool
+
+  Vision Sensor:
+    type: Transform
+
+  Check Position:
+    type: Vector3
+
+  Check Position Sense:
+    type: string
+
+  Check Position Source:
+    type: Transform
+
+  Current Check Position Source:
+    type: Transform
+
+
+  PatrolZone: 
+    type: Transform
+
+  _empty:
+    type: Transform
+
+  State:
+    type: string
+    value: Idle
+
+trees:
+  # Idle:
+  #   Sequence:
+  #   - Idle:
+  #   - Bark: { text: "Going back" }
+  #   - GoTo: $"Initial Position"
+  #   - Rotate: { rotation: $"Initial Rotation" }
+  #   - Idle:
+        
+root:
+  Parallel:
+  - Selector.Active: # Enable/disable event monitor
+    - Monitor: # Introduce "Monitor" mode (similar to Guard)
+        condition: 
+          Str.In: { $State, ["Searching", "Alerted", "Inspecting", "Idle"] }
+
+        action:
+          Sequence:
+          - Log: "Registering Event"
+          - RegisterEvent: "Check Position" # TODO:
+          - Idle:
+
+    - Sequence:
+      - Log: "Deregistering Event"
+      - DeregisterEvent: "Check Position"
+      - Idle:
+
+
+
+  - Selector.Active:  # State machine
+    - Monitor: #  Transition: Alerted (Hear)
+        comment: "Transition to Alerted"
+        condition:
+          Sequence:  # Condition
+          - Str.In: { $State, ["Searching", "Alerted", "Inspecting", "Idle"] }  # TODO: YAML parser: array support
+          - Sequence:
+            - EventReceived: {"Check Position", $"Check Position Source", $"Check Position Sense", $"Check Position"}
+            # - Break: true
+            - Not:
+              - Obj.Equals: { $"Current Check Position Source", $"Check Position Source" }
+            - Interrupt: "StateAlerted"
+        action: 
+          Sequence:  # Action
+          - Transform.Set: { $"Current Check Position Source", $"Check Position Source" }
+          - Selector:
+            - Sequence:
+              - Str.Equals: {$"Check Position Sense", "Hear"}
+              - Bark: "I heard something!" # Transition actions
+            - Success:
+          - Str.Set: { $State, "Alerted" }
+
+      
+    - Monitor:  # Transition: Aggressive
+        comment: "Transition to Aggressive"
+        condition:
+          Sequence:
+          - Str.In: { $State, ["Alerted", "Idle", "Searching", "Inspecting"]}
+          - Sensor.HasTarget: { sensor: $Vision Sensor, target: $Player}
+        action:
+          Str.Set: { $State, "Aggressive" }
+
+    - Monitor: # Transition: Searching
+        comment: "Transition to Searching"
+        condition:
+          Sequence:
+          - Str.Equals: { $State, "Aggressive"}
+          - Not:
+            - Sensor.HasTarget: { sensor: $Vision Sensor, target: $Player}
+
+        action:
+          Str.Set: { $State, "Searching" }
+
+
+    - Monitor#StateAlerted:  # State: Alerted
+        comment: "Alerted State"
+        condition:
+          Str.Equals: { $State, "Alerted" }
+        action:
+          Sequence:
+          - Wait: 1.0
+          - Robot.Bark: "Going to check"
+          - GoTo: $"Check Position"
+          - Robot.Bark: "Inspecting"
+          - Wait: 2.0
+          - Str.Set: { $State, "Idle" }
+
+    - Monitor:  # State: Searching
+        comment: "Searching State"
+        condition:
+          Str.Equals: { $State, "Searching" }
+        action:
+          Sequence:
+          - GoTo: $"Check Position"
+          - Robot.Bark: "Where are you?"
+          - Wait: 2
+          - Str.Set: { $State, "Idle" }
+
+    - Sequence:
+      - Transform.Set: { $"Current Check Position Source", $_empty }
+      - Transform.Set: { $"Check Position Source", $_empty }  
+      - Fail:  
+
+    - Monitor:
+        comment: "Aggressive State"
+        condition:
+          Str.Equals: { $State, "Aggressive" }
+        action:
+          Parallel:
+          - Repeater:
+            - Transform.GetPosition: { $Player, $"Check Position" }
+          - Sequence:
+            - Robot.Bark: "Intruder!!"
+            - GoTo: {$"Check Position"}
+    
+    - Monitor:  # State: Idle
+        comment: "Idle State"
+        condition: 
+          Str.Equals: { $State, "Idle" }
+        action:
+          Sequence:
+          - Robot.Bark: "Idle"
+          - Idle:

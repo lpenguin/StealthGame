@@ -7404,7 +7404,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8263112438381131799, guid: 0166679333281df838a6dc354e1467b1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -24.5
+      value: -24.9
       objectReference: {fileID: 0}
     - target: {fileID: 8263112438381131799, guid: 0166679333281df838a6dc354e1467b1, type: 3}
       propertyPath: m_LocalPosition.y
@@ -7412,7 +7412,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8263112438381131799, guid: 0166679333281df838a6dc354e1467b1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 45.7
+      value: 52.9
       objectReference: {fileID: 0}
     - target: {fileID: 8263112438381131799, guid: 0166679333281df838a6dc354e1467b1, type: 3}
       propertyPath: m_LocalRotation.w
@@ -7465,7 +7465,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f33f6fe8fa14e2a945b350be7f4f761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scriptFile: {fileID: 4900000, guid: 136f0a0364b4c2a30bf066e31d7eaa0e, type: 3}
+  scriptFile: {fileID: 4900000, guid: 8eb5415694c3ca2ffaa2984f2b51fe79, type: 3}
   tree:
     blackboardParameters:
     - Name: Initial Position
@@ -7492,10 +7492,6 @@ MonoBehaviour:
       ValueStr: 
       TypeStr: 
       transformField: {fileID: 0}
-    - Name: Check Position Is Set
-      ValueStr: 
-      TypeStr: 
-      transformField: {fileID: 0}
     - Name: Check Position Sense
       ValueStr: 
       TypeStr: 
@@ -7515,6 +7511,10 @@ MonoBehaviour:
     - Name: _empty
       ValueStr: 
       TypeStr: 
+      transformField: {fileID: 0}
+    - Name: State
+      ValueStr: Idle
+      TypeStr: string
       transformField: {fileID: 0}
   executeOnUpdate: 1
   blackboard:
@@ -7566,6 +7566,10 @@ MonoBehaviour:
     - Name: _empty
       ValueStr: 
       TypeStr: Transform
+      transformField: {fileID: 0}
+    - Name: State
+      ValueStr: Idle
+      TypeStr: string
       transformField: {fileID: 0}
 --- !u!4 &4354810648874951572 stripped
 Transform:
