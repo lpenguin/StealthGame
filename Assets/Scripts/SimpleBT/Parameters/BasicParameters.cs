@@ -11,6 +11,14 @@ namespace SimpleBT.Parameters
         }
     }
     
+    public class StringArrayParameter : Parameter<string[]>
+    {
+        public static implicit operator StringArrayParameter(string[] value)
+        {
+            return new StringArrayParameter{Value = value};
+        }
+    }
+    
     public class FloatParameter : Parameter<float>
     {
         public static implicit operator FloatParameter(float value)

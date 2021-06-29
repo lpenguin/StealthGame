@@ -30,6 +30,8 @@ namespace SimpleBT
             }
 
             _converters[typeof(Vector3)] = ParseVector3;
+            _converters[typeof(string[])] = ParseStringArray;
+            _converters[typeof(Node)] = ParseBTNode;
             _types = LoadNodeTypes();
         }
 
@@ -54,6 +56,20 @@ namespace SimpleBT
             return res;
         }
 
+        private static object ParseStringArray(YamlNode node)
+        {
+            if (!(node is YamlSequenceNode nodeSequence))
+            {
+                throw new Exception($"Cannot parse string[], expected Sequence, got {node.NodeType}");
+            }
+
+            return nodeSequence
+                .Children
+                .Select(c => (c as YamlScalarNode)?.Value)
+                .Where(c => c != null)
+                .ToArray();
+        }
+        
         private static object ParseVector3(YamlNode node)
         {
 
@@ -90,7 +106,7 @@ namespace SimpleBT
             );
         }
 
-        private static object ParseNode(YamlNode node){
+        private object ParseBTNode(YamlNode node){
             if(!(node is YamlMappingNode mappingNode)){
                 throw new Exception("Node must be a YamlMappingNode");
             }
@@ -208,6 +224,11 @@ namespace SimpleBT
             {
                 return res;
             }
+
+            if (treesNode is YamlScalarNode treesNodeScalar && treesNodeScalar.End == treesNodeScalar.Start)
+            {
+                return res;
+            }
             
             if (!(treesNode is YamlMappingNode treesNodeMap))
             {
@@ -238,56 +259,74 @@ namespace SimpleBT
             return btType;
         }
 
-        private void UpdateParameters(YamlMappingNode node, Type btType, List<IParameter> parameters)
+        private void UpdateParameters(YamlMappingNode node, Node btNode)
         {
+            var parameters = btNode.Parameters;
+
             var paramsDict = parameters.ToDictionary(p => p.Name, p => p);
+
             int positionalIndex = 0;
             bool metNamed = false;
             
             foreach (var kv in node.Children)
             {
-                string paramName = (kv.Key as YamlScalarNode).Value;
+                // YamlScalarNode paramNameScalar;
+                
                 IParameter param = null;
 
                 YamlNode paramValueNode = kv.Value;
+                YamlScalarNode scalarValue = paramValueNode as YamlScalarNode;
 
-                if(paramValueNode is YamlScalarNode scalarValue){
-                    string paramValue = scalarValue.Value;
-
-                    // BB parameter
-                    if (paramValue.StartsWith("$"))
-                    {
-                        string bbName = paramValue.Substring(1);
-                        bbName = bbName.Trim('\"');
-                        param.BbName = bbName;
-                        continue;
-                    }
-
-                    // Indexed parameter
-                    if (scalarValue.Start.Equals(scalarValue.End))
+                
+                if (scalarValue != null)
+                {
+                    if (scalarValue.Start.Equals(scalarValue.End)) // Indexed parameter
                     {
                         if (metNamed)
                         {
                             throw new Exception("Cannot handle positional parameter after named one");
                         }
-                        
+
                         param = parameters[positionalIndex];
                         positionalIndex += 1;
                         paramValueNode = kv.Key;
+                        scalarValue = paramValueNode as YamlScalarNode;
+                    }
+                    else // Named Parameter
+                    { 
+                        metNamed = true;
                     }
                 }
 
-                // named parameter
-                if(param == null){
-                    if (!paramsDict.TryGetValue(paramName, out param))
+                {
+                    if (param == null)
                     {
-                        throw new Exception($"Cannot find parameter {paramName} in type {btType}");
+                        // We have a named parameter then
+                        string paramName = ((YamlScalarNode) kv.Key).Value;
+                        
+                        // Comment special case
+                        if (paramName == "comment")
+                        {
+                            btNode.Comment = (paramValueNode as YamlScalarNode).Value;
+                            continue;
+                        }
+                        
+                        if (!paramsDict.TryGetValue(paramName, out param))
+                        {
+                            throw new Exception($"Cannot find parameter {paramName} in type {btNode.GetType().Name}");
+                        }
                     }
 
-                    metNamed = true;
+                    // Blackboard parameter, no need to parse actual data
+                    if (scalarValue?.Value.StartsWith("$") ?? false)
+                    {
+                        param.BbName = scalarValue.Value
+                            .Substring(1)
+                            .Trim('\"');
+                        continue;
+                    }
                 }
-
-                Convert(param, paramValueNode);
+                param.Set(Convert(param, paramValueNode));
             }
         }
         
@@ -400,7 +439,7 @@ namespace SimpleBT
 
             if (value is YamlMappingNode valueMap)
             {
-                UpdateParameters(valueMap, btType, btNode.Parameters);
+                UpdateParameters(valueMap, btNode);
                 return btNode;
             }
 
