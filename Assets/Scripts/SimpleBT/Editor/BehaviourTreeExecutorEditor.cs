@@ -139,6 +139,12 @@ namespace BehaviourTreeUtils.Editor
                         param.Value = Quaternion.Euler(euler);
                     }
                 }
+                else if (param.Type == typeof(string[]))
+                {
+                    var strArr = (param.Value as string[]) ?? new string[0];
+                    
+                    EditorGUILayout.LabelField($"{string.Concat(strArr)}");    
+                }
                 else
                 {
                     EditorGUILayout.LabelField($"{param.Value}");    
@@ -196,26 +202,52 @@ namespace BehaviourTreeUtils.Editor
 
 
             List<string> parameters = new List<string>();
+            var namedChildren = new List<(string name, Node node)>();
+            
+            
             foreach (var param in node.Parameters)
             {
-                var value = param.BbName != null ? $"[{param.BbName}]" : param.Get();
+                string value;
+                if (param.BbName != null)
+                {
+                    value = $"[{param.BbName}]";
+                }
+                else
+                {
+                    object objValue = param.Get();
+                    if (objValue is string[] objValueStr)
+                    {
+                        value = string.Join(", ", objValueStr);
+                    }
+                    else if (param.Type.IsAssignableFrom(typeof(Node)) && objValue != null)
+                    {
+                        namedChildren.Add((param.Name, objValue as Node));
+                        continue;
+                    }
+                    else
+                    {
+                        value = objValue?.ToString() ?? "null";
+                    }
+                }
                 
                 parameters.Add($"{param.Name}: {value}");
             }
 
             var parametersStr = string.Join(", ", parameters);
-
-            if(node.Children.Count > 0)
+            
+            namedChildren.AddRange(node.Children.Select(c => ((string)null, c)));
+            if(namedChildren.Count > 0)
             {
                 var style = GetFoldoutStyle(color);
+                string label = "";
+                
+                
+                label = string.IsNullOrEmpty(node.Comment) ? node.Name : $"{node.Comment} ({node.Name})";
 
-                string nodeName = string.IsNullOrEmpty(node.Comment) ? node.Name : $"{node.Comment} ({node.Name})";
+                label = string.IsNullOrEmpty(node.Id) ? label : $"{label} #{node.Id}";
 
-                nodeName = string.IsNullOrEmpty(node.Id) ? nodeName : $"{nodeName} #{node.Id}";
-
-                string label = foldout ? nodeName : $"{nodeName} +{node.Children.Count}";
-
-
+                label = foldout ? label : $"{label} +{node.Children.Count}";
+                
                 // EditorGUILayout.BeginHorizontal();
                 foldout = EditorGUILayout.Foldout(foldout, label, style);
                 // if (!string.IsNullOrEmpty(node.Comment))
@@ -236,10 +268,20 @@ namespace BehaviourTreeUtils.Editor
                 }
 
                 EditorGUI.indentLevel += 1;
-                foreach (var child in node.Children)
+                foreach (var child in namedChildren)
                 {
+                    if (!string.IsNullOrEmpty(child.name))
+                    {
+                        EditorGUILayout.LabelField(child.name + ":");
+                        EditorGUI.indentLevel += 1;
+                    }
                     // Debug.Log($"  Child {child.Name}");
-                    ShowNode(child);
+                    ShowNode(child.node);
+                    
+                    if (!string.IsNullOrEmpty(child.name))
+                    {
+                        EditorGUI.indentLevel -= 1;
+                    }
                 }
                 EditorGUI.indentLevel -= 1;
                 return;
