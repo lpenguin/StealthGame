@@ -51,7 +51,8 @@ namespace SimpleBT.Nodes
                             // Children[taskIndex].Reset(true);    
                         }
 
-                        return Status.Success;
+                        continue;
+                        // return Status.Success;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
