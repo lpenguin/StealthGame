@@ -57,9 +57,21 @@ namespace SimpleBT
 	public class EventBus
 	{
 		private Dictionary<string, UnityEvent<BTEvent>> _events = new Dictionary<string, UnityEvent<BTEvent>>();
+		private HashSet<string> _avaliableEvents = new HashSet<string>();
 
+		public void RegisterEvent(string eventName)
+		{
+			_avaliableEvents.Add(eventName);
+		}
+		
+		public void DeregisterEvent(string eventName)
+		{
+			_avaliableEvents.Remove(eventName);
+		}
+		
 		public void RegisterCallback(string eventName, UnityAction<BTEvent> action)
 		{
+
 			if(!_events.TryGetValue(eventName, out var ev)){
 				ev = new UnityEvent<BTEvent>();
 				_events[eventName] = ev;
@@ -71,7 +83,7 @@ namespace SimpleBT
 		public void DeregisterCallback(string eventName, UnityAction<BTEvent> action)
 		{
 			if(!_events.TryGetValue(eventName, out var ev)){
-				Debug.LogWarning($"No event handlers for \"{eventName}\" are registered");
+				// Debug.LogWarning($"No event handlers for \"{eventName}\" are registered");
 				return;
 			}
 
@@ -79,8 +91,12 @@ namespace SimpleBT
 		}
 
 		public void SendEvent(string eventName, BTEvent btEvent){
+			if(!_avaliableEvents.Contains(eventName)){
+				return;
+			}
+
 			if(!_events.TryGetValue(eventName, out var ev)){
-				Debug.LogWarning($"No event handlers for \"{eventName}\" are registered");
+				// Debug.LogWarning($"No event handlers for \"{eventName}\" are registered");
 				return;
 			}
 
