@@ -31,6 +31,25 @@ blackboard:
   PatrolZone: 
     type: Transform
 
+  Patrol Route:
+    type: Transform
+
+  Patrol Position:
+    type: Vector3
+
+  Patrol Rotate:
+    type: bool
+
+  Patrol Rotation:
+    type: Quaternion
+
+  Patrol Index:
+    type: int
+    value: 0
+
+  Patrol Tree:
+    type: string
+
   _empty:
     type: Transform
 
@@ -39,13 +58,44 @@ blackboard:
     value: Idle
 
 trees:
-  # Idle:
-  #   Sequence:
-  #   - Idle:
-  #   - Bark: { text: "Going back" }
-  #   - GoTo: $"Initial Position"
-  #   - Rotate: { rotation: $"Initial Rotation" }
-  #   - Idle:
+  Idle:
+    Sequence:
+    - Idle:
+    - Bark: { text: "Going back" }
+    - GoTo: $"Initial Position"
+    - Rotate: { rotation: $"Initial Rotation" }
+    - Idle:
+
+  GotoPatrolPoint:
+    Sequence:
+    - GoTo: $Patrol Position
+    - Success:
+      - Sequence: 
+        - CheckBool: $"Patrol Rotate"
+        - Rotate: $"Patrol Rotation"
+    - Selector:
+      - Sequence:
+        - Str.IsEmpty: $"Patrol Tree"
+        - Success:
+      - Tree: $"Patrol Tree"
+
+  Patrol:
+    Sequence:
+    - Patrol.CurrentPoint: { $"Patrol Route", $"Patrol Index", $"Patrol Position", $"Patrol Rotate", $"Patrol Rotation", $"Patrol Tree" }
+    - Tree: GotoPatrolPoint
+    - Repeater:
+        - Sequence:
+          - Patrol.NextPoint: { $"Patrol Route", $"Patrol Index", $"Patrol Position", $"Patrol Rotate", $"Patrol Rotation", $"Patrol Tree" }
+          - Tree: GotoPatrolPoint
+
+  BarkSomething:
+    Bark: "Barking Something"
+
+  Wait:
+    Wait: 1
+
+  LookAround:
+    LookAround:
         
 root:
   Parallel:
@@ -157,6 +207,4 @@ root:
         condition: 
           Str.Equals: { $State, "Idle" }
         action:
-          Sequence:
-          - Robot.Bark: "Idle"
-          - Idle:
+          Tree: Patrol

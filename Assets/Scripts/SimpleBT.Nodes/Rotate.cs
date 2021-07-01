@@ -8,7 +8,7 @@ namespace SimpleBT.Nodes
     public class Rotate: Node
     {
         private QuaternionParameter rotation = Quaternion.identity;
-        private FloatParameter speed = 100f;
+        private FloatParameter speed = 200f;
         private FloatParameter stopAngle = Mathf.PI * 0.05f;
         protected override Status OnUpdate()
         {
