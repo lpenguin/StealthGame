@@ -13,7 +13,7 @@ namespace SimpleBT.Nodes
         
         protected override Status OnUpdate()
         {
-            return value1.Value.Equals(value2.Value) ? Status.Success : Status.Failed;
+            return value1.Value.Equals(value2.Value) ? Status.Success : Status.Fail;
         }
     }
     
@@ -28,10 +28,10 @@ namespace SimpleBT.Nodes
             var v2 = value2.Value;
             if (v1 == null)
             {
-                return v2 == null ? Status.Success : Status.Failed;
+                return v2 == null ? Status.Success : Status.Fail;
             }
             
-            return value1.Value.Equals(value2.Value) ? Status.Success : Status.Failed;
+            return value1.Value.Equals(value2.Value) ? Status.Success : Status.Fail;
         }
     }
 
@@ -42,7 +42,7 @@ namespace SimpleBT.Nodes
         
         protected override Status OnUpdate()
         {
-            return !value1.Value.Equals(value2.Value) ? Status.Success : Status.Failed;
+            return !value1.Value.Equals(value2.Value) ? Status.Success : Status.Fail;
         }
     }
     
@@ -53,7 +53,7 @@ namespace SimpleBT.Nodes
         
         protected override Status OnUpdate()
         {
-            return !value1.Value.Equals(value2.Value) ? Status.Success : Status.Failed;
+            return !value1.Value.Equals(value2.Value) ? Status.Success : Status.Fail;
         }
     }
     

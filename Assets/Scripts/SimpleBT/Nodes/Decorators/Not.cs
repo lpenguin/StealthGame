@@ -14,10 +14,10 @@ namespace SimpleBT.Nodes
             {
                 case Status.Running:
                     return Status.Running;
-                case Status.Failed:
+                case Status.Fail:
                     return Status.Success;
                 case Status.Success:
-                    return Status.Failed;
+                    return Status.Fail;
                 default:
                     throw new ArgumentOutOfRangeException();
             }

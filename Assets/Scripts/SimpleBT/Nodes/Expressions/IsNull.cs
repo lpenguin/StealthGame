@@ -18,7 +18,7 @@ namespace SimpleBT.Nodes
             // {
             //     isNull = v == null;
             // }
-            return value.Equals(null) ? Status.Success : Status.Failed;
+            return value.Equals(null) ? Status.Success : Status.Fail;
         }
     }
     
@@ -38,7 +38,7 @@ namespace SimpleBT.Nodes
             // {
             //     isNull = v == null;
             // }
-            return v.Equals(null) ? Status.Failed : Status.Success;
+            return v.Equals(null) ? Status.Fail : Status.Success;
         }
     }
 }

@@ -67,7 +67,7 @@ namespace SimpleBT
         public void Step()
         {
 
-            if (tree.root.Status != Status.Success && tree.root.Status != Status.Failed)
+            if (tree.root.Status != (Status.Success | Status.Fail))
             {
                 tree.root.Execute(_context);
             }

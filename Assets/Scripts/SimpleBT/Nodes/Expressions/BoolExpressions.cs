@@ -10,7 +10,7 @@ namespace SimpleBT.Nodes.Expressions
         
         protected override Status OnUpdate()
         {
-            return value.Value ? Status.Success : Status.Failed;
+            return value.Value ? Status.Success : Status.Fail;
         }
     }
     
@@ -21,7 +21,7 @@ namespace SimpleBT.Nodes.Expressions
         
         protected override Status OnUpdate()
         {
-            return !value.Value ? Status.Success : Status.Failed;
+            return !value.Value ? Status.Success : Status.Fail;
         }
     }
 }

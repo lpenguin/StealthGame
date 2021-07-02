@@ -9,7 +9,7 @@ namespace SimpleBT.Nodes.Zone
         private TransformParameter obj;
         protected override Status OnUpdate()
         {
-            return zoneController.Contains(obj.Value) ? Status.Success : Status.Failed;
+            return zoneController.Contains(obj.Value) ? Status.Success : Status.Fail;
         }
     }
 }

@@ -31,7 +31,7 @@ namespace SimpleBT.Nodes
                 
                 switch (child.Status)
                 {
-                    case Status.Failed:
+                    case Status.Fail:
                         continue;
                     case Status.Running:
                         if (taskIndex != i)
@@ -58,7 +58,7 @@ namespace SimpleBT.Nodes
                 }
             }
 
-            return Status.Failed;
+            return Status.Fail;
         }
     }
 }

@@ -22,8 +22,8 @@ namespace SimpleBT.Nodes
                 {
                     case Status.Running:
                         continue;
-                    case Status.Failed:
-                        return Status.Failed;
+                    case Status.Fail:
+                        return Status.Fail;
                     case Status.Success:
                         _childrenToRun.Remove(child);
                         break;

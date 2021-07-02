@@ -11,7 +11,7 @@ namespace SimpleBT.Nodes
         private StringArrayParameter value;
         protected override Status OnUpdate()
         {
-            return value.Value.Contains(variable.Value) ? Status.Success : Status.Failed;
+            return value.Value.Contains(variable.Value) ? Status.Success : Status.Fail;
         }
     }
     
@@ -22,7 +22,7 @@ namespace SimpleBT.Nodes
 
         protected override Status OnUpdate()
         {
-            return string.IsNullOrEmpty(variable.Value) ? Status.Success : Status.Failed;
+            return string.IsNullOrEmpty(variable.Value) ? Status.Success : Status.Fail;
         }
     }
 }

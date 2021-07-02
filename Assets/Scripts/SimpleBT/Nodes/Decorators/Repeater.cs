@@ -22,8 +22,8 @@ namespace SimpleBT.Nodes
             {
                 case Status.Running:
                     return Status.Running;
-                case Status.Failed:
-                    return Status.Failed;
+                case Status.Fail:
+                    return Status.Fail;
                 case Status.Success:
                     return Status.Running;
                 default:

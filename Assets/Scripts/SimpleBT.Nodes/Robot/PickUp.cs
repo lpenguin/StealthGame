@@ -14,7 +14,7 @@ namespace SimpleBT.Nodes.Robot
             if (target.Value == null)
             {
                 Debug.LogWarning($"PickUp: target is null");
-                return Status.Failed;
+                return Status.Fail;
             }
 
             if (target.Value.TryGetComponent<Item>(out var item))
@@ -24,7 +24,7 @@ namespace SimpleBT.Nodes.Robot
             }
             
             Debug.LogWarning($"PickUp: target is not item");
-            return Status.Failed;
+            return Status.Fail;
         }
     }
 }

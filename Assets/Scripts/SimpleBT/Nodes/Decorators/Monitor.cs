@@ -21,10 +21,10 @@ namespace SimpleBT.Nodes
             {
                 case Status.Running:
                     return Status.Running;
-                case Status.Failed:
-                    return Status.Failed;
+                case Status.Fail:
+                    return Status.Fail;
                 case Status.Success:
-                    if (actionV.Status == Status.Failed || actionV.Status == Status.Interrupted)
+                    if (actionV.Status == (Status.Fail | Status.Interrupted))
                     {
                         actionV.Reset();
                     }
@@ -50,7 +50,7 @@ namespace SimpleBT.Nodes
             {
                 case Status.Running:
                 case Status.Success:
-                case Status.Failed:
+                case Status.Fail:
                     return actionNode.Status;
                 default:
                     throw new ArgumentOutOfRangeException();

@@ -10,7 +10,7 @@ namespace SimpleBT.Nodes
         
         protected override Status OnUpdate()
         {
-            return value1.Value.CompareTo(value2.Value) > 0 ? Status.Success : Status.Failed;
+            return value1.Value.CompareTo(value2.Value) > 0 ? Status.Success : Status.Fail;
         }
     }
     
@@ -21,7 +21,7 @@ namespace SimpleBT.Nodes
         
         protected override Status OnUpdate()
         {
-            return value1.Value.CompareTo(value2.Value) < 0 ? Status.Success : Status.Failed;
+            return value1.Value.CompareTo(value2.Value) < 0 ? Status.Success : Status.Fail;
         }
     }
     

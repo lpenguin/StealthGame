@@ -55,7 +55,7 @@ namespace SimpleBT.Nodes
         protected override Status OnUpdate()
         {
             if (target == null || target.Value == null)
-                return Status.Failed;
+                return Status.Fail;
             if (navAgent.isStopped)
             {
                 navAgent.isStopped = false;

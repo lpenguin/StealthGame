@@ -15,7 +15,7 @@ namespace SimpleBT.Nodes
                 return Status.Success;
             }
 
-            return Status.Failed;
+            return Status.Fail;
             
         }
     }

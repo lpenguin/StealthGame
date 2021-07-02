@@ -26,7 +26,7 @@ namespace SimpleBT.Nodes.Sensor
         			return Status.Success;
         		}
         	}
-        	return Status.Failed;
+        	return Status.Fail;
         }
     }
 }

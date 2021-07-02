@@ -323,7 +323,7 @@ namespace BehaviourTreeUtils.Editor
                 case Status.Running:
                     color = new Color32(0x65, 0x95, 0xEB, 0xFF);
                     break;
-                case Status.Failed:
+                case Status.Fail:
                     color = new Color32(0xED, 0x94, 0xC0, 0xFF);
                     break;
                 case Status.Success:

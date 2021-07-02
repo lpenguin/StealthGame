@@ -15,7 +15,7 @@ namespace SimpleBT.Nodes.Zone
             if (!zone.Value.TryGetComponent<ZoneController>(out var zoneController))
             {
                 Debug.LogWarning($"No ZoneController associated");
-                return Status.Failed;
+                return Status.Fail;
             }
 
             obj.Value = zoneController.GetRandomObject();

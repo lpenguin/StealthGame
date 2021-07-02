@@ -10,7 +10,7 @@ namespace SimpleBT.Nodes.Robot
         private TransformParameter obj;
         protected override Status OnUpdate()
         {
-            return _pickupController.PickedObject == obj.Value ? Status.Success : Status.Failed;
+            return _pickupController.PickedObject == obj.Value ? Status.Success : Status.Fail;
         }
     }
 }

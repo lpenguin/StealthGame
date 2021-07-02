@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using SimpleBT.Attributes;
-using UnityEngine;
 
 namespace SimpleBT
 {
+    [Flags]
     public enum Status
     {
-        Empty,
-        Running,
-        Failed,
-        Success,
-        Interrupted
+        Empty = 0b00001,
+        Running = 0b00010,
+        Fail = 0b00100,
+        Success = 0b01000,
+        Interrupted = 0b10000
     }
 
     public class ExecutionContext
@@ -27,7 +27,7 @@ namespace SimpleBT
     
     public abstract class Node
     {
-        public Status Status { get; protected set; } = Status.Empty;
+        public Status Status { get; private set; } = Status.Empty;
         public IList<Node> Children { get; } = new List<Node>();
         public List<IParameter> Parameters { get; } = new List<IParameter>();
         public string Id {get; set;} = null;
