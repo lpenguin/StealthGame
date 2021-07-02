@@ -17,6 +17,7 @@ namespace SimpleBT.Nodes.Robot
 
         protected override void OnStart()
         {
+            _rotatingLeft = true;
             _transform = currentContext.GameObject.transform;
             _initialRotation = _transform.rotation;
         }
