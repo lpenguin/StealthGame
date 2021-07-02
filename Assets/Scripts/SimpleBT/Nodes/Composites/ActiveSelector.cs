@@ -5,7 +5,7 @@ using SimpleBT.Attributes;
 namespace SimpleBT.Nodes
 {
     [Name("Selector.Active")]
-    public class SelectorI: Node
+    public class ActiveSelector: Node
     {
         private int taskIndex = 0;
 
@@ -22,11 +22,6 @@ namespace SimpleBT.Nodes
             {
                 // Debug.Log($"SelectorI: Checking Child[{i}]");
                 var child = Children[i];
-                if (child.Status == Status.Interrupted || i != taskIndex && (child.Status == Status.Failed ||child.Status == Status.Success || child.Status == Status.Running))
-                {
-                    child.Reset();
-                    // markForReset[i] = false;
-                }
                 child.Execute(currentContext);
                 
                 switch (child.Status)
