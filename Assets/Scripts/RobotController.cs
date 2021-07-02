@@ -32,6 +32,7 @@ public class RobotController : MonoBehaviour
     private NavMeshAgent _navMeshAgent;
     private bool _isLookingAt = false;
     private Coroutine _barkCoro;
+    private Vector3 _initialLookAtPosition;
     
     private Blackboard blackboard;
     private const string BB_InitialPosition = "Initial Position";
@@ -60,9 +61,14 @@ public class RobotController : MonoBehaviour
         _isLookingAt = true;
     }
 
+    public void StartLookAt()
+    {
+        _isLookingAt = true;
+    }
     public void StopLookAt()
     {
         _isLookingAt = false;
+        lookAtSource.position = _initialLookAtPosition;
     }
     
     void Start()
@@ -73,6 +79,7 @@ public class RobotController : MonoBehaviour
         blackboard = GetComponent<BehaviourTreeExecutor>().blackboard;
         blackboard.SetValue(BB_InitialPosition, transform.position);
         blackboard.SetValue(BB_InitialRotation, transform.rotation);
+        _initialLookAtPosition = lookAtSource.position;
     }
 
     void Update()
