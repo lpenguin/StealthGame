@@ -24,11 +24,6 @@ namespace SimpleBT.Nodes.Decorators
                 case Status.Fail:
                     return Status.Fail;
                 case Status.Success:
-                    if (actionV.Status == (Status.Fail | Status.Interrupted))
-                    {
-                        actionV.Reset();
-                    }
-
                     return ExecuteAction(actionV);
                     
                 default:

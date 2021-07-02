@@ -36,7 +36,7 @@ namespace SimpleBT
             var blackboard = context.Blackboard;
             LoadParameters(blackboard);
 
-            if (Status != (Status.Empty | Status.Running))
+            if ((Status & (Status.Empty | Status.Running)) == 0)
             {
                 Reset();
             }
