@@ -16,53 +16,50 @@ namespace SimpleBT
         Interrupted = 0b10000
     }
 
-    public class ExecutionContext
-    {
-        public GameObject GameObject { get; set; }
-        public Blackboard Blackboard { get; set; }
-        public BehaviourTree BehaviourTree { get; set; }
-        public EventBus EventBus { get; set; }
-        
-    }
-    
     public abstract class Node
     {
         public Status Status { get; private set; } = Status.Empty;
         public IList<Node> Children { get; } = new List<Node>();
         public List<IParameter> Parameters { get; } = new List<IParameter>();
-        public string Id {get; set;} = null;
+        public string Id {get; set;}
 
         public string Comment { get; set; }
         
-        protected ExecutionContext currentContext = null;
+        protected ExecutionContext currentContext;
         
-        public string Name => _name;
+        public string Name { get; }
 
-        private string _name;
         public void Execute(ExecutionContext context)
         {
-            var blackboard = context.Blackboard;
-            
-            foreach (var parameter in Parameters)
-            {
-                if (!string.IsNullOrEmpty(parameter.BbName))
-                {
-                    parameter.Set(blackboard.GetValue(parameter.BbName));
-                }
-            }
-
             currentContext = context;
+            
+            var blackboard = context.Blackboard;
+            LoadParameters(blackboard);
 
+            if (Status != (Status.Empty | Status.Running))
+            {
+                Reset();
+            }
+            
             if (Status == Status.Empty)
             {
-                // Debug.Log($"{Name}.OnStart()");
                 OnStart();
             }
-            // Debug.Log($"{Name}.OnUpdate()");
+            
             Status = OnUpdate();
+
+            OnEnd();
+            SaveParameters(blackboard);
+            currentContext = null;
+        }
+
+        protected virtual void OnEnd()
+        {
             
-            // Debug.Log($"{Name}.OnStart() -> {Status}");
-            
+        }
+
+        private void SaveParameters(Blackboard blackboard)
+        {
             foreach (var parameter in Parameters)
             {
                 if (!string.IsNullOrEmpty(parameter.BbName))
@@ -70,10 +67,19 @@ namespace SimpleBT
                     blackboard.SetValue(parameter.BbName, parameter.Get());
                 }
             }
-
-            currentContext = null;
         }
-        
+
+        private void LoadParameters(Blackboard blackboard)
+        {
+            foreach (var parameter in Parameters)
+            {
+                if (!string.IsNullOrEmpty(parameter.BbName))
+                {
+                    parameter.Set(blackboard.GetValue(parameter.BbName));
+                }
+            }
+        }
+
         protected abstract Status OnUpdate();
 
         protected virtual void OnStart()
@@ -83,16 +89,26 @@ namespace SimpleBT
         protected virtual void OnAbort()
         {
         }
+
+        protected static void OnAbort(Node node)
+        {
+            node.OnAbort();
+        }
+        
+        protected static void OnEnd(Node node)
+        {
+            node.OnEnd();
+        }
         
         public virtual void Reset()
         {
-            // Debug.Log($"{Name}.Reset()");
-
             if (Status == Status.Empty)
             {
                 return;
             }
+            
             OnAbort();
+            
             Status = Status.Empty;
             foreach (var child in Children)
             {
@@ -124,11 +140,11 @@ namespace SimpleBT
             var nameAttrObj = type.GetCustomAttributes(typeof(NameAttribute), false).FirstOrDefault();
             if (nameAttrObj is NameAttribute nameAttr)
             {
-                _name = nameAttr.Name;
+                Name = nameAttr.Name;
             }
             else
             {
-                _name = type.Name;
+                Name = type.Name;
             }
         }
 
