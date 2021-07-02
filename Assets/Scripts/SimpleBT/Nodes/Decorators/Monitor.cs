@@ -1,7 +1,7 @@
 using System;
 using SimpleBT.Parameters;
 
-namespace SimpleBT.Nodes
+namespace SimpleBT.Nodes.Decorators
 {
     public class Monitor: Node
     {

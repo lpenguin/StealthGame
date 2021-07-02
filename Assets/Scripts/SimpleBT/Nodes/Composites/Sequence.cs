@@ -1,6 +1,6 @@
 using System;
 
-namespace SimpleBT.Nodes
+namespace SimpleBT.Nodes.Composites
 {
     public class Sequence: Node
     {

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine.Assertions;
 
-namespace SimpleBT.Nodes
+namespace SimpleBT.Nodes.Decorators
 {
     public class Not: Node
     {

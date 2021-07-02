@@ -1,8 +1,7 @@
 using System;
 using SimpleBT.Attributes;
 
-
-namespace SimpleBT.Nodes
+namespace SimpleBT.Nodes.Composites
 {
     [Name("Selector.Active")]
     public class ActiveSelector: Node

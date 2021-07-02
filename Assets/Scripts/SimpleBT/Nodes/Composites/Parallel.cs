@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace SimpleBT.Nodes
+namespace SimpleBT.Nodes.Composites
 {
     public class Parallel: Node
     {
