@@ -50,9 +50,6 @@ blackboard:
   Patrol Tree:
     type: string
 
-  _empty:
-    type: Transform
-
   State:
     type: string
     value: Idle
@@ -71,7 +68,7 @@ trees:
     - GoTo: $Patrol Position
     - Success:
       - Sequence: 
-        - CheckBool: $"Patrol Rotate"
+        - Bool.IsSet: $"Patrol Rotate"
         - Rotate: $"Patrol Rotation"
     - Selector:
       - Sequence:
@@ -127,7 +124,7 @@ root:
             - EventReceived: {"Check Position", $"Check Position Source", $"Check Position Sense", $"Check Position"}
             # - Break: true
             - Not:
-              - Obj.Equals: { $"Current Check Position Source", $"Check Position Source" }
+              - Transform.Equals: { $"Current Check Position Source", $"Check Position Source" }
             - Interrupt: "StateAlerted"
         action: 
           Sequence:  # Action
@@ -186,8 +183,8 @@ root:
           - Str.Set: { $State, "Idle" }
 
     - Sequence:
-      - Transform.Set: { $"Current Check Position Source", $_empty }
-      - Transform.Set: { $"Check Position Source", $_empty }  
+      - Transform.Set: { $"Current Check Position Source", null }
+      - Transform.Set: { $"Check Position Source", null }  
       - Fail:  
 
     - Monitor:

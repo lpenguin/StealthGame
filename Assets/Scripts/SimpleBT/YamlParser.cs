@@ -287,6 +287,11 @@ namespace SimpleBT
                             throw new Exception("Cannot handle positional parameter after named one");
                         }
 
+                        if (positionalIndex >= parameters.Count)
+                        {
+                            throw new Exception($"Too many parameters ({positionalIndex}) for {btNode.Name}");
+                        }
+                        
                         param = parameters[positionalIndex];
                         positionalIndex += 1;
                         paramValueNode = kv.Key;
@@ -357,6 +362,11 @@ namespace SimpleBT
 
         private object Convert(IParameter parameter, YamlNode value)
         {
+            if (value is YamlScalarNode valueScalar && valueScalar.Value == "null")
+            {
+                return null;
+            }
+            
             if(!_converters.TryGetValue(parameter.Type, out var converter)){
                 throw new Exception($"Cannot find a suitable converter for a type {parameter.Type}");
             }
