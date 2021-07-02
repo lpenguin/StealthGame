@@ -22,12 +22,22 @@ namespace SimpleBT.Nodes
             }
         }
 
+        protected override void OnAbort()
+        {
+            Node.OnAbort(subTreeNode);
+        }
+
         protected override Status OnUpdate()
         {
             subTreeNode.Execute(currentContext);
             return subTreeNode.Status;
         }
-        
+
+        protected override void OnEnd()
+        {
+            Node.OnEnd(subTreeNode);
+        }
+
 
         public override void Reset()
         {
