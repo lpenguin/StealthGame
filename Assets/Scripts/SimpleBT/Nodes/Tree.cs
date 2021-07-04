@@ -50,10 +50,10 @@ namespace SimpleBT.Nodes
             base.Reset();
         }
 
-        public override void Interrupt()
-        {
-            base.Interrupt();
-            subTreeNode.Interrupt();
-        }
+        // public override void Interrupt()
+        // {
+        //     base.Interrupt();
+        //     subTreeNode.Interrupt();
+        // }
     }
 }
