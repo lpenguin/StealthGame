@@ -109,8 +109,11 @@ namespace SimpleBT
             {
                 return;
             }
-            
-            OnAbort();
+
+            if (Status == Status.Running)
+            {
+                OnAbort();
+            }
             
             Status = Status.Empty;
             foreach (var child in Children)
