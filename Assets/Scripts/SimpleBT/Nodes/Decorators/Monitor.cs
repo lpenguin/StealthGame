@@ -40,6 +40,11 @@ namespace SimpleBT.Nodes.Decorators
 
         private Status ExecuteAction(Node actionNode)
         {
+            if ((actionNode.Status & (Status.Empty | Status.Running)) == 0)
+            {
+                Reset();
+            }
+
             actionNode.Execute(currentContext);
             switch (actionNode.Status)
             {

@@ -29,6 +29,11 @@ namespace SimpleBT.Nodes
 
         protected override Status OnUpdate()
         {
+            if ((subTreeNode.Status & (Status.Empty | Status.Running)) == 0)
+            {
+                Reset();
+            }
+            
             subTreeNode.Execute(currentContext);
             return subTreeNode.Status;
         }
