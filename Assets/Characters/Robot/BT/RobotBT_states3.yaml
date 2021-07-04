@@ -88,6 +88,12 @@ trees:
   BarkSomething:
     Bark: "Barking Something"
 
+  Use:
+    Sequence:
+    - Wait: .5
+    - Animator.PlayState: { "Use", "Actions" }
+    - Wait: .5
+    
   Wait:
     Wait: 1
 
@@ -96,7 +102,7 @@ trees:
     - Robot.EnableLookAt: true
     - Animator.PlayState: { state: "Look Around" , layer: "Actions" }  
     - Robot.EnableLookAt: false
-        
+      
 root:
   Sequence:
   - Robot.EnableLookAt: false
@@ -116,10 +122,9 @@ root:
         - Log: "Deregistering Event"
         - DeregisterEvent: "Check Position"
         - Idle:
-  
-  
-  
+
     - Selector.Active:  # State machine
+      - "State machine"
       - Monitor: #  Transition: Alerted (Hear)
           comment: "Transition to Alerted"
           condition:
@@ -169,13 +174,15 @@ root:
             Str.Equals: { $State, "Alerted" }
           action:
             Sequence:
-            - Robot.LookAt: $CheckPosition
+            - Robot.LookAt: $Check Position
             - Wait: 1.0
             - Robot.Bark: "Going to check"
             - Robot.EnableLookAt: false
-            - GoTo: $"Check Position"
+            - Nav.GoTo: $Check Position
+                  
             - Robot.Bark: "Inspecting"
-            - Robot.LookAt: $CheckPosition
+#            - Robot.LookAt: $Check Position
+            - Animator.PlayState: { "Look Around", "Actions" }
             - Wait: 2.0
             - Robot.EnableLookAt: false
             - Str.Set: { $State, "Idle" }
@@ -187,7 +194,7 @@ root:
           action:
             Sequence:
             - Robot.EnableLookAt: false
-            - GoTo: $"Check Position"
+            - Nav.GoTo: $Check Position
             - Robot.Bark: "Where are you?"
             - Robot.EnableLookAt: true
             - Animator.PlayState: { state: "Look Around", layer: "Actions" }
@@ -212,7 +219,7 @@ root:
                 - Robot.LookAt: { $"Check Position" }
             - Sequence:
               - Robot.Bark: "Intruder!!"
-              - GoTo: {$"Check Position"}
+              - Nav.GoTo: $Check Position
       
       - Monitor:  # State: Idle
           comment: "Idle State"
