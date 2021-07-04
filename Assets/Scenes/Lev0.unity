@@ -4634,7 +4634,7 @@ MonoBehaviour:
       ValueStr: 
       TypeStr: 
       transformField: {fileID: 0}
-  executeOnUpdate: 0
+  executeOnUpdate: 1
   blackboard:
     _parametersList:
     - Name: Initial Position
