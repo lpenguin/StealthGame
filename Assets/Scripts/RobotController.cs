@@ -87,4 +87,26 @@ public class RobotController : MonoBehaviour
         _animator.SetFloat("Speed", _navMeshAgent.velocity.magnitude /  _navMeshAgent.speed);
         lookAtRig.weight = Mathf.Lerp(lookAtRig.weight, _isLookingAt ? 1 : 0, Time.deltaTime * switchLookAtSpeed);
     }
+    
+    private void OnDrawGizmos()
+    {
+        if (_navMeshAgent == null)
+        {
+            return;
+        }
+        
+        
+        var pos = _navMeshAgent.transform.position;
+        var prevPos = pos;
+        foreach (var vector3 in _navMeshAgent.path.corners)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(prevPos, vector3);
+            prevPos = vector3;
+        }
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(pos, _navMeshAgent.destination);
+
+    }
 }

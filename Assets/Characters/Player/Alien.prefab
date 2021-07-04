@@ -47,7 +47,7 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 1.41, z: 0}
 --- !u!135 &7937803629322750199
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -93,9 +93,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
+  crouchSpeedFactor: 0.5
   turnSpeed: 10
   cameraFollowSpeed: 10
-  runNoiseRadius: 5
+  runNoiseRadius: 10
 --- !u!114 &813747085929189184
 MonoBehaviour:
   m_ObjectHideFlags: 0
