@@ -9,6 +9,11 @@ namespace SimpleBT.Parameters
         {
             return new StringParameter{Value = value};
         }
+        
+        public static implicit operator string(StringParameter p)
+        {
+            return p.Value;
+        }
     }
     
     public class StringArrayParameter : Parameter<string[]>
@@ -16,6 +21,11 @@ namespace SimpleBT.Parameters
         public static implicit operator StringArrayParameter(string[] value)
         {
             return new StringArrayParameter{Value = value};
+        }
+        
+        public static implicit operator string[](StringArrayParameter p)
+        {
+            return p.Value;
         }
     }
     
@@ -25,6 +35,11 @@ namespace SimpleBT.Parameters
         {
             return new FloatParameter{Value = value};
         }
+        
+        public static implicit operator float(FloatParameter p)
+        {
+            return p.Value;
+        }
     }
     
     public class IntParameter : Parameter<int>
@@ -32,6 +47,11 @@ namespace SimpleBT.Parameters
         public static implicit operator IntParameter(int value)
         {
             return new IntParameter{Value = value};
+        }
+        
+        public static implicit operator int(IntParameter p)
+        {
+            return p.Value;
         }
     }
     
@@ -41,6 +61,11 @@ namespace SimpleBT.Parameters
         {
             return new NullableIntParameter{Value = value};
         }
+        
+        public static implicit operator NullableInt(NullableIntParameter p)
+        {
+            return p.Value;
+        }
     }
     
     public class Vector3Parameter : Parameter<Vector3>
@@ -49,6 +74,11 @@ namespace SimpleBT.Parameters
         {
             return new Vector3Parameter{Value = value};
         }
+        
+        public static implicit operator Vector3(Vector3Parameter p)
+        {
+            return p.Value;
+        }
     }
 
     public class BoolParameter : Parameter<bool>
@@ -56,6 +86,11 @@ namespace SimpleBT.Parameters
         public static implicit operator BoolParameter(bool value)
         {
             return new BoolParameter {Value = value};
+        }
+
+        public static implicit operator bool(BoolParameter p)
+        {
+            return p.Value;
         }
     }
 
@@ -73,6 +108,11 @@ namespace SimpleBT.Parameters
         {
             return new TransformParameter{Value = value};
         }
+        
+        public static implicit operator Transform(TransformParameter p)
+        {
+            return p.Value;
+        }
     }
     
     public class QuaternionParameter : Parameter<Quaternion>
@@ -81,6 +121,11 @@ namespace SimpleBT.Parameters
         {
             return new QuaternionParameter{Value = value};
         }
+        
+        public static implicit operator Quaternion(QuaternionParameter p)
+        {
+            return p.Value;
+        }
     }
 
     public class NodeParameter : Parameter<Node>
@@ -88,6 +133,11 @@ namespace SimpleBT.Parameters
         public static implicit operator NodeParameter(Node value)
         {
             return new NodeParameter{Value = value};
+        }
+        
+        public static implicit operator Node(NodeParameter p)
+        {
+            return p.Value;
         }
     }
 }
