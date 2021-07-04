@@ -48,7 +48,10 @@ namespace SimpleBT
             
             Status = OnUpdate();
 
-            OnEnd();
+            if ((Status & (Status.Fail | Status.Success)) != 0)
+            {
+                OnEnd();
+            }
             SaveParameters(blackboard);
             currentContext = null;
         }
