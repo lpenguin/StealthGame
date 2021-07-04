@@ -30,9 +30,11 @@ namespace SimpleBT.Nodes.Composites
                     case Status.Running:
                         if (taskIndex != i)
                         {
-                            // Children[taskIndex].Reset(true);
-                            // markForReset[taskIndex] = true;
-                            Children[taskIndex].Interrupt();
+                            if (Children[taskIndex].Status == Status.Running)
+                            {
+                                Children[taskIndex].Reset();                                
+                            }
+                            
                             taskIndex = i;
                         }
 
@@ -40,9 +42,10 @@ namespace SimpleBT.Nodes.Composites
                     case Status.Success:
                         if (taskIndex != i)
                         {
-                            Children[taskIndex].Interrupt();
-                            // markForReset[taskIndex] = true;
-                            // Children[taskIndex].Reset(true);    
+                            if (Children[taskIndex].Status == Status.Running)
+                            {
+                                Children[taskIndex].Reset();                                
+                            }
                         }
 
                         continue;

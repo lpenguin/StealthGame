@@ -13,7 +13,7 @@ namespace SimpleBT
         Running = 0b00010,
         Fail = 0b00100,
         Success = 0b01000,
-        Interrupted = 0b10000
+        // Interrupted = 0b10000
     }
 
     public abstract class Node
@@ -149,10 +149,10 @@ namespace SimpleBT
         }
 
 
-        public virtual void Interrupt()
-        {
-            Status = Status.Interrupted;
-        }
+        // public virtual void Interrupt()
+        // {
+        //     Status = Status.Interrupted;
+        // }
     }
     
 

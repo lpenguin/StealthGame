@@ -329,9 +329,9 @@ namespace BehaviourTreeUtils.Editor
                 case Status.Success:
                     color = new Color32(0x39, 0xCC, 0x8F, 0xFF);
                     break;
-                case Status.Interrupted:
-                    color = new Color32(0xC9, 0xA2, 0x6D, 0xFF);
-                    break;
+                // case Status.Interrupted:
+                    // color = new Color32(0xC9, 0xA2, 0x6D, 0xFF);
+                    // break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
