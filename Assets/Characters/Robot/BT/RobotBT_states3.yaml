@@ -54,6 +54,10 @@ blackboard:
     type: string
     value: Idle
 
+  Search Time:
+    type: float
+    value: 7
+    
 trees:
   Idle:
     Sequence:
@@ -100,17 +104,30 @@ trees:
   LookAround:
     Sequence:
     - Robot.EnableLookAt: true
-    - Animator.PlayState: { state: "Look Around" , layer: "Actions" }  
+    - RandomSelector:        
+      - Animator.PlayState: { state: "Look Around" , layer: "Actions" }
+      - Animator.PlayState: { state: "Look Around2" , layer: "Actions" }
     - Robot.EnableLookAt: false
       
 root:
   Sequence:
+  - "Root"
   - Robot.EnableLookAt: false
   - Parallel:
     - Selector.Active: # Enable/disable event monitor
+      - Monitor:
+          condition:
+            Str.In: { $State, ["Aggressive", "Idle"] }
+          action:
+            Sequence:
+            - Transform.Set: { $"Current Check Position Source", null }
+            - Transform.Set: { $"Check Position Source", null }
+            - Fail:
+                
       - Monitor: # Introduce "Monitor" mode (similar to Guard)
           condition: 
-            Str.In: { $State, ["Searching", "Alerted", "Inspecting", "Idle"] }
+            Sequence:
+            - Str.In: { $State, ["Searching", "Alerted", "Inspecting", "Idle"] }
   
           action:
             Sequence:
@@ -129,12 +146,12 @@ root:
           comment: "Transition to Alerted"
           condition:
             Sequence:  # Condition
-            - Str.In: { $State, ["Searching", "Alerted", "Inspecting", "Idle"] }  # TODO: YAML parser: array support
+            - Str.In: { $State, ["Alerted", "Idle"] }
             - Sequence:
               - EventReceived: {"Check Position", $"Check Position Source", $"Check Position Sense", $"Check Position"}
               # - Break: true
-              - Not:
-                - Transform.Equals: { $"Current Check Position Source", $"Check Position Source" }
+#              - Not:
+#                - Transform.Equals: { $"Current Check Position Source", $"Check Position Source" }
               - Interrupt: "StateAlerted"
           action: 
             Sequence:  # Action
@@ -142,8 +159,10 @@ root:
             - Selector:
               - Sequence:
                 - Str.Equals: {$"Check Position Sense", "Hear"}
-                - Bark: "I heard something!" # Transition actions
+                - Audio.Play: "I hear something"
+#                - Bark: "I heard something!" # Transition actions
               - Success:
+            - Animator.SetTrigger: { "Interrupt Action" }
             - Str.Set: { $State, "Alerted" }
   
         
@@ -151,11 +170,18 @@ root:
           comment: "Transition to Aggressive"
           condition:
             Sequence:
-            - Str.In: { $State, ["Alerted", "Idle", "Searching", "Inspecting"]}
+            - Str.In: { $State, ["Alerted", "Idle", "Inspecting", "Searching"]}
             - Sensor.HasTarget: { sensor: $Vision Sensor, target: $Player}
           action:
-            Str.Set: { $State, "Aggressive" }
-  
+            Sequence:
+            - Success:
+              - Sequence:
+                - Not:
+                  - Str.Equals: { $State, "Searching" }
+                - Audio.Play: "Intruder"
+            - Animator.SetTrigger: { "Interrupt Action" }
+            - Str.Set: { $State, "Aggressive" }
+
       - Monitor: # Transition: Searching
           comment: "Transition to Searching"
           condition:
@@ -165,7 +191,9 @@ root:
               - Sensor.HasTarget: { sensor: $Vision Sensor, target: $Player}
   
           action:
-            Str.Set: { $State, "Searching" }
+            Sequence:
+            - Animator.SetTrigger: { "Interrupt Action" }
+            - Str.Set: { $State, "Searching" }
   
   
       - Monitor#StateAlerted:  # State: Alerted
@@ -174,6 +202,7 @@ root:
             Str.Equals: { $State, "Alerted" }
           action:
             Sequence:
+            - Robot.SetEmotion: "Alerted"
             - Robot.LookAt: $Check Position
             - Wait: 1.0
             - Robot.Bark: "Going to check"
@@ -182,10 +211,12 @@ root:
                   
             - Robot.Bark: "Inspecting"
 #            - Robot.LookAt: $Check Position
+            - Robot.EnableLookAt: true
             - Animator.PlayState: { "Look Around", "Actions" }
             - Wait: 2.0
             - Robot.EnableLookAt: false
             - Str.Set: { $State, "Idle" }
+            - Idle:
   
       - Monitor:  # State: Searching
           comment: "Searching State"
@@ -193,19 +224,44 @@ root:
             Str.Equals: { $State, "Searching" }
           action:
             Sequence:
+            - Robot.SetEmotion: "Aggressive"
             - Robot.EnableLookAt: false
-            - Nav.GoTo: $Check Position
-            - Robot.Bark: "Where are you?"
-            - Robot.EnableLookAt: true
-            - Animator.PlayState: { state: "Look Around", layer: "Actions" }
-            - Robot.EnableLookAt: false
-            - Wait: 2
+            - Success:
+              - Parallel:
+                - Sequence:
+                  - Wait: $Search Time
+                  - Fail:
+                
+                - Parallel:
+                  - Sequence:
+                    - Wait: 2
+                    - Repeater:
+                      - Sequence:
+                        - Wait: 3
+                        - Audio.Play: "Locating intruder"
+    #                  - Robot.Bark: "Where are you?"
+                        
+                  - Repeater:
+                    - Success:
+                      - Sequence:
+                        - EventReceived: {"Check Position", $"Check Position Source", $"Check Position Sense", $"Check Position"}
+                        - Log: Interrupting SearchingSeq
+                        - Interrupt: SearchingSeq
+                        
+                  - Sequence#SearchingSeq:
+                    - Nav.GoTo: $Check Position
+                    - Repeater:
+                      - Sequence:
+                        - Robot.EnableLookAt: true
+                        - Animator.PlayState: { state: "Look Around Fast", layer: "Actions" }
+                        - Robot.EnableLookAt: false
+                        - Wait: 2
+                        - Nav.RandomPoint: { $"Check Position", distance: 10}
+                        - Success:
+                          - Nav.GoTo: $Check Position
+                      
+            - Audio.Play: "Returning to my main program"
             - Str.Set: { $State, "Idle" }
-  
-      - Sequence:
-        - Transform.Set: { $"Current Check Position Source", null }
-        - Transform.Set: { $"Check Position Source", null }  
-        - Fail:  
   
       - Monitor:
           comment: "Aggressive State"
@@ -218,8 +274,10 @@ root:
                 - Transform.GetPosition: { $Player, $"Check Position" }
                 - Robot.LookAt: { $"Check Position" }
             - Sequence:
-              - Robot.Bark: "Intruder!!"
-              - Nav.GoTo: $Check Position
+              - Robot.SetEmotion: "Aggressive"
+#              - Robot.Bark: "Intruder!!"
+              - Repeater:
+                - Nav.GoTo: $Check Position
       
       - Monitor:  # State: Idle
           comment: "Idle State"
@@ -227,5 +285,9 @@ root:
             Str.Equals: { $State, "Idle" }
           action:
             Sequence:
+            - Robot.SetEmotion: "Idle"
             - Robot.EnableLookAt: false
+            - Animator.SetTrigger: { "Interrupt Action" }
             - Tree: Patrol
+              
+      - Idle:
