@@ -50,10 +50,12 @@ namespace BehaviourTreeUtils.Editor
 
                 if (executor.tree.subTrees.Count > 0)
                 {
-                    EditorGUILayout.LabelField("Subtrees");
+                    EditorGUILayout.Space();
+                    EditorGUILayout.LabelField("Subtrees", EditorStyles.boldLabel);
                     ShowSubtrees(executor.tree);
                 }
-
+                EditorGUILayout.Space();
+                EditorGUILayout.LabelField("Root node", EditorStyles.boldLabel);
                 if (executor.tree.name != null)
                 {
                     EditorGUILayout.LabelField(executor.tree.name);
@@ -64,7 +66,8 @@ namespace BehaviourTreeUtils.Editor
             {
                 EditorGUILayout.LabelField("Assign tree script");
             }
-            
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("Blackboard", EditorStyles.boldLabel);
             ShowBlackboard(executor.blackboard);
             serializedObject.ApplyModifiedProperties();
         }
@@ -79,8 +82,8 @@ namespace BehaviourTreeUtils.Editor
                 
                 if (!isFoldedSubtrees.TryGetValue(name, out var foldout))
                 {
-                    foldout = true;
-                    isFoldedSubtrees[name] = true;
+                    foldout = false;
+                    isFoldedSubtrees[name] = foldout;
                 }
                 
                 var style = GetFoldoutStyle(color);
@@ -189,8 +192,8 @@ namespace BehaviourTreeUtils.Editor
             
             if (!isFolded.TryGetValue(node, out var foldout))
             {
-                foldout = true;
-                isFolded[node] = true;
+                foldout = !(node is SimpleBT.Nodes.Tree);
+                isFolded[node] = foldout;
             }
         
             // Debug.Log($"{node.Name} ({node.Children.Count}) {foldout}");
@@ -247,6 +250,10 @@ namespace BehaviourTreeUtils.Editor
                 label = string.IsNullOrEmpty(node.Id) ? label : $"{label} #{node.Id}";
 
                 label = foldout ? label : $"{label} +{node.Children.Count}";
+                if (!string.IsNullOrEmpty(parametersStr))
+                {
+                    label = $"{label} {parametersStr}";
+                }
                 
                 // EditorGUILayout.BeginHorizontal();
                 foldout = EditorGUILayout.Foldout(foldout, label, style);
