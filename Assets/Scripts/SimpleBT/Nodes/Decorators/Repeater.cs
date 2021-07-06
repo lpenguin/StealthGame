@@ -8,7 +8,7 @@ namespace SimpleBT.Nodes.Decorators
         {
             if (Children.Count != 1)
             {
-                throw new Exception($"Fail: Invalid number if children ({Children.Count})");
+                throw new Exception($"Repeater: Invalid number of children ({Children.Count})");
             }
 
             var child = Children[0];
