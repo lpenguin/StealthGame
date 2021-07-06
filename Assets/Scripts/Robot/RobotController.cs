@@ -1,11 +1,19 @@
+using System;
 using System.Collections;
+using Audio;
 using SimpleBT;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
 
-public class RobotController : MonoBehaviour
+
+namespace Robot
+{
+    [Serializable]
+    public class StringColorDictionary : SerializableDictionary<string, Color> {}
+
+    public class RobotController : MonoBehaviour
 {
     [SerializeField] 
     private Transform lookAtSource;
@@ -27,9 +35,16 @@ public class RobotController : MonoBehaviour
     private float barkDuration;
 
 
+    [Header("Emotions")]
+    [SerializeField]
+    private StringColorDictionary emotions = new StringColorDictionary();
+
+    public Light emotionLight;
+    public string currentEmotion;
     
     private Animator _animator;
     private NavMeshAgent _navMeshAgent;
+    private AudioManager _audioManager;
     private bool _isLookingAt = false;
     private Coroutine _barkCoro;
     private Vector3 _initialLookAtPosition;
@@ -37,6 +52,18 @@ public class RobotController : MonoBehaviour
     private Blackboard blackboard;
     private const string BB_InitialPosition = "Initial Position";
     private const string BB_InitialRotation = "Initial Rotation";
+    
+    void Start()
+    {
+        _animator = GetComponent<Animator>();
+        _navMeshAgent = GetComponent<NavMeshAgent>();
+        _audioManager = GetComponent<AudioManager>();
+        lookAtRig.weight = 0;
+        blackboard = GetComponent<BehaviourTreeExecutor>().blackboard;
+        blackboard.SetValue(BB_InitialPosition, transform.position);
+        blackboard.SetValue(BB_InitialRotation, transform.rotation);
+        _initialLookAtPosition = lookAtSource.localPosition;
+    }
     
     public void Bark(string text)
     {
@@ -65,27 +92,26 @@ public class RobotController : MonoBehaviour
     {
         _isLookingAt = true;
     }
+    
     public void StopLookAt()
     {
         _isLookingAt = false;
-        lookAtSource.position = _initialLookAtPosition;
+        lookAtSource.localPosition = _initialLookAtPosition;
     }
     
-    void Start()
-    {
-        _animator = GetComponent<Animator>();
-        _navMeshAgent = GetComponent<NavMeshAgent>();
-        lookAtRig.weight = 0;
-        blackboard = GetComponent<BehaviourTreeExecutor>().blackboard;
-        blackboard.SetValue(BB_InitialPosition, transform.position);
-        blackboard.SetValue(BB_InitialRotation, transform.rotation);
-        _initialLookAtPosition = lookAtSource.position;
-    }
-
     void Update()
     {
         _animator.SetFloat("Speed", _navMeshAgent.velocity.magnitude /  _navMeshAgent.speed);
         lookAtRig.weight = Mathf.Lerp(lookAtRig.weight, _isLookingAt ? 1 : 0, Time.deltaTime * switchLookAtSpeed);
+        if (emotions.TryGetValue(currentEmotion, out var color))
+        {
+            emotionLight.color = color;
+        }
+    }
+    
+    void Footstep()
+    {
+        _audioManager.PlayAudio("Step");
     }
     
     private void OnDrawGizmos()
@@ -110,3 +136,5 @@ public class RobotController : MonoBehaviour
 
     }
 }
+}
+
