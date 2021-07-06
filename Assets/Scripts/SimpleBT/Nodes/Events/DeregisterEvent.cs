@@ -1,13 +1,13 @@
 using SimpleBT.Parameters;
 
-namespace SimpleBT.Nodes
+namespace SimpleBT.Nodes.Events
 {
-    public class RegisterEvent: Node
+    public class DeregisterEvent: Node
     {
         private StringParameter eventName;
         protected override Status OnUpdate()
         {
-            currentContext.EventBus.RegisterEvent(eventName.Value);
+            currentContext.EventBus.DeregisterEvent(eventName.Value);
             return Status.Success;
         }
     }

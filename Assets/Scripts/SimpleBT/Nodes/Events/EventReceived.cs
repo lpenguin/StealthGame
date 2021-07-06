@@ -1,7 +1,6 @@
 using SimpleBT.Parameters;
-using UnityEngine;
 
-namespace SimpleBT.Nodes
+namespace SimpleBT.Nodes.Events
 {
     public class EventReceived: Node
     {
