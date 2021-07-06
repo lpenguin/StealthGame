@@ -28,7 +28,6 @@ namespace SimpleBT.Nodes.Navigation
 
             _prevPosition = target;
             
-            Debug.Log("Starting nav mesh agent");
             _navAgent.isStopped = false;
             
             if (!_navAgent.SetDestination(target))
@@ -72,7 +71,6 @@ namespace SimpleBT.Nodes.Navigation
         {
             if (_navAgent != null)
             {
-                Debug.Log("Stopping nav mesh agent");
                 _navAgent.isStopped = true;
             }
         }
@@ -81,7 +79,6 @@ namespace SimpleBT.Nodes.Navigation
         {
             if (_navAgent != null)
             {
-                Debug.Log("Stopping nav mesh agent");
                 _navAgent.isStopped = true;
             }
         }
