@@ -6,7 +6,6 @@ namespace SimpleBT.Nodes
     public class Tree: Node
     {
         private StringParameter name;
-        private Node subTreeNode;
 
         protected override void OnStart()
         {
@@ -16,40 +15,26 @@ namespace SimpleBT.Nodes
             }
             
             var subTrees = currentContext.BehaviourTree.subTrees;
-            if (!subTrees.TryGetValue(name.Value, out subTreeNode))
+            if (!subTrees.TryGetValue(name.Value, out var subTreeNode))
             {
                 throw new Exception($"Cannot find subtree \"{name.Value}\"");
             }
-        }
-
-        protected override void OnAbort()
-        {
-            Node.OnAbort(subTreeNode);
+            Children.Clear();
+            Children.Add(subTreeNode.Clone());
         }
 
         protected override Status OnUpdate()
         {
+            var subTreeNode = Children[0];
             if ((subTreeNode.Status & (Status.Empty | Status.Running)) == 0)
             {
                 Reset();
             }
-            
+
             subTreeNode.Execute(currentContext);
             return subTreeNode.Status;
         }
-
-        protected override void OnEnd()
-        {
-            Node.OnEnd(subTreeNode);
-        }
-
-
-        public override void Reset()
-        {
-            subTreeNode?.Reset();
-            base.Reset();
-        }
-
+        
         // public override void Interrupt()
         // {
         //     base.Interrupt();

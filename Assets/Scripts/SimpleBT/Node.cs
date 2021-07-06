@@ -116,6 +116,28 @@ namespace SimpleBT
                 child.Reset();
             }
         }
+
+        public Node Clone()
+        {
+            var type = GetType();
+            Node clone = Activator.CreateInstance(type) as Node;
+            
+            for (int i = 0; i < Parameters.Count; i++)
+            {
+                var param = Parameters[i];
+                var cloneParam = clone.Parameters[i];
+                cloneParam.BbName = param.BbName;
+                cloneParam.Set(param.Get());
+            }
+
+            foreach (var child in Children)
+            {
+                clone.Children.Add(child.Clone());
+            }
+            
+            return clone;
+        }
+        
         protected Node()
         {
             Type iParameterType = typeof(IParameter);
