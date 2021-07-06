@@ -22,6 +22,7 @@ namespace SimpleBT.Nodes.Decorators
                 case Status.Running:
                     return Status.Running;
                 case Status.Fail:
+                    actionV.Reset();
                     return Status.Fail;
                 case Status.Success:
                     return ExecuteAction(actionV);
