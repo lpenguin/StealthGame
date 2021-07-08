@@ -1655,6 +1655,10 @@ MonoBehaviour:
     clips:
     - clip: {fileID: 8300000, guid: 7d8eb65741328ffb1965ba7d0fd2d585, type: 3}
       volume: 1
+  - name: Inspecting
+    clips:
+    - clip: {fileID: 8300000, guid: ab88acd34deb54ea8ae6ed60ea08b031, type: 3}
+      volume: 1
 --- !u!1 &3923088953805651668
 GameObject:
   m_ObjectHideFlags: 0

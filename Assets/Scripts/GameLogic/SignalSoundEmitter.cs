@@ -17,7 +17,7 @@ namespace GameLogic
             _emitter = GetComponent<SoundEmitter>();
         }
 
-        public void HandleSignal(SignalType type)
+        public void HandleSignal(SignalType signal)
         {
             _emitter.Emit(radius);
         }

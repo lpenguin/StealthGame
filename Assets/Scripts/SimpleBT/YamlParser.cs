@@ -335,7 +335,7 @@ namespace SimpleBT
             }
         }
         
-        private void UpdateParameters(YamlScalarNode node, Type btType, List<IParameter> parameters)
+        private void UpdateParameters(YamlScalarNode node, Type btType, IReadOnlyList<IParameter> parameters)
         {
             var valueStr = node.Value;
             if (string.IsNullOrEmpty(valueStr))
@@ -441,7 +441,7 @@ namespace SimpleBT
                 
                 foreach (var childNode in children)
                 {
-                    btNode.Children.Add(ParseNode(childNode as YamlMappingNode));
+                    btNode.AddChild(ParseNode(childNode as YamlMappingNode));
                 }
                 
                 return btNode;

@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using SimpleBT;
 using UnityEditor;
+using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 
-namespace BehaviourTreeUtils.Editor
+namespace SimpleBT.Editor
 {
     [CustomEditor(typeof(BehaviourTreeExecutor))]
     public class BehaviourTreeExecutorEditor: UnityEditor.Editor
@@ -21,6 +21,7 @@ namespace BehaviourTreeUtils.Editor
         {
             scriptFile = serializedObject.FindProperty("scriptFile");
             executeOnUpdate = serializedObject.FindProperty("executeOnUpdate");
+            // _nodeTreeView = new NodeTreeView(null, nodeTreeViewState);
         }
         
         public override void OnInspectorGUI()
@@ -52,7 +53,7 @@ namespace BehaviourTreeUtils.Editor
                 {
                     EditorGUILayout.Space();
                     EditorGUILayout.LabelField("Subtrees", EditorStyles.boldLabel);
-                    ShowSubtrees(executor.tree);
+                    // ShowSubtrees(executor.tree);
                 }
                 EditorGUILayout.Space();
                 EditorGUILayout.LabelField("Root node", EditorStyles.boldLabel);
@@ -60,7 +61,9 @@ namespace BehaviourTreeUtils.Editor
                 {
                     EditorGUILayout.LabelField(executor.tree.name);
                 }
-                ShowNode(executor.tree.root);
+                
+                
+                // ShowNode(executor.tree.root);
             }
             else
             {

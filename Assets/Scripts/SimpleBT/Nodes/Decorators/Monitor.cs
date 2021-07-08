@@ -7,6 +7,13 @@ namespace SimpleBT.Nodes.Decorators
     {
         private NodeParameter condition;
         private NodeParameter action;
+
+        protected override void OnStart()
+        {
+            condition.Value.Parent = this;
+            action.Value.Parent = this;
+        }
+
         protected override Status OnUpdate()
         {
             var conditionV = condition.Value;
@@ -36,6 +43,10 @@ namespace SimpleBT.Nodes.Decorators
         {
             condition.Value.Reset();
             action.Value.Reset();
+            
+            condition.Value.Parent = null;
+            action.Value.Parent = null;
+
             base.Reset();
         }
 

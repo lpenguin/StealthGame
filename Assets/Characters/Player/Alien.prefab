@@ -96,7 +96,7 @@ MonoBehaviour:
   crouchSpeedFactor: 0.5
   turnSpeed: 10
   cameraFollowSpeed: 10
-  runNoiseRadius: 10
+  runNoiseRadius: 15
 --- !u!114 &813747085929189184
 MonoBehaviour:
   m_ObjectHideFlags: 0

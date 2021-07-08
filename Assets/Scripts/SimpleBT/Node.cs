@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using SimpleBT.Attributes;
@@ -16,11 +17,14 @@ namespace SimpleBT
         // Interrupted = 0b10000
     }
 
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public abstract class Node
     {
+        public Node Parent { get; set; }
+        public int NumericId { get; } = BehaviourTree.GenerateNumericId(); 
         public Status Status { get; private set; } = Status.Empty;
-        public IList<Node> Children { get; } = new List<Node>();
-        public List<IParameter> Parameters { get; } = new List<IParameter>();
+        public IReadOnlyList<Node> Children => _children;
+        public IReadOnlyList<IParameter> Parameters => _parameters;
         public string Id {get; set;}
 
         public string Comment { get; set; }
@@ -29,6 +33,9 @@ namespace SimpleBT
         
         public string Name { get; }
 
+        private List<Node> _children = new List<Node>();
+        private List<IParameter> _parameters = new List<IParameter>();
+        
         public void Execute(ExecutionContext context)
         {
             currentContext = context;
@@ -56,6 +63,21 @@ namespace SimpleBT
             
         }
 
+        protected void ClearChildren()
+        {
+            foreach (var child in _children)
+            {
+                child.Parent = null;
+            }
+            _children.Clear();
+        }
+
+        public void AddChild(Node child)
+        {
+            _children.Add(child);
+            child.Parent = this;
+        }
+        
         private void SaveParameters(Blackboard blackboard)
         {
             foreach (var parameter in Parameters)
@@ -121,7 +143,11 @@ namespace SimpleBT
         {
             var type = GetType();
             Node clone = Activator.CreateInstance(type) as Node;
-            
+
+            if (clone == null)
+            {
+                throw new Exception($"Failed to create instance of type {type} as Node");
+            }
             for (int i = 0; i < Parameters.Count; i++)
             {
                 var param = Parameters[i];
@@ -132,7 +158,7 @@ namespace SimpleBT
 
             foreach (var child in Children)
             {
-                clone.Children.Add(child.Clone());
+                clone.AddChild(child.Clone());
             }
             
             return clone;
@@ -156,7 +182,7 @@ namespace SimpleBT
                     }
 
                     parameter.Name = fieldInfo.Name;
-                    Parameters.Add(parameter);
+                    _parameters.Add(parameter);
                 }
             }
             
@@ -171,6 +197,23 @@ namespace SimpleBT
             }
         }
 
+        public string DebuggerDisplay => $"{Name}({NumericId}) ({Comment}) #{Id}";
+
+        public List<Node> Path
+        {
+            get
+            {
+                List<Node> result = new List<Node>();
+                Node cur = this;
+                while (cur != null)
+                {
+                    result.Add(cur);
+                    cur = cur.Parent;
+                }
+
+                return result;
+            }
+        }
 
         // public virtual void Interrupt()
         // {

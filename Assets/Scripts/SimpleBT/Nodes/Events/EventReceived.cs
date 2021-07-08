@@ -1,7 +1,9 @@
+using SimpleBT.Attributes;
 using SimpleBT.Parameters;
 
 namespace SimpleBT.Nodes.Events
 {
+    [Name("Event.IsReceived")]
     public class EventReceived: Node
     {
         private StringParameter name = "";

@@ -38,6 +38,8 @@ namespace SimpleBT.Nodes.Navigation
 
         protected override Status OnUpdate()
         {
+            _navAgent.isStopped = false;
+            
             if (!updateOnlyIfChanged || _prevPosition != target)
             {
                 if (!_navAgent.SetDestination(target))

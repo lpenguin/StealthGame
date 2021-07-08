@@ -19,8 +19,8 @@ namespace SimpleBT.Nodes
             {
                 throw new Exception($"Cannot find subtree \"{name.Value}\"");
             }
-            Children.Clear();
-            Children.Add(subTreeNode.Clone());
+            ClearChildren();
+            AddChild(subTreeNode.Clone());
         }
 
         protected override Status OnUpdate()

@@ -21,7 +21,23 @@ namespace Signals
                 signal.Emit();
             }
         }
+        
+        public void DrawGizmos(Vector3 position)
+        {
+            Gizmos.color = Color.green;
+            
+            foreach (var signal in signals)
+            {
+                if (signal.target == null)
+                {
+                    continue;
+                }
+                Gizmos.DrawLine(position, signal.target.transform.position);
+            }
+        }
     }
+    
+    
     [Serializable]
     public struct Signal
     {

@@ -71,7 +71,8 @@ namespace SimpleBT
 		
 		public void RegisterCallback(string eventName, UnityAction<BTEvent> action)
 		{
-
+			// TODO: RegisterEvent/DeregisterEvent
+			RegisterEvent(eventName);
 			if(!_events.TryGetValue(eventName, out var ev)){
 				ev = new UnityEvent<BTEvent>();
 				_events[eventName] = ev;
