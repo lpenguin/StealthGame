@@ -1,6 +1,6 @@
+using System.Linq;
 using SimpleBT.Attributes;
 using SimpleBT.Parameters;
-using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace SimpleBT.Nodes.Sensor
@@ -8,25 +8,20 @@ namespace SimpleBT.Nodes.Sensor
     [Name("Sensor.HasTarget")]
     public class SensorHasTarget: Node
     {
-        private Parameter<Transform> sensor;
-        private Parameter<Transform> target;
+        private TransformParameter sensor;
+        private TransformParameter target;
         
-        private Vision _vision;
+        private ContactSensor3D _sensor;
 
         protected override void OnStart()
         {
-        	_vision = sensor.Value?.GetComponent<Vision>();
-            Assert.IsNotNull(_vision, "_vision != null");
+            _sensor = sensor.Value.GetComponent<ContactSensor3D>();
+            Assert.IsNotNull(_sensor, $"{nameof(_sensor)} != null");
         }
 
         protected override Status OnUpdate()
         {
-        	foreach(var contact in _vision.Contacts){
-        		if(contact == target.Value){
-        			return Status.Success;
-        		}
-        	}
-        	return Status.Fail;
+            return _sensor.Contacts.Any(c => c.transform == target.Value) ? Status.Success : Status.Fail;
         }
     }
 }

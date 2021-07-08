@@ -15,6 +15,9 @@ blackboard:
   Vision Sensor:
     type: Transform
 
+  Attack Sensor:
+    type: Transform
+    
   Check Position:
     type: Vector3
 
@@ -122,7 +125,7 @@ trees:
   Transition_ToAggressive:
     Sequence:
     - UntilSuccess:
-      - Sensor.HasTarget: { sensor: $Vision Sensor, target: $Player }
+      - Vision.HasTarget: { sensor: $Vision Sensor, target: $Player }
     - Sequence:
       - Success:
         - Sequence:
@@ -136,7 +139,7 @@ trees:
     Sequence:
     - UntilSuccess:
       - Not:
-        - Sensor.HasTarget: { sensor: $Vision Sensor, target: $Player }
+        - Vision.HasTarget: { sensor: $Vision Sensor, target: $Player }
     - Sequence:
       - Animator.SetTrigger: { "Interrupt Action" }
       - Str.Set: { $State, "Searching" }
@@ -156,7 +159,15 @@ root:
 #            - Transform.Set: { $"Current Check Position Source", null }
 #            - Transform.Set: { $"Check Position Source", null }
 #            - Fail:                  
-  
+#      - Monitor:
+#          condition:
+#            Not:
+#            - Vision.HasTarget: { sensor: $Vision Sensor, target: $Player }
+#          action:  
+#            Sequence:
+#            - Robot.StopAttack:
+#            - Fail:  
+              
       - Monitor:  # State: Alerted
           comment: "Alerted State"
           condition:
@@ -166,6 +177,7 @@ root:
             - Tree: Transition_ToAggressive
 #            - Tree: Transition_ToAlerted
             - Sequence:
+              - Robot.StopAttack:
               - Robot.EnableLookAt: true
               - Robot.SetEmotion: "Alerted"
               - Robot.LookAt: $Check Position
@@ -193,6 +205,7 @@ root:
             Race:
             - Tree: Transition_ToAggressive
             - Sequence:
+              - Robot.StopAttack:
               - Robot.SetEmotion: "Aggressive"
               - Robot.EnableLookAt: false
               - Race:
@@ -241,10 +254,20 @@ root:
                 - Transform.GetPosition: { $Player, $"Check Position" }
                 - Robot.LookAt: { $"Check Position" }
             - Sequence:
+              - Robot.StopAttack:
               - Robot.SetEmotion: "Aggressive"
 #              - Robot.Bark: "Intruder!!"
-              - Repeater:
-                - Nav.GoTo: $Check Position
+              - Parallel:
+                - Repeater:
+                  - Nav.GoTo: { $Check Position, stopDistance: 5 }
+                - Repeater:
+                  - Selector:
+                    - Sequence:
+                      - Sensor.HasTarget: { sensor: $Attack Sensor, target: $Player }
+                      - Log: "Has Target"
+                      - Robot.StartAttack:
+                    - Robot.StopAttack:
+
       
       - Monitor:  # State: Idle
           comment: "Idle State"
@@ -255,6 +278,7 @@ root:
             - Tree: Transition_ToAlerted
             - Tree: Transition_ToAggressive
             - Sequence:
+              - Robot.StopAttack:
               - Robot.SetEmotion: "Idle"
               - Robot.EnableLookAt: false
               - Animator.SetTrigger: { "Interrupt Action" }

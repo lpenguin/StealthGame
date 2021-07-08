@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Audio;
+using GameLogic;
 using SimpleBT;
 using TMPro;
 using UnityEngine;
@@ -24,6 +26,12 @@ namespace Robot
     [SerializeField]
     private float switchLookAtSpeed = 5;
 
+    [SerializeField]
+    private float attackDamage = 25;
+    
+    
+    [SerializeField]
+    private ContactSensor3D attackSensor;
     
     [Header("Bark")]
     [SerializeField]
@@ -50,6 +58,7 @@ namespace Robot
     private Vector3 _initialLookAtPosition;
     
     private Blackboard blackboard;
+    private static readonly int Animator_Attack = Animator.StringToHash("Attack");
     private const string BB_InitialPosition = "Initial Position";
     private const string BB_InitialRotation = "Initial Rotation";
     
@@ -108,11 +117,45 @@ namespace Robot
             emotionLight.color = color;
         }
     }
+
+    public void StartAttack()
+    {
+        _animator.SetBool(Animator_Attack, true);
+    }
+
+    public void StopAttack()
+    {
+        _animator.SetBool(Animator_Attack, false);
+    }
     
+    #region Animation Events
+
     void Footstep()
     {
         _audioManager.PlayAudio("Step");
     }
+    
+    void AttackAnimatorEvent()
+    {
+        if (attackSensor == null)
+        {
+            return;
+        }
+
+        var changed = new HashSet<Health>();
+        
+        foreach (var contact in attackSensor.Contacts)
+        {
+            if (contact.TryGetComponent<Health>(out var health) && !changed.Contains(health))
+            {
+                health.Change(-attackDamage);
+                changed.Add(health);
+            }
+        }
+    }
+
+    #endregion
+
     
     private void OnDrawGizmos()
     {
