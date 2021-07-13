@@ -2,6 +2,7 @@ using UnityEngine.Assertions;
 using Patrol;
 using SimpleBT.Parameters;
 using SimpleBT.Attributes;
+using UnityEngine;
 
 
 namespace SimpleBT.Nodes.Patrol
@@ -32,7 +33,7 @@ namespace SimpleBT.Nodes.Patrol
             rotate.Value = patrolPoint.rotate;
             if (rotate.Value)
             {
-                rotation.Value = patrolTransform.rotation * patrolPoint.rotation;
+                rotation.Value = patrolTransform.rotation * Quaternion.Euler(patrolPoint.eulerAngles);
             }
             treeName.Value = patrolPoint.treeName;
             return Status.Success;

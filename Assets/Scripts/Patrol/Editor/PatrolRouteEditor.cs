@@ -81,7 +81,7 @@ namespace Patrol.Editor
                 var patrolPoint = points[index];
 
                 Vector3 worldPosition = transform.TransformPoint(patrolPoint.position);
-                Quaternion worldRotation = transform.rotation * patrolPoint.rotation;
+                Quaternion worldRotation = transform.rotation * Quaternion.Euler(patrolPoint.eulerAngles);
                 
                 float size = HandleUtility.GetHandleSize(worldPosition) * .1f;
 
@@ -130,8 +130,8 @@ namespace Patrol.Editor
 
                             if (EditorGUI.EndChangeCheck())
                             {
-                                Undo.RecordObject(target, "Rotate point");
-                                patrolPoint.rotation = Quaternion.Inverse(transform.rotation) * worldRotation;
+                                Undo.RecordObject(target, "Rotate point"); 
+                                patrolPoint.eulerAngles = (Quaternion.Inverse(transform.rotation) * worldRotation).eulerAngles;
                             }
 
                             break;

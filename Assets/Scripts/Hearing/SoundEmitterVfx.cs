@@ -30,15 +30,16 @@ namespace Hearing
             //     new Color2(Color.white, Color.white),
             //     0.05f);
             //     
+            var startColor = _lineRenderer.startColor;
             seq
                 .Append(DOTween
                 .To(() => _ring.radius, value => _ring.radius = value, radius, duration)
                 .From(0.5f)
                 )
                 .Append(_lineRenderer.DOColor(
-                new Color2(Color.white, Color.white),
+                new Color2(startColor, startColor),
                 new Color2(new Color(0f, 0f, 0f, 0f), new Color(0f, 0f, 0f, 0f)),
-                0.3f))
+                0.5f))
                 .OnComplete(() =>
                 {
                     Destroy(gameObject, 0.1f);

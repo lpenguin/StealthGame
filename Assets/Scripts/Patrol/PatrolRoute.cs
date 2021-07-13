@@ -18,9 +18,9 @@ namespace Patrol
     [Serializable]
     public class PatrolPoint {
         public Vector3 position = Vector3.zero;
-        public Quaternion rotation = Quaternion.identity;
+        public Vector3 eulerAngles;
         public bool rotate = false;
-        public string treeName;
+        public string treeName = "Idle";
     }
 
     

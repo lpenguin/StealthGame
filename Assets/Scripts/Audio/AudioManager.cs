@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Assertions;
 using Random = UnityEngine.Random;
 
 namespace Audio
@@ -23,17 +24,18 @@ namespace Audio
         public string name;
         public ConcreteClip[] clips;
     }
-    [RequireComponent(typeof(AudioSource))]
+    
     public class AudioManager: MonoBehaviour
     {
         [SerializeField]
+        private AudioSource audioSource;
+        
+        [SerializeField]
         private NamedAudioCollection[] clips;
-
-        private AudioSource _audioSource;
 
         private void Start()
         {
-            _audioSource = GetComponent<AudioSource>();
+            Assert.IsNotNull(audioSource, "audioSource != null");
         }
 
         public void PlayAudio(string name)
@@ -44,7 +46,7 @@ namespace Audio
                 {
                     int index = Random.Range(0, clipCollection.clips.Length);
                     var clip = clipCollection.clips[index];
-                    _audioSource.PlayOneShot(clip.clip, clip.volume);
+                    audioSource.PlayOneShot(clip.clip, clip.volume);
                 }
             }
         }

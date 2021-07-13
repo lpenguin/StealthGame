@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Signals
 {
     [Serializable]
-    public struct SignalCollection
+    public class SignalCollection
     {
         [SerializeField]
         public Signal[] signals;
@@ -25,7 +25,10 @@ namespace Signals
         public void DrawGizmos(Vector3 position)
         {
             Gizmos.color = Color.green;
-            
+            if (signals == null)
+            {
+                return;
+            }
             foreach (var signal in signals)
             {
                 if (signal.target == null)

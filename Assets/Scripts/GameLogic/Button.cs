@@ -32,7 +32,10 @@ namespace GameLogic
         public void Interact()
         {
             _animator.SetTrigger(Trigger);
-            toggle.Emit();
+            if (isEnabled)
+            {
+                toggle.Emit();
+            }
         }
 
         private void OnDrawGizmosSelected()

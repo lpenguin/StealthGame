@@ -1275,6 +1275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea2c0fe82a7146d3babb4be6c4090fea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 6931181912130585314}
   clips:
   - name: Open
     clips:

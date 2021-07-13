@@ -1,23 +1,5 @@
 {
   "dependencies": {
-    "com.alelievr.mixture": {
-      "version": "0.3.0",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {
-        "com.alelievr.node-graph-processor": "1.2.0",
-        "com.unity.render-pipelines.core": "10.4.0",
-        "com.unity.shadergraph": "10.4.0"
-      },
-      "url": "https://package.openupm.com"
-    },
-    "com.alelievr.node-graph-processor": {
-      "version": "1.2.0",
-      "depth": 1,
-      "source": "registry",
-      "dependencies": {},
-      "url": "https://package.openupm.com"
-    },
     "com.azixmcaze.unityserializabledictionary": {
       "version": "1.2.0",
       "depth": 0,
@@ -101,6 +83,13 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
+    "com.unity.inputsystem": {
+      "version": "1.0.2",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
     "com.unity.mathematics": {
       "version": "1.2.1",
       "depth": 2,
@@ -126,37 +115,12 @@
       },
       "url": "https://packages.unity.com"
     },
-    "com.unity.render-pipelines.core": {
-      "version": "11.0.0",
-      "depth": 1,
-      "source": "builtin",
-      "dependencies": {
-        "com.unity.ugui": "1.0.0",
-        "com.unity.modules.physics": "1.0.0"
-      }
-    },
-    "com.unity.searcher": {
-      "version": "4.3.2",
-      "depth": 2,
-      "source": "registry",
-      "dependencies": {},
-      "url": "https://packages.unity.com"
-    },
     "com.unity.settings-manager": {
       "version": "1.0.3",
       "depth": 1,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
-    },
-    "com.unity.shadergraph": {
-      "version": "11.0.0",
-      "depth": 1,
-      "source": "builtin",
-      "dependencies": {
-        "com.unity.render-pipelines.core": "11.0.0",
-        "com.unity.searcher": "4.3.1"
-      }
     },
     "com.unity.test-framework": {
       "version": "1.1.26",
@@ -178,18 +142,6 @@
       },
       "url": "https://packages.unity.com"
     },
-    "com.unity.timeline": {
-      "version": "1.5.5",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.modules.director": "1.0.0",
-        "com.unity.modules.animation": "1.0.0",
-        "com.unity.modules.audio": "1.0.0",
-        "com.unity.modules.particlesystem": "1.0.0"
-      },
-      "url": "https://packages.unity.com"
-    },
     "com.unity.ugui": {
       "version": "1.0.0",
       "depth": 0,
@@ -199,12 +151,12 @@
         "com.unity.modules.imgui": "1.0.0"
       }
     },
-    "net.wraithavengames.unityinterfacesupport": {
-      "version": "https://github.com/TheDudeFromCI/Unity-Interface-Support.git?path=/Packages/net.wraithavengames.unityinterfacesupport",
+    "net.skaillz.tidalwav": {
+      "version": "https://github.com/SkaillZ/tidalwav.git",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "3094e7820a3ecd9c8b70b6f16ee4ac9867e34404"
+      "hash": "0061c1c04e04f024c1649cf4c1d6b3400c188948"
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",

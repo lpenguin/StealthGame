@@ -143,11 +143,8 @@ namespace SimpleBT
         {
             BBParameter ParseBBParameter(KeyValuePair<YamlNode, YamlNode> pair)
             {
-                BBParameter res = new BBParameter();
-                
                 var name = ((YamlScalarNode) pair.Key).Value;
 
-                res.Name = name;
                 var descrNode = pair.Value;
                 if (!(descrNode is YamlMappingNode descrNodeMap))
                 {
@@ -160,32 +157,35 @@ namespace SimpleBT
                 }
 
                 var typeStr = ((YamlScalarNode) typeNode).Value;
-                if (!Blackboard.Types.TryGetValue(typeStr, out var bbType))
+                BBParameterType bbType;
+                if(!Enum.TryParse(typeStr, out bbType))
                 {
                     throw new Exception($"blackboard parameter {name}: invalid type {typeStr}");
                 }
 
-                res.Type = bbType;
-                
-                
+                BBParameter bbParameter = new BBParameter(name, bbType);
                 if (descrNodeMap.Children.TryGetValue("value", out var valueNode))
                 {
-                    res.Value = Blackboard.DeserializeValue(bbType, ((YamlScalarNode) valueNode).Value);
-                }
-                else
-                {
-                    if (bbType.IsClass)
+                    string strValue = ((YamlScalarNode) valueNode).Value;
+                    switch (bbType)
                     {
-                        res.Value = null;
-                    }
-                    else
-                    {
-                        res.Value = Activator.CreateInstance(bbType);
+                        case BBParameterType.Bool:
+                            bbParameter.Value = bool.Parse(strValue);
+                            break;
+                        case BBParameterType.Float:
+                            bbParameter.Value = float.Parse(strValue);
+                            break;
+                        case BBParameterType.Int:
+                            bbParameter.Value = int.Parse(strValue);
+                            break;
+                        case BBParameterType.String:
+                            bbParameter.Value = strValue;
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
                     }
                 }
-
-                return res;
-                
+                return bbParameter;
             }
             
             var res = new List<BBParameter>();

@@ -60,7 +60,7 @@ Transform:
   - {fileID: 1452693461726233309}
   m_Father: {fileID: 9018652165516110149}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -180}
+  m_LocalEulerAnglesHint: {x: -40.045246, y: -5.8971675e-15, z: -180}
 --- !u!1 &385733422215238399
 GameObject:
   m_ObjectHideFlags: 0
@@ -125,7 +125,7 @@ Transform:
   - {fileID: 6405659995398648548}
   m_Father: {fileID: 7155040136214619614}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 19.59359, y: -0.000014533357, z: -0.0000046487376}
+  m_LocalEulerAnglesHint: {x: 19.696796, y: -0.050310444, z: -0.048678182}
 --- !u!1 &944712134949013912
 GameObject:
   m_ObjectHideFlags: 0
@@ -418,7 +418,7 @@ Transform:
   - {fileID: 788325748881104171}
   m_Father: {fileID: 2442031001469373052}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -30.481773, y: -107.92892, z: -81.355804}
+  m_LocalEulerAnglesHint: {x: -14.273478, y: -100.60737, z: -22.466972}
 --- !u!1 &1743557710308319309
 GameObject:
   m_ObjectHideFlags: 0
@@ -571,7 +571,7 @@ Transform:
   - {fileID: 7919830898803651123}
   m_Father: {fileID: 7140264178325138195}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 37.9825, y: -168.83855, z: -178.45877}
+  m_LocalEulerAnglesHint: {x: 41.520164, y: 178.27977, z: 178.2752}
 --- !u!1 &2250130660438602833
 GameObject:
   m_ObjectHideFlags: 0
@@ -695,7 +695,7 @@ Transform:
   - {fileID: 3023452278834251786}
   m_Father: {fileID: 6096077242997999454}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 59.535103, y: -0.00006239763, z: 179.99992}
+  m_LocalEulerAnglesHint: {x: 75.921906, y: -0.000112736016, z: 179.99986}
 --- !u!1 &2547650791827661701
 GameObject:
   m_ObjectHideFlags: 0
@@ -787,7 +787,7 @@ Transform:
   - {fileID: 837795507978083787}
   m_Father: {fileID: 2021917959298359719}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 40.34686, y: -0.00003139601, z: 180}
+  m_LocalEulerAnglesHint: {x: 76.79738, y: -5.4856324, z: 174.8709}
 --- !u!1 &2999100029231547571
 GameObject:
   m_ObjectHideFlags: 0
@@ -965,7 +965,7 @@ Transform:
   - {fileID: 6096077242997999454}
   m_Father: {fileID: 7140264178325138195}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 34.470985, y: 0.07432556, z: 0.009140015}
+  m_LocalEulerAnglesHint: {x: -3.5766907, y: 177.94415, z: 174.72368}
 --- !u!1 &3142733358933077380
 GameObject:
   m_ObjectHideFlags: 0
@@ -1052,13 +1052,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3167347746571260965}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0.0001928508, y: 0.00029341874, z: -0.0003392547, w: 0.9999999}
   m_LocalPosition: {x: 0, y: 0, z: -0.4808}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6168212862387877692}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -0.022, y: 0.034, z: -0.039}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -0.017303467, y: -1.9992065}
@@ -1272,8 +1272,8 @@ GameObject:
   - component: {fileID: 3966284233993643774}
   - component: {fileID: 6066118419456334896}
   - component: {fileID: 6422321609870466359}
-  - component: {fileID: 4625160171324329296}
-  - component: {fileID: 7940365729477748144}
+  - component: {fileID: 8679025990265264156}
+  - component: {fileID: 1162062278}
   m_Layer: 9
   m_Name: Robot
   m_TagString: Untagged
@@ -1288,7 +1288,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3836207506185607700}
-  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0.0000014603138}
+  m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
   m_LocalPosition: {x: -23.6, y: 0, z: 53.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1300,6 +1300,7 @@ Transform:
   - {fileID: 4565430244214147196}
   - {fileID: 1621847565065170323}
   - {fileID: 2679766065850215953}
+  - {fileID: 8486947322757451576}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
@@ -1360,7 +1361,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.96
-  m_Speed: 8
+  m_Speed: 7.5
   m_Acceleration: 20
   avoidancePriority: 50
   m_AngularSpeed: 400
@@ -1386,7 +1387,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lookAtSource: {fileID: 4903083384574873270}
   lookAtRig: {fileID: 4164895005964964262}
-  switchLookAtSpeed: 5
+  switchLookAtSpeed: 3
   attackDamage: 25
   attackSensor: {fileID: 2108322332841304883}
   barkText: {fileID: 6672617562781298871}
@@ -1523,103 +1524,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9283641ffacf4f8887d7a8e41a0a0ed7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!82 &4625160171324329296
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3836207506185607700}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
---- !u!114 &7940365729477748144
+--- !u!114 &8679025990265264156
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1631,6 +1536,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea2c0fe82a7146d3babb4be6c4090fea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 3480573888503521887}
   clips:
   - name: Step
     clips:
@@ -1662,6 +1568,466 @@ MonoBehaviour:
     clips:
     - clip: {fileID: 8300000, guid: ab88acd34deb54ea8ae6ed60ea08b031, type: 3}
       volume: 1
+--- !u!114 &1162062278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3836207506185607700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f33f6fe8fa14e2a945b350be7f4f761, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scriptFile: {fileID: 4900000, guid: 8eb5415694c3ca2ffaa2984f2b51fe79, type: 3}
+  tree:
+    blackboardParameters:
+    - value:
+        stringValue: 
+        boolValue: 0
+        intValue: 0
+        floatValue: 0
+        vector3Value: {x: 0, y: 0, z: 0}
+        quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+        transformValue: {fileID: 0}
+      Name: Initial Position
+      Type: 4
+    - value:
+        stringValue: 
+        boolValue: 0
+        intValue: 0
+        floatValue: 0
+        vector3Value: {x: 0, y: 0, z: 0}
+        quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+        transformValue: {fileID: 0}
+      Name: Initial Rotation
+      Type: 5
+    - value:
+        stringValue: 
+        boolValue: 0
+        intValue: 0
+        floatValue: 0
+        vector3Value: {x: 0, y: 0, z: 0}
+        quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+        transformValue: {fileID: 0}
+      Name: Player
+      Type: 6
+    - value:
+        stringValue: 
+        boolValue: 0
+        intValue: 0
+        floatValue: 0
+        vector3Value: {x: 0, y: 0, z: 0}
+        quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+        transformValue: {fileID: 0}
+      Name: Saw Player
+      Type: 0
+    - value:
+        stringValue: 
+        boolValue: 0
+        intValue: 0
+        floatValue: 0
+        vector3Value: {x: 0, y: 0, z: 0}
+        quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+        transformValue: {fileID: 0}
+      Name: Vision Sensor
+      Type: 6
+    - value:
+        stringValue: 
+        boolValue: 0
+        intValue: 0
+        floatValue: 0
+        vector3Value: {x: 0, y: 0, z: 0}
+        quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+        transformValue: {fileID: 0}
+      Name: Attack Sensor
+      Type: 6
+    - value:
+        stringValue: 
+        boolValue: 0
+        intValue: 0
+        floatValue: 0
+        vector3Value: {x: 0, y: 0, z: 0}
+        quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+        transformValue: {fileID: 0}
+      Name: Check Position
+      Type: 4
+    - value:
+        stringValue: 
+        boolValue: 0
+        intValue: 0
+        floatValue: 0
+        vector3Value: {x: 0, y: 0, z: 0}
+        quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+        transformValue: {fileID: 0}
+      Name: Check Position Sense
+      Type: 3
+    - value:
+        stringValue: 
+        boolValue: 0
+        intValue: 0
+        floatValue: 0
+        vector3Value: {x: 0, y: 0, z: 0}
+        quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+        transformValue: {fileID: 0}
+      Name: Check Position Source
+      Type: 6
+    - value:
+        stringValue: 
+        boolValue: 0
+        intValue: 0
+        floatValue: 0
+        vector3Value: {x: 0, y: 0, z: 0}
+        quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+        transformValue: {fileID: 0}
+      Name: Current Check Position Source
+      Type: 6
+    - value:
+        stringValue: Idle
+        boolValue: 0
+        intValue: 0
+        floatValue: 0
+        vector3Value: {x: 0, y: 0, z: 0}
+        quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+        transformValue: {fileID: 0}
+      Name: Idle Tree
+      Type: 3
+    - value:
+        stringValue: 
+        boolValue: 0
+        intValue: 0
+        floatValue: 0
+        vector3Value: {x: 0, y: 0, z: 0}
+        quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+        transformValue: {fileID: 0}
+      Name: PatrolZone
+      Type: 6
+    - value:
+        stringValue: 
+        boolValue: 0
+        intValue: 0
+        floatValue: 0
+        vector3Value: {x: 0, y: 0, z: 0}
+        quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+        transformValue: {fileID: 0}
+      Name: Patrol Route
+      Type: 6
+    - value:
+        stringValue: 
+        boolValue: 0
+        intValue: 0
+        floatValue: 0
+        vector3Value: {x: 0, y: 0, z: 0}
+        quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+        transformValue: {fileID: 0}
+      Name: Patrol Position
+      Type: 4
+    - value:
+        stringValue: 
+        boolValue: 0
+        intValue: 0
+        floatValue: 0
+        vector3Value: {x: 0, y: 0, z: 0}
+        quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+        transformValue: {fileID: 0}
+      Name: Patrol Rotate
+      Type: 0
+    - value:
+        stringValue: 
+        boolValue: 0
+        intValue: 0
+        floatValue: 0
+        vector3Value: {x: 0, y: 0, z: 0}
+        quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+        transformValue: {fileID: 0}
+      Name: Patrol Rotation
+      Type: 5
+    - value:
+        stringValue: 
+        boolValue: 0
+        intValue: 0
+        floatValue: 0
+        vector3Value: {x: 0, y: 0, z: 0}
+        quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+        transformValue: {fileID: 0}
+      Name: Patrol Index
+      Type: 2
+    - value:
+        stringValue: 
+        boolValue: 0
+        intValue: 0
+        floatValue: 0
+        vector3Value: {x: 0, y: 0, z: 0}
+        quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+        transformValue: {fileID: 0}
+      Name: Patrol Tree
+      Type: 3
+    - value:
+        stringValue: Idle
+        boolValue: 0
+        intValue: 0
+        floatValue: 0
+        vector3Value: {x: 0, y: 0, z: 0}
+        quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+        transformValue: {fileID: 0}
+      Name: State
+      Type: 3
+    - value:
+        stringValue: 
+        boolValue: 0
+        intValue: 0
+        floatValue: 7
+        vector3Value: {x: 0, y: 0, z: 0}
+        quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+        transformValue: {fileID: 0}
+      Name: Search Time
+      Type: 1
+    - value:
+        stringValue: 
+        boolValue: 0
+        intValue: 0
+        floatValue: 0
+        vector3Value: {x: 0, y: 0, z: 0}
+        quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+        transformValue: {fileID: 0}
+      Name: Fix Object
+      Type: 6
+    - value:
+        stringValue: Idle
+        boolValue: 0
+        intValue: 0
+        floatValue: 0
+        vector3Value: {x: 0, y: 0, z: 0}
+        quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+        transformValue: {fileID: 0}
+      Name: Fix Tree
+      Type: 3
+  executeOnUpdate: 1
+  blackboard:
+    parameters:
+      m_keys:
+      - Initial Position
+      - Initial Rotation
+      - Player
+      - Saw Player
+      - Vision Sensor
+      - Attack Sensor
+      - Check Position
+      - Check Position Sense
+      - Check Position Source
+      - Idle Tree
+      - Patrol Route
+      - Patrol Position
+      - Patrol Rotate
+      - Patrol Rotation
+      - Patrol Index
+      - Patrol Tree
+      - State
+      - Search Time
+      - Fix Object
+      - Fix Tree
+      m_values:
+      - value:
+          stringValue: 
+          boolValue: 0
+          intValue: 0
+          floatValue: 0
+          vector3Value: {x: 0, y: 0, z: 0}
+          quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+          transformValue: {fileID: 0}
+        Name: Initial Position
+        Type: 4
+      - value:
+          stringValue: 
+          boolValue: 0
+          intValue: 0
+          floatValue: 0
+          vector3Value: {x: 0, y: 0, z: 0}
+          quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+          transformValue: {fileID: 0}
+        Name: Initial Rotation
+        Type: 5
+      - value:
+          stringValue: 
+          boolValue: 0
+          intValue: 0
+          floatValue: 0
+          vector3Value: {x: 0, y: 0, z: 0}
+          quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+          transformValue: {fileID: 0}
+        Name: Player
+        Type: 6
+      - value:
+          stringValue: 
+          boolValue: 0
+          intValue: 0
+          floatValue: 0
+          vector3Value: {x: 0, y: 0, z: 0}
+          quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+          transformValue: {fileID: 0}
+        Name: Saw Player
+        Type: 0
+      - value:
+          stringValue: 
+          boolValue: 0
+          intValue: 0
+          floatValue: 0
+          vector3Value: {x: 0, y: 0, z: 0}
+          quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+          transformValue: {fileID: 554987875991250206}
+        Name: Vision Sensor
+        Type: 6
+      - value:
+          stringValue: 
+          boolValue: 0
+          intValue: 0
+          floatValue: 0
+          vector3Value: {x: 0, y: 0, z: 0}
+          quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+          transformValue: {fileID: 2679766065850215953}
+        Name: Attack Sensor
+        Type: 6
+      - value:
+          stringValue: 
+          boolValue: 0
+          intValue: 0
+          floatValue: 0
+          vector3Value: {x: 0, y: 0, z: 0}
+          quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+          transformValue: {fileID: 0}
+        Name: Check Position
+        Type: 4
+      - value:
+          stringValue: 
+          boolValue: 0
+          intValue: 0
+          floatValue: 0
+          vector3Value: {x: 0, y: 0, z: 0}
+          quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+          transformValue: {fileID: 0}
+        Name: Check Position Sense
+        Type: 3
+      - value:
+          stringValue: 
+          boolValue: 0
+          intValue: 0
+          floatValue: 0
+          vector3Value: {x: 0, y: 0, z: 0}
+          quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+          transformValue: {fileID: 0}
+        Name: Check Position Source
+        Type: 6
+      - value:
+          stringValue: Patrol
+          boolValue: 0
+          intValue: 0
+          floatValue: 0
+          vector3Value: {x: 0, y: 0, z: 0}
+          quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+          transformValue: {fileID: 0}
+        Name: Idle Tree
+        Type: 3
+      - value:
+          stringValue: 
+          boolValue: 0
+          intValue: 0
+          floatValue: 0
+          vector3Value: {x: 0, y: 0, z: 0}
+          quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+          transformValue: {fileID: 0}
+        Name: Patrol Route
+        Type: 6
+      - value:
+          stringValue: 
+          boolValue: 0
+          intValue: 0
+          floatValue: 0
+          vector3Value: {x: 0, y: 0, z: 0}
+          quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+          transformValue: {fileID: 0}
+        Name: Patrol Position
+        Type: 4
+      - value:
+          stringValue: 
+          boolValue: 0
+          intValue: 0
+          floatValue: 0
+          vector3Value: {x: 0, y: 0, z: 0}
+          quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+          transformValue: {fileID: 0}
+        Name: Patrol Rotate
+        Type: 0
+      - value:
+          stringValue: 
+          boolValue: 0
+          intValue: 0
+          floatValue: 0
+          vector3Value: {x: 0, y: 0, z: 0}
+          quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+          transformValue: {fileID: 0}
+        Name: Patrol Rotation
+        Type: 5
+      - value:
+          stringValue: 
+          boolValue: 0
+          intValue: 0
+          floatValue: 0
+          vector3Value: {x: 0, y: 0, z: 0}
+          quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+          transformValue: {fileID: 0}
+        Name: Patrol Index
+        Type: 2
+      - value:
+          stringValue: 
+          boolValue: 0
+          intValue: 0
+          floatValue: 0
+          vector3Value: {x: 0, y: 0, z: 0}
+          quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+          transformValue: {fileID: 0}
+        Name: Patrol Tree
+        Type: 3
+      - value:
+          stringValue: Idle
+          boolValue: 0
+          intValue: 0
+          floatValue: 0
+          vector3Value: {x: 0, y: 0, z: 0}
+          quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+          transformValue: {fileID: 0}
+        Name: State
+        Type: 3
+      - value:
+          stringValue: 
+          boolValue: 0
+          intValue: 0
+          floatValue: 7
+          vector3Value: {x: 0, y: 0, z: 0}
+          quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+          transformValue: {fileID: 0}
+        Name: Search Time
+        Type: 1
+      - value:
+          stringValue: 
+          boolValue: 0
+          intValue: 0
+          floatValue: 0
+          vector3Value: {x: 0, y: 0, z: 0}
+          quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+          transformValue: {fileID: 0}
+        Name: Fix Object
+        Type: 6
+      - value:
+          stringValue: Idle
+          boolValue: 0
+          intValue: 0
+          floatValue: 0
+          vector3Value: {x: 0, y: 0, z: 0}
+          quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+          transformValue: {fileID: 0}
+        Name: Fix Tree
+        Type: 3
 --- !u!1 &3923088953805651668
 GameObject:
   m_ObjectHideFlags: 0
@@ -1776,13 +2142,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4088590025914627659}
-  m_LocalRotation: {x: 0.15279059, y: -0.00000016343014, z: -0.000000080498396, w: 0.98825866}
-  m_LocalPosition: {x: 0, y: 0.0061, z: -0.0059}
+  m_LocalRotation: {x: -0.036633994, y: -0.00000016208078, z: -0.000000009227825, w: 0.9993288}
+  m_LocalPosition: {x: -0.0043, y: -0.0221, z: -0.0044}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7724679208338835675}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 17.577, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -4.199, y: 0, z: 0}
 --- !u!108 &1582045534359984147
 Light:
   m_ObjectHideFlags: 0
@@ -1801,7 +2167,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 1
+    m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -2175,7 +2541,143 @@ Transform:
   - {fileID: 7549209409153192515}
   m_Father: {fileID: 8592162399649464463}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 6.6439767, y: 22.722588, z: -11.742609}
+  m_LocalEulerAnglesHint: {x: 8.284233, y: 27.368702, z: -95.84009}
+--- !u!1 &4815546596351777800
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8486947322757451576}
+  - component: {fileID: 3480573888503521887}
+  m_Layer: 0
+  m_Name: Audio Source
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8486947322757451576
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4815546596351777800}
+  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.99999976, y: 1, z: 0.99999976}
+  m_Children: []
+  m_Father: {fileID: 4501104604637888686}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &3480573888503521887
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4815546596351777800}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 0
+  MinDistance: 9.9009905
+  MaxDistance: 40
+  Pan2D: 0
+  rolloffMode: 2
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.49504954
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.8066101
+      value: 0.22593689
+      inSlope: -1.9803923
+      outSlope: -1.9803923
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.9876667
+      value: 0.078811646
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &4821820686085615369
 GameObject:
   m_ObjectHideFlags: 0
@@ -2206,7 +2708,7 @@ Transform:
   - {fileID: 2251613051199279622}
   m_Father: {fileID: 4057526815001461392}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -9.702897, y: 50.284355, z: 91.04031}
+  m_LocalEulerAnglesHint: {x: 0.81609553, y: 13.807328, z: 99.74306}
 --- !u!1 &4856707737856017805
 GameObject:
   m_ObjectHideFlags: 0
@@ -2353,7 +2855,7 @@ Transform:
   - {fileID: 1194187078782560560}
   m_Father: {fileID: 7922098313907869534}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -4.1139817, y: -0.000013730655, z: 6.341039e-13}
+  m_LocalEulerAnglesHint: {x: -11.243273, y: -0.0036925012, z: 0.042703237}
 --- !u!1 &5196394669670278220
 GameObject:
   m_ObjectHideFlags: 0
@@ -2446,7 +2948,7 @@ Transform:
   - {fileID: 2021917959298359719}
   m_Father: {fileID: 4828645367980282385}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 57.827248, y: -179.99994, z: 180}
+  m_LocalEulerAnglesHint: {x: 72.61761, y: -179.99992, z: -179.99998}
 --- !u!1 &5412142590925820612
 GameObject:
   m_ObjectHideFlags: 0
@@ -2537,7 +3039,7 @@ Transform:
   - {fileID: 6703661645947111561}
   m_Father: {fileID: 89858611767438136}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 60.39805, y: 179.99994, z: -180}
+  m_LocalEulerAnglesHint: {x: 70.51169, y: 179.99994, z: 180}
 --- !u!1 &5863217968581260630
 GameObject:
   m_ObjectHideFlags: 0
@@ -2598,7 +3100,7 @@ Transform:
   - {fileID: 7724679208338835675}
   m_Father: {fileID: 7140264178325138195}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0.000003264949, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0.0000031790505, y: 0.000000098298734, z: -0.000000018034822}
 --- !u!1 &6115662252577924177
 GameObject:
   m_ObjectHideFlags: 0
@@ -2626,7 +3128,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6115662252577924177}
-  m_LocalRotation: {x: 0.5, y: -0.5, z: 0.5, w: 0.5}
+  m_LocalRotation: {x: -0.5000019, y: -0.49999812, z: 0.49999812, w: -0.5000019}
   m_LocalPosition: {x: 0, y: 0, z: -3.01}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -3037,7 +3539,7 @@ MonoBehaviour:
   visibilityDelay: 0.3
   obstacles:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 2176
   trackHead: {fileID: 0}
 --- !u!135 &449956683613985691
 SphereCollider:
@@ -3202,7 +3704,7 @@ Transform:
   - {fileID: 2217050717586614109}
   m_Father: {fileID: 6703661645947111561}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 40.34686, y: 0.000031396008, z: 180}
+  m_LocalEulerAnglesHint: {x: 46.846016, y: -0.56682813, z: 179.46495}
 --- !u!1 &7680695879608824062
 GameObject:
   m_ObjectHideFlags: 0
@@ -3489,7 +3991,7 @@ Transform:
   - {fileID: 8592162399649464463}
   m_Father: {fileID: 7724679208338835675}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 17.162176, y: -0.8357174, z: 0.014045786}
+  m_LocalEulerAnglesHint: {x: 17.162075, y: 0.000028065582, z: 0.0000042316083}
 --- !u!1 &8742178489584609078
 GameObject:
   m_ObjectHideFlags: 0
@@ -3554,7 +4056,7 @@ Transform:
   - {fileID: 3502861306932675888}
   m_Father: {fileID: 2366205818418093853}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -30.648792, y: 98.09764, z: 107.934746}
+  m_LocalEulerAnglesHint: {x: -27.234783, y: 102.278824, z: 23.773558}
 --- !u!1 &8946199958516083873
 GameObject:
   m_ObjectHideFlags: 0
@@ -3769,7 +4271,7 @@ Transform:
   - {fileID: 89858611767438136}
   m_Father: {fileID: 9018652165516110149}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 79.13256, y: 26.691757, z: 27.88341}
+  m_LocalEulerAnglesHint: {x: 70.678345, y: 19.68628, z: 18.54678}
 --- !u!1 &9053266775237523766
 GameObject:
   m_ObjectHideFlags: 0
@@ -3831,7 +4333,7 @@ Transform:
   - {fileID: 5446935002732577886}
   m_Father: {fileID: 7919830898803651123}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 62.06488, y: 0.00007292568, z: -179.99992}
+  m_LocalEulerAnglesHint: {x: 73.93464, y: 0.000095499374, z: -179.9999}
 --- !u!1 &9126898324254491737
 GameObject:
   m_ObjectHideFlags: 0

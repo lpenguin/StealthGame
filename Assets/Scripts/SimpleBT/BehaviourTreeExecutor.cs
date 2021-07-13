@@ -1,4 +1,5 @@
 using System.IO;
+using UnityEditor;
 using UnityEngine;
 
 namespace SimpleBT
@@ -6,6 +7,8 @@ namespace SimpleBT
     public class BehaviourTreeExecutor: MonoBehaviour
     {
         public TextAsset scriptFile;
+        [SerializeField]
+        [HideInInspector]
         public BehaviourTree tree;
         public bool executeOnUpdate = true;
         [SerializeField]

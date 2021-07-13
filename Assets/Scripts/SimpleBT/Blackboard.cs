@@ -1,74 +1,157 @@
 using System;
 using System.Collections.Generic;
-using SimpleBT.Nodes;
 using UnityEngine;
 
 namespace SimpleBT
 {
+    public enum BBParameterType
+    {
+        Bool,
+        Float,
+        Int,
+        String,
+        Vector3,
+        Quaternion,
+        Transform
+    }
     [Serializable]
     public class BBParameter
     {
+
+        [SerializeField]
+        private BBParameterValue value;
+        
+        [HideInInspector]
         public string Name;
-        public object Value;
-        public Type Type;
-        public string ValueStr;
-        public string TypeStr;
-        public Transform transformField;
+        
+        public BBParameterType Type;
+
+        internal BBParameter(string name, BBParameterType type, BBParameterValue value)
+        {
+            Name = name;
+            Type = type;
+            this.value = value;
+        }
+        internal BBParameter(string name, BBParameterType type)
+        {
+            Name = name;
+            Type = type;
+        }
+
+        
+        public object Value
+        {
+            get
+            {
+                switch (Type)
+                {
+                    case BBParameterType.Bool:
+                        return value.boolValue;
+                    case BBParameterType.Float:
+                        return value.floatValue;
+                    case BBParameterType.Int:
+                        return value.intValue;
+                    case BBParameterType.String:
+                        return value.stringValue;
+                    case BBParameterType.Vector3:
+                        return value.vector3Value;
+                    case BBParameterType.Quaternion:
+                        return value.quaternionValue;
+                    case BBParameterType.Transform:
+                        return value.transformValue;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+            set
+            {
+                switch (Type)
+                {
+                    case BBParameterType.Bool:
+                        this.value.boolValue = (bool) value;
+                        break;
+                    case BBParameterType.Float:
+                        this.value.floatValue = (float) value;
+                        break;
+                    case BBParameterType.Int:
+                        this.value.intValue = (int) value;
+                        break;
+                    case BBParameterType.String:
+                        this.value.stringValue = (string) value;
+                        break;
+                    case BBParameterType.Vector3:
+                        this.value.vector3Value = (Vector3) value;
+                        break;
+                    case BBParameterType.Quaternion:
+                        this.value.quaternionValue = (Quaternion) value;
+                        break;
+                    case BBParameterType.Transform:
+                        this.value.transformValue = (Transform) value;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+        }
+    }
+
+    [Serializable]
+    internal struct BBParameterValue
+    {
+        public string stringValue;
+        public bool boolValue;
+        public int intValue;
+        public float floatValue;
+        public Vector3 vector3Value;
+        public Quaternion quaternionValue;
+        public Transform transformValue;
+    }
+
+    [Serializable]
+    public class BBParameterDictionary : SerializableDictionary<string, BBParameter>
+    {
         
     }
-    
     [Serializable]
-    public class Blackboard: ISerializationCallbackReceiver
+    public class Blackboard
     {
-        public static readonly Dictionary<string, Type> Types = new Dictionary<string, Type>()
-        {
-            {"bool", typeof(bool)},
-            {"float", typeof(float)},
-            {"int", typeof(int)},
-            {"string", typeof(string)},
-            {"Vector3", typeof(Vector3)},
-            {"Quaternion", typeof(Quaternion)},
-            {"Transform", typeof(Transform)},
-        };
+        public BBParameterDictionary parameters;
 
-        public static readonly Dictionary<Type, string> TypesInv = InverseTypes();
-
-        static Dictionary<Type, string> InverseTypes()
+        private static BBParameter FromValue(string name, object value)
         {
-            var res = new Dictionary<Type, string>();
-            foreach (var kv in Types)
+            return value switch
             {
-                res[kv.Value] = kv.Key;
-            }
-
-            return res;
+                int intValue => new BBParameter(name, BBParameterType.Int, 
+                    new BBParameterValue{intValue = intValue}),
+                bool boolValue => new BBParameter(name, BBParameterType.Bool,
+                    new BBParameterValue {boolValue = boolValue}),
+                string stringValue => new BBParameter(name, BBParameterType.String,
+                    new BBParameterValue {stringValue = stringValue}),
+                float floatValue => new BBParameter(name, BBParameterType.Float,
+                    new BBParameterValue {floatValue = floatValue}),
+                Vector3 vector3Value => new BBParameter(name, BBParameterType.Vector3,
+                    new BBParameterValue {vector3Value = vector3Value}),
+                Quaternion quaternionValue => new BBParameter(name, BBParameterType.Quaternion,
+                    new BBParameterValue {quaternionValue = quaternionValue}),
+                Transform transformValue => new BBParameter(name, BBParameterType.Transform,
+                    new BBParameterValue {transformValue = transformValue}),
+                _ => throw new Exception($"Invalid value type: {value}")
+            };
         }
-        
-        [SerializeField]
-        private List<BBParameter> _parametersList;
-        
-        private Dictionary<string, BBParameter> _parameters;
-        
-        
         public void SetValue(string name, object value)
         {
-            if (!_parameters.ContainsKey(name) && value != null)
+            if (!parameters.ContainsKey(name))
             {
-                _parameters[name] = new BBParameter()
-                {
-                    Name = name,
-                    Type = value.GetType(),
-                    Value = value
-                };
+                parameters[name] = FromValue(name, value);
                 return;
             } 
-            var p = _parameters[name];
+            var p = parameters[name];
             p.Value = value;
         }
 
         public object GetValue(string name)
         {
-            if (!_parameters.TryGetValue(name, out var parameter))
+            if (!parameters.TryGetValue(name, out var parameter))
             {
                 throw new Exception($"Blackboard parameter doesn't exist: {name}");
             }
@@ -89,153 +172,40 @@ namespace SimpleBT
                 paramValue = Activator.CreateInstance(type);
             }
 
-            var param = new BBParameter()
-            {
-                Name = name,
-                Type = type,
-                Value = paramValue
-            };
-            _parameters[name] = param;
+            var param = FromValue(name, paramValue);
+            parameters[name] = param;
         }
 
         public void RenameParameter(string oldName, string newName)
         {
-            var param = _parameters[oldName];
+            var param = parameters[oldName];
             param.Name = newName;
-            _parameters.Remove(oldName);
-            _parameters[newName] = param;
+            parameters.Remove(oldName);
+            parameters[newName] = param;
         }
 
         public void DeleteParameter(string name)
         {
-            var param = _parameters[name];
-            _parameters.Remove(name);
+            var param = parameters[name];
+            parameters.Remove(name);
         }
 
-        public IEnumerable<BBParameter> Parameters
-        {
-            get
-            {
-                if (_parameters == null)
-                {
-                    _parameters = new Dictionary<string, BBParameter>();
-                }
-                return _parameters.Values;
-            }
-        }
+        public IEnumerable<BBParameter> Parameters => parameters.Values;
+
 
         public Blackboard Copy()
         {
             return this;
         }
 
-        public void OnBeforeSerialize()
-        {
-            if (_parametersList == null)
-            {
-                _parametersList = new List<BBParameter>();
-            }
-            _parametersList.Clear();
-            if (_parameters == null)
-            {
-                return;
-            }
-            
-            foreach (var parameter in _parameters.Values)
-            {
-                SerializeParam(parameter);
-                _parametersList.Add(parameter);
-            }
-            
-        }
-
-
-
-        public void OnAfterDeserialize()
-        {
-            if (_parameters == null)
-            {
-                if (_parametersList == null)
-                {
-                    _parametersList = new List<BBParameter>();
-                }
-                _parameters = new Dictionary<string, BBParameter>();
-                foreach (var parameter in _parametersList)
-                {
-                    _parameters[parameter.Name] = parameter;
-                    DeserializeParam(parameter);
-                }
-            }
-        }
-
-        private void DeserializeParam(BBParameter parameter)
-        {
-            if (!Types.TryGetValue(parameter.TypeStr, out parameter.Type))
-            {
-                throw new Exception($"Cannot find type: {parameter.TypeStr}");
-            }
-            
-            if (parameter.Type == typeof(Transform))
-            {
-                parameter.Value = parameter.transformField;
-                return;
-            }
-            
-            parameter.Value = DeserializeValue(parameter.Type, parameter.ValueStr);
-        }
-
-        private void SerializeParam(BBParameter parameter)
-        {
-            parameter.TypeStr = TypesInv[parameter.Type];
-            if (parameter.Type == typeof(Transform))
-            {
-                parameter.transformField = (Transform) parameter.Value;
-                parameter.ValueStr = null;
-                return;
-            }
-            parameter.ValueStr = SerializeValue(parameter.Type, parameter.Value);
-        }
-
-        private static string SerializeValue(Type type, object value)
-        {
-            if(value == null){
-                return null;
-            }
-            
-            if (type == typeof(Vector3))
-            {
-                return JsonUtility.ToJson(value);
-            }
-
-            if (type == typeof(Quaternion))
-            {
-                return JsonUtility.ToJson(value);
-            }
-            return value.ToString();
-        }
-
-        public static object DeserializeValue(Type type, string valueStr)
-        {
-            if (type == typeof(Vector3))
-            {
-                return JsonUtility.FromJson<Vector3>(valueStr);
-            }
-
-            if (type == typeof(Quaternion))
-            {
-                return JsonUtility.FromJson<Quaternion>(valueStr);
-            }
-            return Convert.ChangeType(valueStr, type);
-        }
-
         public bool HasParameter(string parameterName)
         {
-            return _parameters.ContainsKey(parameterName);
+            return parameters.ContainsKey(parameterName);
         }
 
         public void AddParameter(BBParameter parameter)
         {
-            _parameters[parameter.Name] = parameter;
+            parameters[parameter.Name] = parameter;
         }
     }
 }

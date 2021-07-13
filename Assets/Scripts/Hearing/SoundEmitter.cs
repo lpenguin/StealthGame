@@ -10,11 +10,14 @@ namespace Hearing
         [SerializeField]
         private SoundEmitterVfx vfx;
         
+        [SerializeField]
+        private float radius = 10f;
+
         private const int MaxColliders = 256;
         
         private Collider[] _colliders = new Collider[MaxColliders];
 
-        public void Emit(float radius)
+        public void Emit()
         {
             var size = Physics.OverlapSphereNonAlloc(transform.position, radius, _colliders, emitMask, QueryTriggerInteraction.Collide);
             for (int i = 0; i < size; i++)

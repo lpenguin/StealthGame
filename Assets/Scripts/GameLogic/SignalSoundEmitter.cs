@@ -7,9 +7,7 @@ namespace GameLogic
     [RequireComponent(typeof(SoundEmitter))]
     public class SignalSoundEmitter: MonoBehaviour, ISignalHandler
     {
-        [SerializeField]
-        private float radius = 5f;
-        
+       
         private SoundEmitter _emitter;
 
         private void Start()
@@ -19,7 +17,7 @@ namespace GameLogic
 
         public void HandleSignal(SignalType signal)
         {
-            _emitter.Emit(radius);
+            _emitter.Emit();
         }
     }
 }
