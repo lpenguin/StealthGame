@@ -24,7 +24,7 @@ namespace SimpleBT.Editor
             executeOnUpdate = serializedObject.FindProperty("executeOnUpdate");
             blackboard = serializedObject.FindProperty("blackboard").FindPropertyRelative("parameters");
         }
-        
+
         public override void OnInspectorGUI()
         {
             var executor = target as BehaviourTreeExecutor;
@@ -35,21 +35,26 @@ namespace SimpleBT.Editor
             {
                 executor.LoadTree();
             }
+
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.PropertyField(executeOnUpdate);
-            EditorGUILayout.PropertyField(blackboard);
+            if (executor.tree != null)
+            {
+                if (Application.isPlaying)
+                {
+                    if (GUILayout.Button("Step", GUILayout.Width(90)))
+                    {
+                        executor.Step();
+                    }                
+                }
+            }
             
-            //
-            // executor.LoadIfNeeded();
-            // if (executor.tree != null)
-            // {
-            //     if (Application.isPlaying)
-            //     {
-            //         if (GUILayout.Button("Step"))
-            //         {
-            //             executor.Step();
-            //         }                
-            //     }
+            EditorGUILayout.PropertyField(blackboard);
+
+            executor.EnsureTreeLoaded();
+
+        //
+
             //
             //     if (executor.tree.subTrees.Count > 0)
             //     {
