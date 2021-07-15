@@ -1,6 +1,6 @@
 using System.IO;
-using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace SimpleBT
 {
@@ -16,9 +16,11 @@ namespace SimpleBT
         private ExecutionContext _context = new ExecutionContext();
         private EventBus _eventBus = new EventBus();
 
+        public UnityEvent onStep;
+        
         public EventBus EventBus => _eventBus;
         
-        public void LoadIfNeeded()
+        public void EnsureTreeLoaded()
         {
             if (scriptFile == null)
             {
@@ -73,6 +75,7 @@ namespace SimpleBT
             if ((tree.root.Status & (Status.Success | Status.Fail)) == 0)
             {
                 tree.root.Execute(_context);
+                onStep.Invoke();
             }
         }
     }
