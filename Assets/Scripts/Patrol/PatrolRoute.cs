@@ -41,8 +41,18 @@ namespace Patrol
         [HideInInspector]
         public PatrolRouteEditorInfo editorInfo = new PatrolRouteEditorInfo();
 
-        private void Start()
+        private void Awake()
         {
+            Points = GetPoints();
+        }
+
+        public IReadOnlyList<PatrolPoint> GetPoints()
+        {
+            if (rawPoints.Length == 1)
+            {
+                return new List<PatrolPoint>(rawPoints);
+            }
+            
             int[] indices;
             switch(patrolMode){
                 case PatrolMode.PingPong:
@@ -60,7 +70,7 @@ namespace Patrol
                     throw new Exception($"Invalid patrol mode {patrolMode}");         
             }
 
-            Points = new IndexedView<PatrolPoint>(rawPoints, indices);
+            return new IndexedView<PatrolPoint>(rawPoints, indices);
         }
 
         public int NextIndex(int currentIndex)
