@@ -61,6 +61,7 @@ namespace Robot
     private static readonly int Animator_Attack = Animator.StringToHash("Attack");
     private const string BB_InitialPosition = "Initial Position";
     private const string BB_InitialRotation = "Initial Rotation";
+    private const string BB_Player = "Player";
     
     void Start()
     {
@@ -71,6 +72,11 @@ namespace Robot
         blackboard = GetComponent<BehaviourTreeExecutor>().blackboard;
         blackboard.SetValue(BB_InitialPosition, transform.position);
         blackboard.SetValue(BB_InitialRotation, transform.rotation);
+        var player = GameObject.FindWithTag("Player");
+        if (player != null)
+        {
+            blackboard.SetValue(BB_Player, player.transform);
+        }
         _initialLookAtPosition = lookAtSource.localPosition;
     }
     
