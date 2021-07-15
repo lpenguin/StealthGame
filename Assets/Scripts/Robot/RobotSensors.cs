@@ -76,21 +76,6 @@ namespace Robot
             {
                 soundListener.ClearEmitters();
             }
-        
-
-        
-        }
-        
-        private void OnDrawGizmos()
-        {
-            if (blackboard == null || !blackboard.HasParameter(BB_CheckPosition))
-            {
-                return;
-            }
-        
-            var position = blackboard.GetValue<Vector3>(BB_CheckPosition);
-            Gizmos.color = Color.red;
-            Gizmos.DrawSphere(position, 0.5f);
         }
     }
 }
