@@ -21,6 +21,12 @@ namespace SimpleBT.Nodes.Composites
             {
                 // Debug.Log($"SelectorI: Checking Child[{i}]");
                 var child = Children[i];
+                
+                if(i != taskIndex && (child.Status & (Status.Empty | Status.Running)) == 0)
+                {
+                    child.Reset();
+                }
+                
                 child.Execute(currentContext);
                 
                 switch (child.Status)
@@ -48,8 +54,8 @@ namespace SimpleBT.Nodes.Composites
                             }
                         }
 
-                        continue;
-                        // return Status.Success;
+                        // continue;
+                        return Status.Success;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
