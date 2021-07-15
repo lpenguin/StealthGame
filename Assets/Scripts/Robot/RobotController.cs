@@ -56,6 +56,8 @@ namespace Robot
     private bool _isLookingAt = false;
     private Coroutine _barkCoro;
     private Vector3 _initialLookAtPosition;
+
+    private Vector3 _targetLookAtSourcePosition;
     
     private Blackboard blackboard;
     private static readonly int Animator_Attack = Animator.StringToHash("Attack");
@@ -99,7 +101,7 @@ namespace Robot
     }
     public void LookAt(Vector3 point)
     {
-        lookAtSource.position = point;
+        _targetLookAtSourcePosition = point;
         _isLookingAt = true;
     }
 
@@ -111,13 +113,24 @@ namespace Robot
     public void StopLookAt()
     {
         _isLookingAt = false;
-        lookAtSource.localPosition = _initialLookAtPosition;
     }
     
     void Update()
     {
         _animator.SetFloat("Speed", _navMeshAgent.velocity.magnitude /  _navMeshAgent.speed);
         lookAtRig.weight = Mathf.Lerp(lookAtRig.weight, _isLookingAt ? 1 : 0, Time.deltaTime * switchLookAtSpeed);
+
+        if (_isLookingAt)
+        {
+            lookAtSource.position = Vector3.Lerp(lookAtSource.position, _targetLookAtSourcePosition,
+                Time.deltaTime * switchLookAtSpeed);
+        }
+        else
+        {
+            lookAtSource.localPosition = Vector3.Lerp(lookAtSource.localPosition, _initialLookAtPosition,
+                Time.deltaTime * switchLookAtSpeed);;
+        }
+        
         if (emotions.TryGetValue(currentEmotion, out var color))
         {
             emotionLight.color = color;
