@@ -3,7 +3,7 @@ using SimpleBT.Parameters;
 
 namespace SimpleBT.Nodes.Events
 {
-    [Name("Event.IsReceived")]
+    [Name("Event.Received")]
     public class EventReceived: Node
     {
         private StringParameter name = "";
@@ -12,16 +12,12 @@ namespace SimpleBT.Nodes.Events
         private Parameter<object> arg3;
 
         // private bool _handledEvent = false;
-        private bool _registered = false;
         private BTEvent _handledEvent = null;
+        private EventBus _bus;
 
         protected override void OnStart(){
-            // TODO: deregister callback. Probably need OnAwake function
-            if(!_registered){
-                currentContext.EventBus.RegisterCallback(name.Value, OnNewEvent);
-                _registered = true;
-            }
-            
+            _bus = currentContext.EventBus;
+            _bus.RegisterCallback(name.Value, OnNewEvent);
         }
         
         protected override Status OnUpdate()
@@ -48,6 +44,20 @@ namespace SimpleBT.Nodes.Events
         }
 
 
+        protected override void OnAbort()
+        {
+            _bus.DeregisterCallback(name.Value, OnNewEvent);
+        }
+
+        public override void Reset()
+        {
+            if (Status == Status.Empty)
+            {
+                return;
+            }
+            _bus.DeregisterCallback(name.Value, OnNewEvent);
+            base.Reset();
+        }
 
         private void OnNewEvent(BTEvent ev){
             _handledEvent = ev;

@@ -78,6 +78,7 @@ namespace SimpleBT
 				_events[eventName] = ev;
 			}
 
+			ev.RemoveListener(action);
 			ev.AddListener(action);
 		}
 
