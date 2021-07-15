@@ -1567,6 +1567,10 @@ MonoBehaviour:
     clips:
     - clip: {fileID: 8300000, guid: ab88acd34deb54ea8ae6ed60ea08b031, type: 3}
       volume: 1
+  - name: Damage detected
+    clips:
+    - clip: {fileID: 8300000, guid: 63e2ff97e8a4096669d597d5f41f8c0f, type: 3}
+      volume: 1
 --- !u!114 &1162062278
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3126,7 +3130,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6115662252577924177}
-  m_LocalRotation: {x: 0.49999973, y: 0.5000003, z: -0.5000003, w: 0.49999973}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0.7071068, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: -3.01}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:

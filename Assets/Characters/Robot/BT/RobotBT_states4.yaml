@@ -1,0 +1,341 @@
+names: Robot (States)
+blackboard:
+  Initial Position:
+    type: Vector3
+    
+  Initial Rotation:
+    type: Quaternion
+    
+  Player:
+    type: Transform
+
+  Saw Player:
+    type: Bool
+
+  Vision Sensor:
+    type: Transform
+
+  Attack Sensor:
+    type: Transform
+    
+  Check Position:
+    type: Vector3
+
+  Check Position Sense:
+    type: String
+
+  Check Position Source:
+    type: Transform
+
+  Current Check Position Source:
+    type: Transform
+
+  Idle Tree:
+    type: String
+    value: Idle
+    
+  PatrolZone: 
+    type: Transform
+
+  Patrol Route:
+    type: Transform
+
+  Patrol Position:
+    type: Vector3
+
+  Patrol Rotate:
+    type: Bool
+
+  Patrol Rotation:
+    type: Quaternion
+
+  Patrol Index:
+    type: Int
+    value: 0
+
+  Patrol Tree:
+    type: String
+
+  State:
+    type: String
+    value: Idle
+
+  Search Time:
+    type: Float
+    value: 7
+
+  Fix Object:
+    type: Transform
+    
+  Fix Tree:
+    type: String
+    value: Idle
+    
+trees:
+  Idle:
+    Sequence:
+    - Idle:
+    - Bark: { text: "Going back" }
+    - GoTo: $"Initial Position"
+    - Rotate: { rotation: $"Initial Rotation" }
+    - Idle:
+
+  GotoPatrolPoint:
+    Sequence:
+    - GoTo: $Patrol Position
+    - Success:
+      - Sequence: 
+        - Bool.IsSet: $"Patrol Rotate"
+        - Rotate: $"Patrol Rotation"
+    - Selector:
+      - Sequence:
+        - Str.IsEmpty: $"Patrol Tree"
+        - Success:
+      - Sequence:
+        - Tree: $"Patrol Tree"
+
+  Patrol:
+    Sequence:
+    - Patrol.CurrentPoint: { $"Patrol Route", $"Patrol Index", $"Patrol Position", $"Patrol Rotate", $"Patrol Rotation", $"Patrol Tree" }
+    - Tree: GotoPatrolPoint
+    - Repeater:
+        - Sequence:
+          - Patrol.NextPoint: { $"Patrol Route", $"Patrol Index", $"Patrol Position", $"Patrol Rotate", $"Patrol Rotation", $"Patrol Tree" }
+          - Tree: GotoPatrolPoint
+    - Log: Done patrol
+
+  BarkSomething:
+    Bark: "Barking Something"
+
+  Use:
+    Sequence:
+    - Wait: .5
+    - Animator.PlayState: { "Use", "Actions" }
+    - Wait: .5
+    
+  Fix:
+    Sequence:
+    - Race:
+      - Wait: 7
+      - Repeater:
+        - Sequence:
+          - Wait: .5
+          - Animator.PlayState: { "Use", "Actions" }
+          - Wait: .5
+    - Signal.Send: { $"Fix Object", "On" }
+        
+  Wait:
+    Wait: 1
+
+  LookAround:
+    Sequence:
+    - Robot.EnableLookAt: true
+    - RandomSelector:        
+      - Animator.PlayState: { state: "Look Around" , layer: "Actions" }
+      - Animator.PlayState: { state: "Look Around2" , layer: "Actions" }
+    - Robot.EnableLookAt: false
+  
+      
+  Transition_ToAlerted:
+    Sequence:
+    - Event.Received: { "Object Is Broken", $"Fix Object", $"Fix Tree" }
+    - Selector:
+      - Str.Equals: { $State, "Alerted" }      
+      - Audio.Play: "I hear something"
+    - Str.Set: { $State, "Alerted" }
+  
+  Transition_ToAggressive:
+    Sequence:
+    - Vision.HasTarget: { sensor: $Vision Sensor, target: $Player }
+    - Sequence:
+      - Success:
+        - Sequence:
+          - Not:
+            - Str.In: { $State, ["Searching", "Aggressive"] }
+          - Audio.Play: "Intruder"
+      - Animator.SetTrigger: { "Interrupt Action" }
+      - Str.Set: { $State, "Aggressive" }
+
+  Transition_ToSearching:
+    Sequence:
+    - Not:
+      - Vision.HasTarget: { sensor: $Vision Sensor, target: $Player }
+    - Sequence:
+      - Animator.SetTrigger: { "Interrupt Action" }
+      - Str.Set: { $State, "Searching" }
+  
+  Transition_ToFixing:
+    Sequence:
+    - Selector:
+      - Sequence:
+        - Event.Received: { "Object Is Broken", $"Fix Object", $"Fix Tree" }
+        - Audio.Play: "Damage detected"
+#      - Sequence: # State-specific transition, probably move to another tree? 
+#        - Str.Equals: { $State, "Idle" }
+#        - Obj.IsNotNull: $Fix Object
+#        - Audio.Play: "Damage detected"
+    - Wait: 3
+    - Str.Set: { $State, "Fixing" }
+  
+root:
+  Sequence:
+  - "Root"
+  - Robot.EnableLookAt: false
+  - Parallel:
+    - Repeater:
+      - Event.Wait: { "Object Is Broken", $"Fix Object", $"Fix Tree" }
+    - Repeater:
+      - Selector.Active:
+        - Monitor:  # State: Alerted
+            comment: "Alerted State"
+            condition:
+              Str.Equals: { $State, "Alerted" }
+            action:
+              Selector.Active:
+              - Tree: Transition_ToAggressive
+              - Tree: Transition_ToFixing
+  #            - Tree: Transition_ToAlerted
+              - Sequence:
+                - Robot.StopAttack:
+                - Robot.EnableLookAt: true
+                - Robot.SetEmotion: "Alerted"
+                - Robot.LookAt: $Check Position
+                - Nav.Stop:
+                - Wait: 1.0
+  #              - Robot.Bark: "Going to check"
+                - Robot.EnableLookAt: false
+                - Race:
+                  - Repeater:
+                    - Event.Wait: { "Check Position", $"Check Position Source", $"Check Position Sense", $"Check Position" }
+                  - Sequence:
+                    - Nav.GoTo: $Check Position
+                - Race:
+                  - Tree: Transition_ToAlerted
+                  - Sequence#SearchSequence:
+                    - Audio.Play: "Inspecting"
+                    - Tree: LookAround
+                    - Str.Set: { $State, "Idle" }
+  
+        - Monitor:
+            comment: "Fixing State"
+            condition:
+              Str.Equals: { $State, "Fixing" }
+            action:
+              Selector.Active:
+              - Tree: Transition_ToAggressive
+              - Tree: Transition_ToAlerted
+              - Sequence:
+                # This boilerplate should go to State.OnExit branch
+                - Robot.StopAttack:
+                - Animator.SetTrigger: { "Interrupt Action" }
+                - Robot.SetEmotion: "Alerted"
+  
+                - Transform.GetPosition: { $"Fix Object", $"Check Position"}
+                - Robot.EnableLookAt: true
+                - Robot.LookAt: $Check Position
+                - Nav.Stop:
+                - Wait: 1.0
+                - Race:
+                  - Nav.GoTo: $Check Position
+                  - Repeater:
+                    - Robot.LookAt: $Check Position
+                - Tree: $Fix Tree
+                - Audio.Play: "Returning to my main program"
+                - Transform.Set: { $"Fix Object", null }
+                - Str.Set: { $State, "Idle" }
+  
+        - Monitor:  # State: Searching
+            comment: "Searching State"
+            condition:
+              Str.Equals: { $State, "Searching" }
+            action:
+              Selector.Active:
+              - Tree: Transition_ToAggressive
+              - Tree: Transition_ToFixing
+              - Sequence:
+                - Robot.StopAttack:
+                - Robot.SetEmotion: "Aggressive"
+                - Robot.EnableLookAt: false
+                - Race:
+                  - Sequence#SearchTimer:
+                    - Wait: $Search Time
+                  
+                  - Parallel:
+                    - Sequence:
+                      - Wait: 2
+                      - Repeater:
+                        - Sequence:
+                          - Wait: 3
+                          - Audio.Play: "Locating intruder"
+      #                  - Robot.Bark: "Where are you?"
+                    - Repeater:                          
+                      - Sequence:
+                        - Event.Wait: {"Check Position", $"Check Position Source", $"Check Position Sense", $"Check Position"}
+                        - Log: Interrupting SearchingSeq
+                        - Interrupt: SearchSeq
+                        - Interrupt: SearchTimer
+                          
+                    - Sequence#SearchSeq:
+                      - Nav.GoTo: $Check Position
+                      - Repeater:
+                        - Sequence:
+                          - Robot.EnableLookAt: true
+                          - Animator.PlayState: { state: "Look Around Fast", layer: "Actions" }
+                          - Robot.EnableLookAt: false
+                          - Wait: 2
+                          - Nav.RandomPoint: { $"Check Position", distance: 10}
+                          - Success:
+                            - Nav.GoTo: $Check Position
+                - Audio.Play: "Returning to my main program"
+                - Str.Set: { $State, "Idle" }
+    
+        - Monitor:
+            comment: "Aggressive State"
+            condition:
+              Str.Equals: { $State, "Aggressive" }
+            action:
+              Selector.Active:
+              - Tree: Transition_ToSearching
+              - Parallel:
+                - Repeater:
+                  - Sequence:
+                    - Transform.GetPosition: { $Player, $"Check Position" }
+                    - Robot.LookAt: { $"Check Position" }
+                - Sequence:
+                  - Robot.StopAttack:
+                  - Robot.SetEmotion: "Aggressive"
+    #              - Robot.Bark: "Intruder!!"
+                  - Parallel:
+                    - Repeater:
+                      - Nav.GoTo: { $Check Position, stopDistance: 5 }
+                    - Repeater:
+                      - Selector:
+                        - Sequence:
+                          - Sensor.HasTarget: { sensor: $Attack Sensor, target: $Player }
+                          - Log: "Has Target"
+                          - Robot.StartAttack:
+                        - Robot.StopAttack:
+  
+        - Monitor:  # State: Idle
+            comment: "Idle State"
+            condition: 
+              Str.Equals: { $State, "Idle" }
+            action:
+              Selector.Active:
+              - Tree: Transition_ToFixing
+              - Tree: Transition_ToAlerted
+              - Tree: Transition_ToAggressive
+                
+              - Sequence:
+                - Robot.StopAttack:
+                - Robot.SetEmotion: "Idle"
+                - Robot.EnableLookAt: false
+                - Animator.SetTrigger: { "Interrupt Action" }
+                - Tree: $Idle Tree
+                
+
+               
+
+              
+
+        - Idle:
