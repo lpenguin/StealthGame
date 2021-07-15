@@ -116,7 +116,7 @@ trees:
   Fix:
     Sequence:
     - Race:
-      - Wait: 3
+      - Wait: 7
       - Repeater:
         - Sequence:
           - Wait: .5
@@ -144,6 +144,7 @@ trees:
   Transition_ToFixing_Event:
     Sequence:
     - Event.Wait: { "Object Is Broken", $"Fix Object", $"Fix Tree" }
+    - Audio.Play: "I hear something"
     - Str.Set: { $State, "Fixing" }
       
   Transition_ToAlerted:
@@ -248,7 +249,6 @@ root:
               - Transform.GetPosition: { $"Fix Object", $"Check Position"}
               - Robot.EnableLookAt: true
               - Robot.LookAt: $Check Position
-              - Audio.Play: "I hear something"
               - Nav.Stop:
               - Wait: 1.0
               - Race:
@@ -342,6 +342,7 @@ root:
            Race:
             - Tree: Transition_ToAlerted
             - Tree: Transition_ToAggressive
+            - Tree: Transition_ToFixing_Event
             - Tree: Transition_ToFixing
             - Sequence:
               - Robot.StopAttack:
