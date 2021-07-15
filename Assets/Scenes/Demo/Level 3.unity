@@ -15954,6 +15954,46 @@ PrefabInstance:
     m_TransformParent: {fileID: 117211230}
     m_Modifications:
     - target: {fileID: 1162062278, guid: 0166679333281df838a6dc354e1467b1, type: 3}
+      propertyPath: scriptFile
+      value: 
+      objectReference: {fileID: 4900000, guid: 75ced05ffc280c2259fde4677fe33147, type: 3}
+    - target: {fileID: 1162062278, guid: 0166679333281df838a6dc354e1467b1, type: 3}
+      propertyPath: executeOnUpdate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1162062278, guid: 0166679333281df838a6dc354e1467b1, type: 3}
+      propertyPath: blackboard.parameters.m_keys.Array.size
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 1162062278, guid: 0166679333281df838a6dc354e1467b1, type: 3}
+      propertyPath: blackboard.parameters.m_values.Array.size
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 1162062278, guid: 0166679333281df838a6dc354e1467b1, type: 3}
+      propertyPath: blackboard.parameters.m_keys.Array.data[20]
+      value: Current Check Position Source
+      objectReference: {fileID: 0}
+    - target: {fileID: 1162062278, guid: 0166679333281df838a6dc354e1467b1, type: 3}
+      propertyPath: blackboard.parameters.m_keys.Array.data[21]
+      value: PatrolZone
+      objectReference: {fileID: 0}
+    - target: {fileID: 1162062278, guid: 0166679333281df838a6dc354e1467b1, type: 3}
+      propertyPath: blackboard.parameters.m_values.Array.data[20].Name
+      value: Current Check Position Source
+      objectReference: {fileID: 0}
+    - target: {fileID: 1162062278, guid: 0166679333281df838a6dc354e1467b1, type: 3}
+      propertyPath: blackboard.parameters.m_values.Array.data[20].Type
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1162062278, guid: 0166679333281df838a6dc354e1467b1, type: 3}
+      propertyPath: blackboard.parameters.m_values.Array.data[21].Name
+      value: PatrolZone
+      objectReference: {fileID: 0}
+    - target: {fileID: 1162062278, guid: 0166679333281df838a6dc354e1467b1, type: 3}
+      propertyPath: blackboard.parameters.m_values.Array.data[21].Type
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1162062278, guid: 0166679333281df838a6dc354e1467b1, type: 3}
       propertyPath: blackboard.parameters.m_values.Array.data[10].value.transformValue
       value: 
       objectReference: {fileID: 551472553}
