@@ -16005,6 +16005,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 627246459}
+    - target: {fileID: 449956683613985691, guid: 0166679333281df838a6dc354e1467b1, type: 3}
+      propertyPath: m_Radius
+      value: 24.73
+      objectReference: {fileID: 0}
     - target: {fileID: 554987875991250206, guid: 0166679333281df838a6dc354e1467b1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0.868
