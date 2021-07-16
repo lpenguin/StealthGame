@@ -14,6 +14,13 @@
       "dependencies": {},
       "url": "https://package.openupm.com"
     },
+    "com.johannesmp.unityscenereference": {
+      "version": "1.1.1",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://package.openupm.com"
+    },
     "com.unity.ai.navigation.components": {
       "version": "https://github.com/Unity-Technologies/NavMeshComponents.git#package",
       "depth": 0,
@@ -150,13 +157,6 @@
         "com.unity.modules.ui": "1.0.0",
         "com.unity.modules.imgui": "1.0.0"
       }
-    },
-    "net.skaillz.tidalwav": {
-      "version": "https://github.com/SkaillZ/tidalwav.git",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "0061c1c04e04f024c1649cf4c1d6b3400c188948"
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",
