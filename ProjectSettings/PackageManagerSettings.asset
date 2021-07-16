@@ -12,11 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 13964, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EnablePreReleasePackages: 0
+  m_EnablePreviewPackages: 0
   m_EnablePackageDependencies: 1
   m_AdvancedSettingsExpanded: 1
   m_ScopedRegistriesSettingsExpanded: 1
-  m_SeeAllPackageVersions: 0
   oneTimeWarningShown: 0
   m_Registries:
   - m_Id: main
@@ -33,6 +32,7 @@ MonoBehaviour:
     - com.alelievr.node-graph-processor
     - com.demigiant.dotween
     - com.azixmcaze.unityserializabledictionary
+    - com.johannesmp.unityscenereference
     m_IsDefault: 0
     m_Capabilities: 0
   m_UserSelectedRegistryName: OpenUPM
@@ -48,6 +48,7 @@ MonoBehaviour:
       - com.alelievr.node-graph-processor
       - com.demigiant.dotween
       - com.azixmcaze.unityserializabledictionary
+      - com.johannesmp.unityscenereference
       m_IsDefault: 0
       m_Capabilities: 0
     m_Modified: 0
@@ -58,5 +59,5 @@ MonoBehaviour:
     - com.alelievr.node-graph-processor
     - com.demigiant.dotween
     - com.azixmcaze.unityserializabledictionary
+    - com.johannesmp.unityscenereference
     m_SelectedScopeIndex: 0
-  m_LoadAssets: 0

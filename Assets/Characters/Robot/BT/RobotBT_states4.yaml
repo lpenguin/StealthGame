@@ -109,9 +109,9 @@ trees:
 
   Use:
     Sequence:
-    - Wait: .5
+    - Wait: 0.5
     - Animator.PlayState: { "Use", "Actions" }
-    - Wait: .5
+    - Wait: 0.5
     
   Fix:
     Sequence:
@@ -119,9 +119,9 @@ trees:
       - Wait: 7
       - Repeater:
         - Sequence:
-          - Wait: .5
+          - Wait: 0.5
           - Animator.PlayState: { "Use", "Actions" }
-          - Wait: .5
+          - Wait: 0.5
     - Signal.Send: { $"Fix Object", "On" }
         
   Wait:

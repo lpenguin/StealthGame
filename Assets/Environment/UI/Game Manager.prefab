@@ -265,8 +265,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 160.2797, y: -39.520096}
-  m_SizeDelta: {x: 299.2116, y: 44.5568}
+  m_AnchoredPosition: {x: 213.17712, y: -39.51999}
+  m_SizeDelta: {x: 405.0041, y: 44.5568}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1168906492441833229
 CanvasRenderer:
@@ -543,6 +543,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25a495219824408bbc723d327c4efbb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scenes: {fileID: 11400000, guid: 0a2420811c6f2f44cbcd99876f8c84f7, type: 2}
   menuPanel: {fileID: 3000851628759092368}
   levelCompletePanel: {fileID: 4543059236333515177}
   levelFailedPanel: {fileID: 5351752520509703212}
@@ -579,10 +580,10 @@ RectTransform:
   m_Father: {fileID: 1168906492441833231}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -99.5, y: -0.000022173}
-  m_SizeDelta: {x: 64.8011, y: 20.7682}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -270.3, y: -0.000016928}
+  m_SizeDelta: {x: 64.80109, y: 20.7682}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1168906494271800165
 CanvasRenderer:
@@ -619,7 +620,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
-    m_Alignment: 0
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -793,10 +794,10 @@ RectTransform:
   m_Father: {fileID: 1168906492693653454}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -37.057, y: -39.52}
-  m_SizeDelta: {x: 74.114, y: 30}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 56, y: -39.52}
+  m_SizeDelta: {x: 74.11401, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6323183853991588561
 CanvasRenderer:
