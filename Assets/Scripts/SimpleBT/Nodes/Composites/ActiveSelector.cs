@@ -1,5 +1,6 @@
 using System;
 using SimpleBT.Attributes;
+using SimpleBT.Nodes.Events;
 
 namespace SimpleBT.Nodes.Composites
 {
@@ -36,9 +37,11 @@ namespace SimpleBT.Nodes.Composites
                     case Status.Running:
                         if (taskIndex != i)
                         {
-                            if (Children[taskIndex].Status == Status.Running)
+                            var taskIndexChild = Children[taskIndex];
+                            if (taskIndexChild.Status == Status.Running)
                             {
-                                Children[taskIndex].Reset();                                
+                                taskIndexChild.Reset();
+                                DeregisterEvents(taskIndexChild);
                             }
                             
                             taskIndex = i;
@@ -48,12 +51,15 @@ namespace SimpleBT.Nodes.Composites
                     case Status.Success:
                         if (taskIndex != i)
                         {
-                            if (Children[taskIndex].Status == Status.Running)
+                            var taskIndexChild = Children[taskIndex];
+                            if (taskIndexChild.Status == Status.Running)
                             {
-                                Children[taskIndex].Reset();                                
+                                taskIndexChild.Reset();    
+                                DeregisterEvents(taskIndexChild);
                             }
                         }
-
+                        
+                        DeregisterEvents(child);
                         // continue;
                         return Status.Success;
                     default:
@@ -62,6 +68,19 @@ namespace SimpleBT.Nodes.Composites
             }
 
             return Status.Fail;
+        }
+
+        private void DeregisterEvents(Node node)
+        {
+            if (node is IEventNode eventNode)
+            {
+                eventNode.DeregisterEvent();
+            }
+
+            foreach (var child in node.Children)
+            {
+                DeregisterEvents(child);
+            }
         }
     }
 }

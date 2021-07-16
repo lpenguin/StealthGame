@@ -67,9 +67,18 @@ namespace SimpleBT
         {
             foreach (var child in _children)
             {
-                child.Parent = null;
+                child.Destroy();
             }
+            
             _children.Clear();
+        }
+
+        protected virtual void Destroy()
+        {
+            foreach (var child in _children)
+            {
+                child.Destroy();
+            }
         }
 
         public void AddChild(Node child)
@@ -199,6 +208,11 @@ namespace SimpleBT
 
         public string DebuggerDisplay => $"{Name}({NumericId}) ({Comment}) #{Id}";
 
+        public override string ToString()
+        {
+            return DebuggerDisplay;
+        }
+        
         public List<Node> Path
         {
             get

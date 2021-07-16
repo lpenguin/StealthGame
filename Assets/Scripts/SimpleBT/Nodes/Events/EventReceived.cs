@@ -1,25 +1,49 @@
 using SimpleBT.Attributes;
+using SimpleBT.Nodes.Composites;
 using SimpleBT.Parameters;
+using UnityEngine;
 
 namespace SimpleBT.Nodes.Events
 {
-    [Name("Event.Received")]
-    public class EventReceived: Node
+    [Name("Selector.Active.HasReceivedEvent")]
+    public class EventReceived: Node, IEventNode
     {
         private StringParameter name = "";
         private Parameter<object> arg1;
         private Parameter<object> arg2;
         private Parameter<object> arg3;
 
-        // private bool _handledEvent = false;
-        private BTEvent _handledEvent = null;
+        private BTEvent _handledEvent;
         private EventBus _bus;
-
-        protected override void OnStart(){
+        private bool _registered;
+        
+        protected override void OnStart()
+        {
             _bus = currentContext.EventBus;
-            _bus.RegisterCallback(name.Value, OnNewEvent);
+
+            RegisterEvent();
+        }
+
+        public void RegisterEvent()
+        {
+            if (!_registered)
+            {
+                // Debug.Log($"{this} RegisterEvent");
+                _registered = true;
+                _bus.RegisterCallback(name.Value, OnNewEvent);
+            } 
         }
         
+        
+        // TODO: not used
+        public void DeregisterEvent()
+        {
+            // Debug.Log($"{this} DeregisterEvent");
+            _bus.DeregisterCallback(name.Value, OnNewEvent);
+            _registered = false;
+            _handledEvent = null;
+        }
+
         protected override Status OnUpdate()
         {
             if (_handledEvent != null)
@@ -43,24 +67,17 @@ namespace SimpleBT.Nodes.Events
             return Status.Fail;
         }
 
-
-        protected override void OnAbort()
+        private void OnNewEvent(BTEvent ev)
         {
-            _bus.DeregisterCallback(name.Value, OnNewEvent);
-        }
-
-        public override void Reset()
-        {
-            if (Status == Status.Empty)
-            {
-                return;
-            }
-            _bus.DeregisterCallback(name.Value, OnNewEvent);
-            base.Reset();
-        }
-
-        private void OnNewEvent(BTEvent ev){
+            // Debug.Log($"OnNewEvent: {name.Value} {ev.Arg1}");
             _handledEvent = ev;
+        }
+
+        protected override void Destroy()
+        {
+            // Debug.Log($"{this} Destroy()");
+            DeregisterEvent();
+            base.Destroy();
         }
     }
 }
