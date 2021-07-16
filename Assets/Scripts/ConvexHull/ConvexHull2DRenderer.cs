@@ -42,7 +42,9 @@ public class ConvexHull2DRenderer: MonoBehaviour
 
     private void CreateMaterial()
     {
+        #if UNITY_EDITOR
         _meshRenderer.sharedMaterial = AssetDatabase.GetBuiltinExtraResource<Material>("Default-Diffuse.mat");
+        #endif
     }
 
     private static void UpdateMesh(Mesh mesh, ConvexHull2D hull)
