@@ -97,39 +97,6 @@ MonoBehaviour:
   turnSpeed: 10
   cameraFollowSpeed: 10
   runNoiseRadius: 15
-  input:
-    move:
-      m_Name: Move
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: 1e701964-9f79-4eb2-b87d-5585ad38c2cb
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings:
-      - m_Name: 
-        m_Id: fbe38658-7054-477e-9ea4-b98e9e17e77b
-        m_Path: 
-        m_Interactions: 
-        m_Processors: 
-        m_Groups: 
-        m_Action: Move
-        m_Flags: 0
-    use:
-      m_Name: Use
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: e01b5970-026a-47e0-a2de-697b50c6fe13
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-    crouch:
-      m_Name: Crouch
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: 19eac518-c5e3-48c4-9df3-b891e95df609
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
 --- !u!114 &813747085929189184
 MonoBehaviour:
   m_ObjectHideFlags: 0

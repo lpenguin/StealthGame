@@ -6431,6 +6431,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Alien
       objectReference: {fileID: 0}
+    - target: {fileID: 8016087170991476944, guid: f63071b5bd960fb1aafa8fb7f8a7cad9, type: 3}
+      propertyPath: radius
+      value: 20
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f63071b5bd960fb1aafa8fb7f8a7cad9, type: 3}
 --- !u!43 &790582077
@@ -11007,6 +11011,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4627045636839568139, guid: b93a87ca63540651fae49eb728567d51, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b93a87ca63540651fae49eb728567d51, type: 3}
 --- !u!1 &1572357674
@@ -11954,7 +11962,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1948
+  m_Name: pb_Mesh-16198
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -16012,6 +16020,14 @@ PrefabInstance:
     - target: {fileID: 1582045534359984147, guid: 0166679333281df838a6dc354e1467b1, type: 3}
       propertyPath: m_CullingMask.m_Bits
       value: 2487
+      objectReference: {fileID: 0}
+    - target: {fileID: 3480573888503521887, guid: 0166679333281df838a6dc354e1467b1, type: 3}
+      propertyPath: MaxDistance
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 3480573888503521887, guid: 0166679333281df838a6dc354e1467b1, type: 3}
+      propertyPath: rolloffMode
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3480573888503521887, guid: 0166679333281df838a6dc354e1467b1, type: 3}
       propertyPath: rolloffCustomCurve.m_Curve.Array.data[0].time

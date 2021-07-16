@@ -1549,7 +1549,7 @@ MonoBehaviour:
       volume: 1
   - name: I hear something
     clips:
-    - clip: {fileID: 8300000, guid: 90cf3877406b24c2181b8d31171d1e6f, type: 3}
+    - clip: {fileID: 8300000, guid: 3fc193db366ba433ab6a8dd535541a07, type: 3}
       volume: 1
   - name: Intruder
     clips:
@@ -1561,7 +1561,7 @@ MonoBehaviour:
       volume: 1
   - name: Returning to my main program
     clips:
-    - clip: {fileID: 8300000, guid: 7d8eb65741328ffb1965ba7d0fd2d585, type: 3}
+    - clip: {fileID: 8300000, guid: 5d0e37beb4720075d94d1923fc03b291, type: 3}
       volume: 1
   - name: Inspecting
     clips:
@@ -1570,6 +1570,10 @@ MonoBehaviour:
   - name: Damage detected
     clips:
     - clip: {fileID: 8300000, guid: 63e2ff97e8a4096669d597d5f41f8c0f, type: 3}
+      volume: 1
+  - name: Repairing
+    clips:
+    - clip: {fileID: 8300000, guid: 584e97b72cf1d644e86b1943c5b8c0fb, type: 3}
       volume: 1
 --- !u!114 &1162062278
 MonoBehaviour:
@@ -1583,7 +1587,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f33f6fe8fa14e2a945b350be7f4f761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scriptFile: {fileID: 4900000, guid: 8eb5415694c3ca2ffaa2984f2b51fe79, type: 3}
+  scriptFile: {fileID: 4900000, guid: 75ced05ffc280c2259fde4677fe33147, type: 3}
   tree:
     blackboardParameters:
     - value:
@@ -1830,6 +1834,8 @@ MonoBehaviour:
       - Search Time
       - Fix Object
       - Fix Tree
+      - Current Check Position Source
+      - PatrolZone
       m_values:
       - value:
           stringValue: 
@@ -2031,6 +2037,26 @@ MonoBehaviour:
           transformValue: {fileID: 0}
         Name: Fix Tree
         Type: 3
+      - value:
+          stringValue: 
+          boolValue: 0
+          intValue: 0
+          floatValue: 0
+          vector3Value: {x: 0, y: 0, z: 0}
+          quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+          transformValue: {fileID: 0}
+        Name: Current Check Position Source
+        Type: 6
+      - value:
+          stringValue: 
+          boolValue: 0
+          intValue: 0
+          floatValue: 0
+          vector3Value: {x: 0, y: 0, z: 0}
+          quaternionValue: {x: 0, y: 0, z: 0, w: 0}
+          transformValue: {fileID: 0}
+        Name: PatrolZone
+        Type: 6
 --- !u!1 &3923088953805651668
 GameObject:
   m_ObjectHideFlags: 0
@@ -2596,7 +2622,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 0
-  MinDistance: 9.9009905
+  MinDistance: 12
   MaxDistance: 60
   Pan2D: 0
   rolloffMode: 2
@@ -3130,7 +3156,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6115662252577924177}
-  m_LocalRotation: {x: -0, y: 0.7071068, z: -0.7071068, w: 0}
+  m_LocalRotation: {x: 0.49999973, y: 0.5000003, z: -0.5000003, w: 0.49999973}
   m_LocalPosition: {x: 0, y: 0, z: -3.01}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
