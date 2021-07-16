@@ -203,11 +203,10 @@ root:
 #            - Robot.StopAttack:
 #            - Fail:              
       - Monitor:  # State: Alerted
-          comment: "Alerted State"
-          condition:
-            Str.Equals: { $State, "Alerted" }
-          action:
-            Race:
+#          comment: "Alerted State"
+#          condition:
+          - Str.Equals: { $State, "Alerted" }
+          - Race:
             - Tree: Transition_ToAggressive
             - Tree: Transition_ToFixing_Event
 #            - Tree: Transition_ToAlerted
@@ -233,11 +232,8 @@ root:
                   - Str.Set: { $State, "Idle" }
 
       - Monitor:
-          comment: "Fixing State"
-          condition:
-            Str.Equals: { $State, "Fixing" }
-          action:
-            Race:
+          - Str.Equals: { $State, "Fixing" }
+          - Race:
             - Tree: Transition_ToAggressive
             - Tree: Transition_ToAlerted
             - Sequence:
@@ -262,11 +258,8 @@ root:
 
 
       - Monitor:  # State: Searching
-          comment: "Searching State"
-          condition:
-            Str.Equals: { $State, "Searching" }
-          action:
-            Race:
+          - Str.Equals: { $State, "Searching" }
+          - Race:
             - Tree: Transition_ToAggressive
             - Tree: Transition_ToFixing_Event
             - Sequence:
@@ -308,11 +301,8 @@ root:
 #              - Break: true
   
       - Monitor:
-          comment: "Aggressive State"
-          condition:
-            Str.Equals: { $State, "Aggressive" }
-          action:
-            Race:
+          - Str.Equals: { $State, "Aggressive" }
+          - Race:
             - Tree: Transition_ToSearching
             - Repeater:
               - Sequence:
@@ -335,11 +325,8 @@ root:
 
       
       - Monitor:  # State: Idle
-          comment: "Idle State"
-          condition: 
-            Str.Equals: { $State, "Idle" }
-          action:
-           Race:
+          - Str.Equals: { $State, "Idle" }
+          - Race:
             - Tree: Transition_ToAlerted
             - Tree: Transition_ToAggressive
             - Tree: Transition_ToFixing_Event

@@ -5,51 +5,39 @@ namespace SimpleBT.Nodes.Decorators
 {
     public class Monitor: Node
     {
-        private NodeParameter condition;
-        private NodeParameter action;
-
         protected override void OnStart()
         {
-            condition.Value.Parent = this;
-            action.Value.Parent = this;
+            if (Children.Count != 2)
+            {
+                throw new Exception($"Monitor: invalid child nodes count: {Children.Count}");
+            }
         }
 
         protected override Status OnUpdate()
         {
-            var conditionV = condition.Value;
-            var actionV = action.Value;
+            var condition = Children[0];
+            var action = Children[1];
             
-            if (conditionV.Status != Status.Running)
+            if (condition.Status != Status.Running)
             {
-                conditionV.Reset();
+                condition.Reset();
             }
-            conditionV.Execute(currentContext);
-            switch (conditionV.Status)
+            condition.Execute(currentContext);
+            switch (condition.Status)
             {
                 case Status.Running:
                     return Status.Running;
                 case Status.Fail:
-                    actionV.Reset();
+                    action.Reset();
                     return Status.Fail;
                 case Status.Success:
-                    return ExecuteAction(actionV);
+                    return ExecuteAction(action);
                     
                 default:
                     throw new ArgumentOutOfRangeException();
             }
         }
-
-        public override void Reset()
-        {
-            condition.Value.Reset();
-            action.Value.Reset();
-            
-            condition.Value.Parent = null;
-            action.Value.Parent = null;
-
-            base.Reset();
-        }
-
+        
         private Status ExecuteAction(Node actionNode)
         {
             if ((actionNode.Status & (Status.Empty | Status.Running)) == 0)
