@@ -2,7 +2,6 @@ using UnityEngine.Assertions;
 using Patrol;
 using SimpleBT.Parameters;
 using SimpleBT.Attributes;
-using UnityEditor.Experimental.GraphView;
 
 
 namespace SimpleBT.Nodes.Patrol
