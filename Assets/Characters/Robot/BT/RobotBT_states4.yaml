@@ -214,7 +214,9 @@ root:
                       - Transform.Set: { $"Check Position Source", null }
                       - Sequence:
                         - Audio.Play: "Inspecting"
-                        - Animator.PlayState: { state: "Look Around Fast", layer: "Actions" }     
+                        - Robot.EnableLookAt: true
+                        - Animator.PlayState: { state: "Look Around Fast", layer: "Actions" }
+                        - Robot.EnableLookAt: false
                       - Selector:
                         - Obj.IsNotNull: $"Check Position Source" # Event fired again
                         - Fail: # No event fired - interrupting repeater

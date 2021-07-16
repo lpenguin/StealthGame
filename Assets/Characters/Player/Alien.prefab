@@ -181,7 +181,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   vfx: {fileID: -7451538887673809331, guid: fee097db61cf0a15eac89fa2026f5d14, type: 3}
-  radius: 10
+  radius: 15
 --- !u!1 &8719915190845953165
 GameObject:
   m_ObjectHideFlags: 0
