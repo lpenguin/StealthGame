@@ -3,11 +3,15 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.IO;
 
 namespace GameLogic
 {
     public class GameManager: MonoBehaviour
     {
+        [SerializeField]
+        private SceneList scenes;
+
         [SerializeField]
         private GameObject menuPanel;
         
@@ -25,23 +29,24 @@ namespace GameLogic
             scenesListDropDown.options.Clear();
             foreach (var scene in GetBuildScenes())
             {
-                scenesListDropDown.options.Add(new TMP_Dropdown.OptionData{ text = scene.name});
+                var sceneName = Path.GetFileNameWithoutExtension(scene);
+                scenesListDropDown.options.Add(new TMP_Dropdown.OptionData{ text = sceneName});
             }
         }
 
-        private List<Scene> GetBuildScenes()
+        private List<string> GetBuildScenes()
         {
-            var res = new List<Scene>();
+            var res = new List<string>();
             
-            int numScenes = SceneManager.sceneCountInBuildSettings;
-            for (int i = 0; i < numScenes; i++)
+            foreach(var sceneRef in scenes.scenes)
             {
-                var scene = SceneManager.GetSceneByBuildIndex(i);
-                res.Add(scene);
+                res.Add(sceneRef.ScenePath);
             }
+
 
             return res;
         }
+
         public void LevelComplete()
         {
             levelCompletePanel.gameObject.SetActive(true);
@@ -66,20 +71,20 @@ namespace GameLogic
             }
 
             var scene = buildScenes[currentIndex];
-            SceneManager.LoadScene(scene.buildIndex);
+            SceneManager.LoadScene(scene);
         }
 
         public void NextLevel()
         {
             var buildScenes = GetBuildScenes();
             var currentScene = SceneManager.GetActiveScene();
-            var nextIndex= buildScenes.IndexOf(currentScene);
+            var nextIndex = buildScenes.IndexOf(currentScene.path) + 1;
             if (nextIndex < 0 || nextIndex >= buildScenes.Count)
             {
                 return;
             }
             var scene = buildScenes[nextIndex];
-            SceneManager.LoadScene(scene.buildIndex);
+            SceneManager.LoadScene(scene);
         }
 
         public void RestartLevel()
