@@ -35,6 +35,11 @@ namespace SimpleBT.Editor
             Repaint();
         }
 
+        private void OnNodeContentsChanged(Node node)
+        {
+            _nodeTreeView.Reload();
+        }
+
         private void EnsureExecutor()
         {
             var executor = Selection.activeGameObject?.GetComponent<BehaviourTreeExecutor>();
@@ -43,6 +48,7 @@ namespace SimpleBT.Editor
                 if (_currentExecutor != null)
                 {
                     _currentExecutor.onStep.RemoveListener(OnExecutorStep);
+                    _currentExecutor.onContentsChanged.RemoveListener(OnNodeContentsChanged);
                 }
                 
                 _currentExecutor = executor;
@@ -50,6 +56,7 @@ namespace SimpleBT.Editor
                 if (_currentExecutor != null)
                 {
                     _currentExecutor.onStep.AddListener(OnExecutorStep);
+                    _currentExecutor.onContentsChanged.AddListener(OnNodeContentsChanged);
                 }
             }
         }

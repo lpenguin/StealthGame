@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using UnityEngine;
 using UnityEngine.Events;
@@ -16,8 +17,10 @@ namespace SimpleBT
         private ExecutionContext _context = new ExecutionContext();
         private EventBus _eventBus = new EventBus();
 
-        public UnityEvent onStep;
-        
+        [NonSerialized]
+        public UnityEvent onStep = new UnityEvent();
+        [NonSerialized]
+        public NodeUnityEvent onContentsChanged = new NodeUnityEvent(); 
         public EventBus EventBus => _eventBus;
         
         public void EnsureTreeLoaded()
@@ -53,6 +56,7 @@ namespace SimpleBT
                 Blackboard = blackboard,
                 BehaviourTree = tree,
                 EventBus = _eventBus,
+                OnContentsChanged = onContentsChanged
             };
         }
 
