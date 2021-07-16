@@ -74,7 +74,7 @@ namespace GameLogic
 
             isOpened = true;
             _animator.SetBool(On, true);
-            _audioManager.PlayAudio("False");
+            _audioManager.PlayAudio("Open");
         }
 
         private void CloseDoor()
