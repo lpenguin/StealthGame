@@ -174,7 +174,7 @@ trees:
         - Str.Equals: { $State, "Idle" }
         - Obj.IsNotNull: $Fix Object
 #        - Audio.Play: "Damage detected"
-    - Wait: .3
+    - Wait: 1.5
     - Str.Set: { $State, "Fixing" }
   
 root:

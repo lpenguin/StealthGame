@@ -2227,7 +2227,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 439
+    m_Bits: 6583
   m_RenderingLayerMask: 1
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
@@ -2622,10 +2622,10 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 0
-  MinDistance: 12
+  MinDistance: 16.937101
   MaxDistance: 60
   Pan2D: 0
-  rolloffMode: 2
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -3567,7 +3567,7 @@ MonoBehaviour:
   visibilityDelay: 0.3
   obstacles:
     serializedVersion: 2
-    m_Bits: 2176
+    m_Bits: 6272
   trackHead: {fileID: 0}
 --- !u!135 &449956683613985691
 SphereCollider:
