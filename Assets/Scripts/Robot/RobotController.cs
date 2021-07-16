@@ -102,6 +102,7 @@ namespace Robot
     public void LookAt(Vector3 point)
     {
         _targetLookAtSourcePosition = point;
+        _targetLookAtSourcePosition.y = lookAtSource.position.y;
         _isLookingAt = true;
     }
 
