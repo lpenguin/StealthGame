@@ -4,6 +4,9 @@ using System.IO;
 using System.Linq;
 using SimpleBT.Attributes;
 using UnityEngine;
+
+using System.Globalization;
+
 using YamlDotNet.RepresentationModel;
 
 namespace SimpleBT
@@ -16,6 +19,8 @@ namespace SimpleBT
 
         public YamlParser()
         {
+            var culture = CultureInfo.InvariantCulture;
+
             var scalarTypes = new Type[]
             {
                 typeof(string),
@@ -26,7 +31,18 @@ namespace SimpleBT
             };
             foreach (var scalarType in scalarTypes)
             {
-                _converters[scalarType] = node => System.Convert.ChangeType((node as YamlScalarNode).Value, scalarType);
+                _converters[scalarType] = node => {
+                    var encoded = (node as YamlScalarNode).Value;
+                    try
+                    {                        
+                        return System.Convert.ChangeType(encoded, scalarType, culture);                        
+                    } 
+                    catch (Exception ex)
+                    {
+                        Debug.LogWarning($"Cannot convert: \"{encoded}\" to {scalarType}");
+                        throw ex;
+                    }
+                };
             }
 
             _converters[typeof(Vector3)] = ParseVector3;
@@ -34,6 +50,7 @@ namespace SimpleBT
             _converters[typeof(Node)] = ParseBTNode;
             _types = LoadNodeTypes();
         }
+
 
         private Dictionary<string,Type> LoadNodeTypes()
         {
