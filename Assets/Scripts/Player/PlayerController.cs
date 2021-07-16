@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Extensions;
 using GameLogic;
@@ -78,6 +80,12 @@ namespace Player
             input.Dispose();
         }
 
+        private IEnumerator LevelFailedCoro()
+        {
+            yield return new WaitForSeconds(0.5f);
+            var gameManager = GameObject.FindObjectOfType<GameManager>();
+            gameManager?.LevelFailed();
+        }
         // Update is called once per frame
         void Update()
         {
@@ -92,6 +100,7 @@ namespace Player
                 _isDead = true;
                 _animator.SetBool(Animator_Dead, true);
                 gameObject.layer = LayerMask.NameToLayer("Ignore");
+                StartCoroutine(LevelFailedCoro());
                 return;
             }
             
