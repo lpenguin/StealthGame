@@ -8,6 +8,7 @@ using Hearing;
 using Interactable;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Audio;
 
 namespace Player
 {
@@ -47,6 +48,7 @@ namespace Player
     
         private CharacterController _controller;
         private Animator _animator;
+        private AudioManager _audioManager;
         private Camera _camera;
         private ContactSensor3D _interactSensor;
         private PickupController _pickupController;
@@ -59,6 +61,7 @@ namespace Player
         void Start()
         {
             _controller = GetComponent<CharacterController>();
+            _audioManager = GetComponent<AudioManager>();
             _pickupController = GetComponent<PickupController>();
             _animator = GetComponent<Animator>();
             _interactSensor = GetComponent<ContactSensor3D>();
@@ -173,6 +176,7 @@ namespace Player
             }
         
             _soundEmitter.Emit();
+            _audioManager.PlayAudio("Footstep");
         }
 
 
