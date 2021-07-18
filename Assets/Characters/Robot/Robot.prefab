@@ -1537,16 +1537,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioSource: {fileID: 3480573888503521887}
   clips:
-  - name: Step
+  - name: Step1
     clips:
     - clip: {fileID: 8300000, guid: 5c66ba0cd817194d9bd02b34cd206eca, type: 3}
-      volume: 1
+      volume: 0.7
     - clip: {fileID: 8300000, guid: 44d741a6c71c52a34b2752cbfe4cc990, type: 3}
-      volume: 1
+      volume: 0.7
     - clip: {fileID: 8300000, guid: e44139e5aa084647eb2c79832fd33eca, type: 3}
-      volume: 1
+      volume: 0.7
     - clip: {fileID: 8300000, guid: ad6387a3472eecd5baba0e946c826a5a, type: 3}
-      volume: 1
+      volume: 0.7
+  - name: Step
+    clips:
+    - clip: {fileID: 8300000, guid: 4d2e174fc26890841abfd50bf41ea867, type: 3}
+      volume: 0.3
+    - clip: {fileID: 8300000, guid: d6dea182f10959a46a989d8bd574b906, type: 3}
+      volume: 0.3
+    - clip: {fileID: 8300000, guid: ba6ecbd50139ffb4baeef7250e5d7821, type: 3}
+      volume: 0.3
+    - clip: {fileID: 8300000, guid: a45c9c29392c8c74f956b4ef46f665f6, type: 3}
+      volume: 0.3
   - name: I hear something
     clips:
     - clip: {fileID: 8300000, guid: 3fc193db366ba433ab6a8dd535541a07, type: 3}
@@ -1575,6 +1585,12 @@ MonoBehaviour:
     clips:
     - clip: {fileID: 8300000, guid: 584e97b72cf1d644e86b1943c5b8c0fb, type: 3}
       volume: 1
+  - name: Use
+    clips:
+    - clip: {fileID: 8300000, guid: 55e72c866cee08049aadd42a6a02fa3d, type: 3}
+      volume: 0.5
+    - clip: {fileID: 8300000, guid: 5d9ed885e2b8df841bc8679a07140545, type: 3}
+      volume: 0.5
 --- !u!114 &1162062278
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2227,7 +2243,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 6583
+    m_Bits: 6327
   m_RenderingLayerMask: 1
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0

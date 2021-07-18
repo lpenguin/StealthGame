@@ -19,9 +19,9 @@ TagManager:
   - Ignore
   - Enemy Wall
   - Wall NavMesh Ignore
-  - 
-  - 
-  - 
+  - Walls/Light Warm
+  - Walls/Light Cold
+  - Light Blocker
   - 
   - 
   - 

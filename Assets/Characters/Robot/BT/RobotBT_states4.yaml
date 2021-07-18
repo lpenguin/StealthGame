@@ -110,6 +110,7 @@ trees:
   Use:
     Sequence:
     - Wait: 0.5
+    - Audio.Play: Use
     - Animator.PlayState: { "Use", "Actions" }
     - Wait: 0.5
     
@@ -120,9 +121,10 @@ trees:
       - Repeater:
         - Sequence:
           - Wait: 0.5
+          - Audio.Play: Use
           - Animator.PlayState: { "Use", "Actions" }
           - Wait: 0.5
-    - Signal.Send: { $"Fix Object", "On" }
+    - Method.Call: { $"Fix Object", "BreakableMachine.Fix" }
         
   Wait:
     Wait: 1
