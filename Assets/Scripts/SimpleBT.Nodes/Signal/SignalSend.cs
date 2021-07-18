@@ -1,33 +1,68 @@
 using System;
+using System.Reflection;
 using Signals;
 using SimpleBT.Attributes;
 using SimpleBT.Parameters;
+using UnityEngine;
 
 namespace SimpleBT.Nodes.Signal
 {
-    [Name("Signal.Send")]
+    [Name("Method.Call")]
     public class SignalSend: Node
     {
         private TransformParameter target;
         private StringParameter signal;
-        private SignalType _signalType;
-        private ISignalHandler _handler;
+        private MethodInfo _methodInfo;
+        private Component _target;
+
+        // private SignalType _signalType;
+        // private ISignalHandler _handler;
         protected override void OnStart()
         {
-            if (!Enum.TryParse(signal, out _signalType))
+
+            if(_target == null)
             {
-                throw new Exception($"Invalid signal type: {signal.Value}");
+                var tokens = signal.Value.Split('.');
+
+                if(tokens.Length != 2)
+                {
+                    throw new Exception($"Invalid method signature: {signal.Value}");
+                }
+
+                string className = tokens[0];
+                string methodName = tokens[1];
+
+                foreach(var comp in target.Value.GetComponents<Component>())
+                {
+                    var compType = comp.GetType();
+                    var compName = compType.Name;
+                    if(compName == className)
+                    {                        
+                        _methodInfo = compType.GetMethod(methodName);
+                        if(_methodInfo == null)
+                        {
+                            continue;
+                        }
+
+                        _target = comp;
+                        break;
+                    }
+                }
+
+                if(_target == null)
+                {
+                    throw new Exception($"Cannot find type: {className} with method {methodName}");
+                }
+
             }
 
-            if (!target.Value.TryGetComponent(out _handler))
-            {
-                throw new Exception($"Target has no signal handler attached ({target.Value.gameObject.name})");
-            }
+
         }
 
         protected override Status OnUpdate()
         {
-            _handler.HandleSignal(_signalType);
+            _methodInfo.Invoke(_target, null);
+
             return Status.Success;
         }
     }
