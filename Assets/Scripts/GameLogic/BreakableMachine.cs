@@ -4,6 +4,7 @@ using Signals;
 using SimpleBT;
 using UnityEngine;
 using UnityEngine.Events;
+using Audio;
 
 namespace GameLogic
 {
@@ -15,6 +16,16 @@ namespace GameLogic
         
         [SerializeField]
         private BehaviourTreeExecutor[] notifyExecutors;
+
+        [Header("Audio")]
+        [SerializeField]
+        private AudioSource audioSource;
+
+        [SerializeField]
+        private ConcreteClip soundOn;
+
+        [SerializeField]
+        private ConcreteClip soundOff;
 
         public UnityEvent onBreak = new UnityEvent();
         
@@ -55,9 +66,10 @@ namespace GameLogic
         {
             _isBroken = false;
             _animator.SetBool(Animator_IsBroken, false);
+            audioSource.PlayOneShot(soundOn.clip, soundOn.volume);
         }
         
-        private void Break()
+        public void Break()
         {
             if (_isBroken)
             {
@@ -67,7 +79,7 @@ namespace GameLogic
             _animator.SetBool(Animator_IsBroken, true);
             onBreak.Invoke();
             _isBroken = true;
-
+            audioSource.PlayOneShot(soundOff.clip, soundOff.volume);
             foreach (var executor in notifyExecutors)
             {
                 executor.EventBus.SendEvent("Object Is Broken", new BTEvent()

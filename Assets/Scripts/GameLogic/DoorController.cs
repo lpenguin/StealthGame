@@ -65,7 +65,7 @@ namespace GameLogic
             return robotSensor.Contacts.Count > 0;
         }
         
-        private void OpenDoor()
+        public void OpenDoor()
         {
             if (isOpened)
             {
@@ -77,7 +77,7 @@ namespace GameLogic
             _audioManager.PlayAudio("Open");
         }
 
-        private void CloseDoor()
+        public void CloseDoor()
         {
             if (!isOpened)
             {

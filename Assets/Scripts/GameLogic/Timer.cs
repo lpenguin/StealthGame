@@ -2,6 +2,8 @@ using System;
 using Signals;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
+using Extensions;
 
 namespace GameLogic
 {
@@ -21,7 +23,7 @@ namespace GameLogic
         
         [Header("Signals")]
         [SerializeField]
-        private SignalCollection onTimerEnd;
+        private UnityEvent onTimerEnd;
 
         [Header("Image")]
         [SerializeField]
@@ -38,7 +40,7 @@ namespace GameLogic
 
                 if (_remaining < 0)
                 {
-                    onTimerEnd.Emit();
+                    onTimerEnd.Invoke();
                     StopTimer();
                 }
             }
@@ -53,13 +55,18 @@ namespace GameLogic
 
         }
 
-        private void StartTimer()
+        public void StartTimer()
         {
+            if(isStarted)
+            {
+                return;
+            }
+
             isStarted = true;
             _remaining = time;
         }
 
-        private void StopTimer()
+        public void StopTimer()
         {
             isStarted = false;
         }

@@ -2,6 +2,8 @@ using System;
 using Interactable;
 using Signals;
 using UnityEngine;
+using UnityEngine.Events;
+using Extensions;
 
 namespace GameLogic
 {
@@ -12,7 +14,11 @@ namespace GameLogic
         private bool isEnabled = true;
         
         [SerializeField]
-        private SignalCollection toggle;
+        private UnityEvent onInteract;
+
+        [SerializeField]
+        private UnityEvent onDenied;
+
 
         private Animator _animator;
         private static readonly int Enabled = Animator.StringToHash("Enabled");
@@ -34,13 +40,17 @@ namespace GameLogic
             _animator.SetTrigger(Trigger);
             if (isEnabled)
             {
-                toggle.Emit();
+                onInteract.Invoke();
+            } else 
+            {
+                onDenied.Invoke();
             }
         }
 
         private void OnDrawGizmosSelected()
         {
-            toggle.DrawGizmos(transform.position);
+            onInteract.DrawGizmos(transform.position);
+            onDenied.DrawGizmos(transform.position);
         }
     }
 }
