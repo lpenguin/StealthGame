@@ -7,6 +7,7 @@ using GameLogic;
 using Hearing;
 using Interactable;
 using UnityEngine;
+using TMPro;
 using UnityEngine.InputSystem;
 using Audio;
 
@@ -42,6 +43,9 @@ namespace Player
         [SerializeField]
         private float runNoiseRadius = 5f;
 
+        [SerializeField]
+        private TMP_Text useText;
+
         private MainControls input;
 
         private bool isCrouched = false;
@@ -68,6 +72,8 @@ namespace Player
             _soundEmitter = GetComponent<SoundEmitter>();
             _health = GetComponent<Health>();
             
+            useText.transform.parent.parent = null;
+
             _camera = Camera.main;
         }
 
@@ -141,6 +147,19 @@ namespace Player
         
             _camera.transform.position = Vector3.Lerp(cameraPos, targetPos, Time.deltaTime * cameraFollowSpeed);
 
+            var contact = _interactSensor.Contacts.FirstOrDefault();
+
+
+            useText.enabled = contact != null;
+
+            if(contact != null){
+                var lastPos = useText.transform.position;
+                var newPos = contact.transform.position;
+                newPos.y = lastPos.y;
+                newPos.z += 1;
+                useText.transform.position = newPos;
+            }
+
             if (input.Main.Use.triggered)
             {
                 if (_pickupController.PickedObject != null)
@@ -149,7 +168,7 @@ namespace Player
                 }
                 else
                 {
-                    var contact = _interactSensor.Contacts.FirstOrDefault();
+                    
 
 
                     if (contact != null)
