@@ -1,4 +1,10 @@
 using UnityEngine;
+using System.Collections.Generic;
+using System.Linq;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace GameLogic 
 {
@@ -6,5 +12,17 @@ namespace GameLogic
 	public class SceneList: ScriptableObject
 	{
 		public SceneReference[] scenes;
+
+#if UNITY_EDITOR
+		[ContextMenu("Bake scenes")]
+		void BakeScenes()
+		{
+			var scenesNames = scenes.Select(s => s.ScenePath).ToArray();
+
+			Lightmapping.BakeMultipleScenes(scenesNames);
+		}
+#endif
 	}
+
+
 }
