@@ -34,30 +34,34 @@ namespace GameLogic
             }
         }
 
-        private List<string> GetBuildScenes()
+        private void Start()
         {
-            var res = new List<string>();
-            
-            foreach(var sceneRef in scenes.scenes)
-            {
-                res.Add(sceneRef.ScenePath);
-            }
-
-
-            return res;
+            Unpause();
         }
 
         public void LevelComplete()
         {
+            Pause();
             levelCompletePanel.gameObject.SetActive(true);
         }
         
+
+        public void LevelFailed()
+        {
+            Pause();
+            levelFailedPanel.gameObject.SetActive(true);
+        }
+
+
         public void Menu()
         {
+            Pause();
             menuPanel.gameObject.SetActive(true);
         }
+
         public void Continue()
         {
+            Unpause();
             menuPanel.gameObject.SetActive(false);
         }
         
@@ -92,10 +96,28 @@ namespace GameLogic
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
-        
-        public void LevelFailed()
+
+        private List<string> GetBuildScenes()
         {
-            levelFailedPanel.gameObject.SetActive(true);
+            var res = new List<string>();
+            
+            foreach(var sceneRef in scenes.scenes)
+            {
+                res.Add(sceneRef.ScenePath);
+            }
+
+
+            return res;
+        }
+
+        private void Pause()
+        {
+            Time.timeScale = 0;
+        }
+
+        private void Unpause()
+        {
+            Time.timeScale = 1;
         }
 
     }
