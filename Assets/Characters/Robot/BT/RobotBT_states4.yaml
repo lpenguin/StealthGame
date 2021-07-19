@@ -129,12 +129,15 @@ trees:
   Wait:
     Wait: 1
 
+  Wait3:
+    Wait: 3
+
   LookAround:
     Sequence:
     - Robot.EnableLookAt: true
     - RandomSelector:        
-      - Animator.PlayState: { state: "Look Around" , layer: "Actions" }
-      - Animator.PlayState: { state: "Look Around2" , layer: "Actions" }
+      - Animator.PlayState: { state: "Look Around Fast" , layer: "Actions" }
+      # - Animator.PlayState: { state: "Look Around2" , layer: "Actions" }
     - Robot.EnableLookAt: false
   
       
