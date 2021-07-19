@@ -1,5 +1,5 @@
 # Stealth Game Prototype
-
+[Download](https://github.com/lpenguin/StealthGame/releases/tag/v0.0.2)  
 This short demo is my Unity portfolio project. It's a small game in the stealth genre. It covers most of the Unity systems such as navigation, lighting, animation, audio, character control and is mostly focused on AI.
 
 ![Screenshot](_images/Screenshot.PNG?raw=true)
